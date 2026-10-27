@@ -1,47 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVEMBRO 2026 - ESTAGEFLOW</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAGEFLOW PRO - TAKI</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#101828">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f0f0f0;padding:12px}
-h1{text-align:center;font-size:38px;color:#5a5a5a;margin:10px 0 16px;font-weight:900}
-.header-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
-.header-row div{background:#d3d3d3;text-align:center;padding:14px 2px;font-weight:700;color:#555;font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cell{background:white;border:1px solid #ccc;min-height:142px;padding:5px 6px;cursor:pointer}
-.cell .d{font-size:22px;font-weight:900;color:#4a4a4a}
-.cell .txt{font-size:9.5px;line-height:1.35;font-weight:700}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:99}
-.modal.active{display:flex}
-.box{background:white;width:100%;max-width:360px;border-radius:12px;padding:18px}
-.box input{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin-top:4px}
-.btns{display:flex;gap:8px;margin-top:16px}
-.btn{flex:1;padding:12px;border:none;border-radius:8px;font-weight:800}
-.save{background:#101828;color:white}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#F3F4F6;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:260px;background:#101828;color:#fff;display:flex;flex-direction:column;padding:18px;transition:.3s;z-index:10}
+.logo{font-weight:900;font-size:20px;letter-spacing:.5px;margin-bottom:22px}
+.logo span{color:#A8D8EA}
+.menu{flex:1}
+.menu button{width:100%;text-align:left;padding:13px 14px;border:none;background:transparent;color:#9CA3AF;border-radius:10px;margin-bottom:6px;font-weight:700;cursor:pointer;display:flex;gap:10px;align-items:center}
+.menu button.active,.menu button:hover{background:#1F2937;color:white}
+.main{flex:1;overflow:auto;padding:18px}
+.card{background:white;border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:14px}
+h2{font-size:22px;font-weight:900;color:#101828;margin-bottom:12px}
+.h1{font-size:30px;font-weight:900}
+.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.head7{grid-template-columns:repeat(7,1fr);display:grid;gap:6px;margin-bottom:6px}
+.head7 div{background:#E5E7EB;text-align:center;padding:10px 2px;border-radius:8px;font-weight:800;color:#6B7280;font-size:12px}
+.daycell{background:white;border:1px solid #E5E7EB;min-height:120px;border-radius:10px;padding:6px;cursor:pointer}
+.daycell .n{font-weight:900;font-size:16px}
+.daycell .t{font-size:9px;line-height:1.3;font-weight:700;margin-top:4px;color:#374151}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.input{width:100%;padding:11px;border:1px solid #D1D5DB;border-radius:10px;margin-top:4px}
+.btn{padding:11px 16px;border:none;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-dark{background:#101828;color:white}
+.btn-light{background:#E5E7EB}
+.badge{padding:4px 8px;border-radius:20px;font-size:11px;font-weight:800}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi .card h3{font-size:13px;color:#6B7280}
+.kpi .card b{font-size:22px}
+.list-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:14px}
+.modal.on{display:flex}
+.box-modal{background:white;width:100%;max-width:420px;border-radius:16px;padding:18px}
+.hide{display:none}
+@media(max-width:900px){body{flex-direction:column}.sidebar{width:100%;flex-direction:row;overflow:auto;padding:10px}.menu{display:flex;gap:6px}.menu button{white-space:nowrap}.logo{display:none}.main{padding:12px}.grid7{grid-template-columns:repeat(7,1fr)}.head7 div{font-size:10px;padding:8px 1px}.daycell{min-height:95px}}
 </style>
 </head>
 <body>
-<h1>NOVEMBRO 2026</h1>
-<div class="header-row"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
-<div class="grid" id="grid"></div>
-<div class="modal" id="modal"><div class="box">
-<h3 id="mtitle">Editar</h3>
-<label>P1</label><input id="P1"><label>P2</label><input id="P2"><label>P3/P4</label><input id="P34"><label>P5</label><input id="P5"><label>P6</label><input id="P6">
-<div class="btns"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn save" onclick="saveM()">Salvar</button></div>
+<div class="sidebar">
+<div class="logo">STAGEFLOW <span>PRO</span></div>
+<div class="menu">
+<button class="active" onclick="nav('dash')">📊 Dashboard</button>
+<button onclick="nav('agenda')">🗓️ Agenda Mensal</button>
+<button onclick="nav('musicos')">🎸 Músicos</button>
+<button onclick="nav('locais')">📍 Restaurantes</button>
+<button onclick="nav('financeiro')">💰 Financeiro</button>
+<button onclick="nav('backup')">💾 Backup</button>
+</div>
+</div>
+<div class="main">
+<!-- DASH -->
+<div id="dash" class="page">
+<h2 class="h1">Bem vindo, Taki Som!</h2>
+<div class="kpi">
+<div class="card"><h3>HOJE</h3><b id="kpiHoje">0 eventos</b></div>
+<div class="card"><h3>ESTA SEMANA</h3><b id="kpiSemana">R$ 0</b></div>
+<div class="card"><h3>NOVEMBRO 2026</h3><b id="kpiMes">R$ 0</b></div>
+<div class="card"><h3>MÚSICOS CADASTRADOS</h3><b id="kpiMus">0</b></div>
+</div>
+<div class="card"><h2>Próximos dias</h2><div id="nextDays"></div></div>
+</div>
+
+<!-- AGENDA -->
+<div id="agenda" class="page hide">
+<h2>NOVEMBRO 2026 - Toque para editar</h2>
+<div class="head7"><div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div></div>
+<div class="grid7" id="gridNov"></div>
+</div>
+
+<!-- MUSICOS -->
+<div id="musicos" class="page hide">
+<h2>Músicos</h2>
+<div class="card">
+<div class="row"><div style="flex:1"><label>Nome</label><input id="mNome" class="input" placeholder="Eli, Israel..."></div><div style="flex:1"><label>Cachê R$</label><input id="mCache" type="number" class="input" placeholder="250"></div></div>
+<div class="row" style="margin-top:8px"><div style="flex:1"><label>Telefone</label><input id="mTel" class="input"></div><div style="flex:1"><label>Estilo</label><input id="mEstilo" class="input" placeholder="Voz e violão"></div></div>
+<button class="btn btn-dark" style="margin-top:12px;width:100%" onclick="addMusico()">+ Cadastrar Músico</button>
+</div>
+<div class="card" id="listMusicos"></div>
+</div>
+
+<!-- LOCAIS -->
+<div id="locais" class="page hide">
+<h2>Restaurantes / Locais (P1 a P6)</h2>
+<div class="card">
+<div class="row"><div style="flex:1"><label>Nome</label><input id="lNome" class="input" placeholder="Cais, Vila Chopp..."></div><div style="flex:1"><label>Código P</label><select id="lCodigo" class="input"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option></select></div></div>
+<div class="row" style="margin-top:8px"><div style="flex:1"><label>Valor base R$</label><input id="lValor" type="number" class="input" placeholder="600"></div></div>
+<button class="btn btn-dark" style="margin-top:12px;width:100%" onclick="addLocal()">+ Cadastrar Local</button>
+</div>
+<div class="card" id="listLocais"></div>
+</div>
+
+<!-- FINANCEIRO -->
+<div id="financeiro" class="page hide">
+<h2>Controle Financeiro</h2>
+<div class="card">
+<div class="row">
+<button class="btn btn-dark" onclick="setFin('diario')">Diário</button>
+<button class="btn btn-light" onclick="setFin('semanal')">Semanal</button>
+<button class="btn btn-light" onclick="setFin('mensal')">Mensal</button>
+<button class="btn btn-light" onclick="setFin('anual')">Anual</button>
+</div>
+</div>
+<div class="card" id="finBox"></div>
+</div>
+
+<!-- BACKUP -->
+<div id="backup" class="page hide">
+<h2>Backup, Exportar e Importar</h2>
+<div class="card">
+<p style="color:#6B7280;margin-bottom:12px">Salva tudo: agenda, músicos, restaurantes e financeiro.</p>
+<button class="btn btn-dark" style="width:100%;margin-bottom:10px" onclick="exportar()">⬇️ EXPORTAR BACKUP (JSON)</button>
+<label style="font-weight:800">IMPORTAR BACKUP</label>
+<input type="file" id="importFile" class="input" accept=".json" onchange="importar(event)">
+<p style="margin-top:12px;font-size:12px;color:#9CA3AF">Seu link: takitakisom-dev.github.io/ESTAGEFLOW/ com Icon-192.png corrigido</p>
+</div>
+</div>
+</div>
+
+<div class="modal" id="modalAgenda"><div class="box-modal">
+<h2 id="modalTitle">Editar dia</h2>
+<label>P1 - Cais</label><input id="eP1" class="input">
+<label>P2 - Vila Chopp</label><input id="eP2" class="input">
+<label>P3/P4 - Grill / Bar do Zé</label><input id="eP34" class="input">
+<label>P5 - Omau</label><input id="eP5" class="input">
+<label>P6 - Vago / Israel</label><input id="eP6" class="input">
+<div class="row" style="margin-top:14px"><button class="btn btn-light" style="flex:1" onclick="closeModal()">Cancelar</button><button class="btn btn-dark" style="flex:1" onclick="saveAgenda()">Salvar</button></div>
 </div></div>
+
 <script>
-const defaultData={2:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},3:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciary Gon",P5:"Omau - Vago",P6:"Vago - Israel"}};
-let store=JSON.parse(localStorage.getItem('taki-nov2026-final')||'null')||{1:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano Gon",P5:"Omau - Vago",P6:"Vago - Israel"},2:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},3:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciary Gon",P5:"Omau - Vago",P6:"Vago - Israel"},4:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano Gon",P5:"Omau - Vago",P6:"Vago - Israel"},5:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano",P5:"Omau - Vago",P6:"Vago - Israel"},6:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano",P5:"Omau - Vago",P6:"Vago - Israel"},7:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},8:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Lucianr Gon",P5:"Omau - Vago",P6:"Vago - Israel"},9:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano",P5:"Omau - Vago",P6:"Vago - Israel"},10:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Lucia Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},11:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano",P5:"Omau - Vago",P6:"Vago - Israel"},12:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill - Luciano",P5:"Omau - Vago",P6:"Vago - Israel"},13:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Gar do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},14:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P3:"Grill do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},15:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P4:"Bar do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"},30:{P1:"Cais - Eli",P2:"Vila Chopp - Grill",P4:"Bar do Zé - Y Gon",P5:"Omau - Vago",P6:"Vago - Israel"}};
-let curDay=null;const grid=document.getElementById('grid');
-function render(){grid.innerHTML='';for(let i=1;i<=30;i++){const d=document.createElement('div');d.className='cell';d.onclick=()=>openM(i);const info=store[i]||{};let txt='';if(info.P1)txt+=`P1: ${info.P1}<br>`;if(info.P2)txt+=`P2: ${info.P2}<br>`;if(info.P3)txt+=`P3: ${info.P3}<br>`;if(info.P4)txt+=`P4: ${info.P4}<br>`;if(info.P5)txt+=`P5: ${info.P5}<br>`;if(info.P6)txt+=`P6: ${info.P6}<br>`;d.innerHTML=`<div class="d">${i}</div><div class="txt">${txt}</div>`;grid.appendChild(d);}}
-function openM(day){curDay=day;document.getElementById('mtitle').innerText='Dia '+day;const inf=store[day]||{};document.getElementById('P1').value=inf.P1||'';document.getElementById('P2').value=inf.P2||'';document.getElementById('P34').value=inf.P3||inf.P4||'';document.getElementById('P5').value=inf.P5||'';document.getElementById('P6').value=inf.P6||'';document.getElementById('modal').classList.add('active');}
-function closeM(){document.getElementById('modal').classList.remove('active');}
-function saveM(){const p34=document.getElementById('P34').value;const isBar=p34.toLowerCase().includes('bar');store[curDay]={P1:document.getElementById('P1').value,P2:document.getElementById('P2').value,P3:isBar?'':p34,P4:isBar?p34:'',P5:document.getElementById('P5').value,P6:document.getElementById('P6').value};localStorage.setItem('taki-nov2026-final',JSON.stringify(store));closeM();render();}
-render();
+// STORAGE
+let musicos = JSON.parse(localStorage.getItem('taki-musicos')||'[{"id":1,"nome":"Eli","cache":250,"tel":"","estilo":"Cais"},{"id":2,"nome":"Israel","cache":280,"tel":"","estilo":"Vago"}]');
+let locais = JSON.parse(localStorage.getItem('taki-locais')||'[{"id":1,"nome":"Cais","codigo":"P1","valor":0},{"id":2,"nome":"Vila Chopp","codigo":"P2","valor":0},{"id":3,"nome":"Grill do Zé","codigo":"P3","valor":0},{"id":4,"nome":"Bar do Zé","codigo":"P4","valor":0},{"id":5,"nome":"Omau","codigo":"P5","valor":0},{"id":6,"nome":"Vago","codigo":"P6","valor":0}]');
+let agenda = JSON.parse(localStorage.getItem('taki-agenda-nov2026')||'{"1":{"P1":"Cais - Eli","P2":"Vila Chopp - Grill","P3":"Grill - Luciano Gon","P5":"Omau - Vago","P6":"Vago - Israel"},"2":{"P1":"Cais - Eli","P2":"Vila Chopp - Grill","P3":"Grill do Zé - Y Gon","P5":"Omau - Vago","P6":"Vago - Israel"},"3":{"P1":"Cais - Eli","P2":"Vila Chopp - Grill","P3":"Grill - Luciary Gon","P5":"Omau - Vago","P6":"Vago - Israel"}}');
+
+function saveAll(){localStorage.setItem('taki-musicos',JSON.stringify(musicos));localStorage.setItem('taki-locais',JSON.stringify(locais));localStorage.setItem('taki-agenda-nov2026',JSON.stringify(agenda));renderAll();}
+
+function nav(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hide'));document.getElementById(id).classList.remove('hide');document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');}
+
+let diaAtual=null;
+function renderAgenda(){const grid=document.getElementById('gridNov');grid.innerHTML='';for(let d=1;d<=30;d++){const div=document.createElement('div');div.className='daycell';div.onclick=()=>openAgenda(d);const a=agenda[d]||{};let t='';if(a.P1)t+=`P1: ${a.P1}<br>`;if(a.P2)t+=`P2: ${a.P2}<br>`;if(a.P3)t+=`P3: ${a.P3}<br>`;if(a.P4)t+=`P4: ${a.P4}<br>`;if(a.P5)t+=`P5: ${a.P5}<br>`;if(a.P6)t+=`P6: ${a.P6}<br>`;div.innerHTML=`<div class="n">${d}</div><div class="t">${t}</div>`;grid.appendChild(div);}}
+function openAgenda(d){diaAtual=d;document.getElementById('modalTitle').innerText='Dia '+d+' - Novembro';const a=agenda[d]||{};document.getElementById('eP1').value=a.P1||'';document.getElementById('eP2').value=a.P2||'';document.getElementById('eP34').value=a.P3||a.P4||'';document.getElementById('eP5').value=a.P5||'';document.getElementById('eP6').value=a.P6||'';document.getElementById('modalAgenda').classList.add('on');}
+function closeModal(){document.getElementById('modalAgenda').classList.remove('on');}
+function saveAgenda(){const p34=document.getElementById('eP34').value;const isBar=p34.toLowerCase().includes('bar');agenda[diaAtual]={P1:document.getElementById('eP1').value,P2:document.getElementById('eP2').value,P3:isBar?'':p34,P4:isBar?p34:'',P5:document.getElementById('eP5').value,P6:document.getElementById('eP6').value};closeModal();saveAll();}
+
+function addMusico(){const nome=document.getElementById('mNome').value;if(!nome)return alert('Nome');musicos.push({id:Date.now(),nome,cache:parseFloat(document.getElementById('mCache').value||0),tel:document.getElementById('mTel').value,estilo:document.getElementById('mEstilo').value});document.getElementById('mNome').value='';saveAll();}
+function addLocal(){const nome=document.getElementById('lNome').value;if(!nome)return;locais.push({id:Date.now(),nome,codigo:document.getElementById('lCodigo').value,valor:parseFloat(document.getElementById('lValor').value||0)});saveAll();}
+function delMusico(id){musicos=musicos.filter(m=>m.id!=id);saveAll();}
+function delLocal(id){locais=locais.filter(l=>l.id!=id);saveAll();}
+function renderListas(){
+document.getElementById('listMusicos').innerHTML=musicos.map(m=>`<div class="list-item"><div><b>${m.nome}</b> <span class="badge" style="background:#A8D8EA">${m.estilo||''}</span><br><small>R$ ${m.cache} - ${m.tel}</small></div><button class="btn btn-light" onclick="delMusico(${m.id})">X</button></div>`).join('')||'Nenhum músico';
+document.getElementById('listLocais').innerHTML=locais.map(l=>`<div class="list-item"><div><b>${l.codigo} - ${l.nome}</b><br><small>Base R$ ${l.valor}</small></div><button class="btn btn-light" onclick="delLocal(${l.id})">X</button></div>`).join('');
+}
+let finMode='diario';
+function setFin(m){finMode=m;renderFin();}
+function renderFin(){
+let html='';if(finMode=='diario'){html='<h3>Diário - Novembro</h3>';for(let d=1;d<=30;d++){const a=agenda[d];if(!a)continue;let total=0;Object.values(a).forEach(txt=>{const mus=musicos.find(x=>txt.toLowerCase().includes(x.nome.toLowerCase()));if(mus)total+=mus.cache;});html+=`<div class="list-item"><div>Dia ${d}</div><b>R$ ${total}</b></div>`;}
+}else if(finMode=='semanal'){let s1=0,s2=0,s3=0,s4=0;for(let d=1;d<=30;d++){const a=agenda[d];if(!a)continue;let tot=0;Object.values(a).forEach(t=>{const mus=musicos.find(x=>t.toLowerCase().includes(x.nome.toLowerCase()));if(mus)tot+=mus.cache;});if(d<=7)s1+=tot;else if(d<=14)s2+=tot;else if(d<=21)s3+=tot;else s4+=tot;}html=`<div class="list-item"><div>Semana 1 (1-7)</div><b>R$ ${s1}</b></div><div class="list-item"><div>Semana 2 (8-14)</div><b>R$ ${s2}</b></div><div class="list-item"><div>Semana 3 (15-21)</div><b>R$ ${s3}</b></div><div class="list-item"><div>Semana 4 (22-30)</div><b>R$ ${s4}</b></div>`}
+else if(finMode=='mensal'){let tot=0;for(let d=1;d<=30;d++){const a=agenda[d];if(!a)continue;Object.values(a).forEach(t=>{const mus=musicos.find(x=>t.toLowerCase().includes(x.nome.toLowerCase()));if(mus)tot+=mus.cache;});}html=`<h3>Total Novembro 2026</h3><h1 class="h1">R$ ${tot}</h1>`}
+else{let tot=0;for(let d=1;d<=30;d++){const a=agenda[d];if(!a)continue;Object.values(a).forEach(t=>{const mus=musicos.find(x=>t.toLowerCase().includes(x.nome.toLowerCase()));if(mus)tot+=mus.cache;});}html=`<h3>Anual (estimado x12)</h3><h1 class="h1">R$ ${tot*12}</h1><small>Baseado em Novembro</small>`}
+document.getElementById('finBox').innerHTML=html;
+// KPIs
+let hojeTot=agenda[new Date().getDate()]?5:0;document.getElementById('kpiHoje').innerText=Object.keys(agenda).length+' dias preenchidos';document.getElementById('kpiMus').innerText=musicos.length;let mes=0;for(let d=1;d<=30;d++){const a=agenda[d];if(!a)continue;Object.values(a).forEach(t=>{const mus=musicos.find(x=>t.toLowerCase().includes(x.nome.toLowerCase()));if(mus)mes+=mus.cache;});}document.getElementById('kpiMes').innerText='R$ '+mes;document.getElementById('kpiSemana').innerText='R$ '+mes;let next='';for(let d=1;d<=7;d++){if(agenda[d])next+=`<div class="list-item"><div>Dia ${d}</div><div>${Object.values(agenda[d]).join(' | ').substring(0,80)}</div></div>`;}document.getElementById('nextDays').innerHTML=next;
+}
+function renderAll(){renderAgenda();renderListas();renderFin();}
+function exportar(){const data={musicos,locais,agenda};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='STAGEFLOW-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function importar(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=(ev)=>{try{const d=JSON.parse(ev.target.result);musicos=d.musicos||musicos;locais=d.locais||locais;agenda=d.agenda||agenda;saveAll();alert('Backup importado!');}catch{alert('Arquivo inválido');}};r.readAsText(file);}
+renderAll();
 </script>
 </body>
 </html>
