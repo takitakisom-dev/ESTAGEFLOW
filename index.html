@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>STAGEFLOW PRO - P1 a P6</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#6BB8D6">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto, sans-serif;}
+body{background:#A8D8EA;min-height:100vh;padding-bottom:90px;}
+header{background:#101828;color:white;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
+header h1{font-size:18px;letter-spacing:1px;}
+header h1 span{color:#FFD700;}
+.header-btns{display:flex;gap:8px;}
+.btn{border:none;padding:8px 12px;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;}
+.btn-gold{background:#FFD700;color:#101828;}
+.btn-dark{background:#1f2937;color:white;}
+.month-nav{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:white;margin:12px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.month-nav button{border:none;background:#101828;color:white;width:36px;height:36px;border-radius:10px;font-size:18px;}
+.month-nav h2{font-size:16px;}
+.grid-header{display:grid;grid-template-columns:60px repeat(6,1fr);gap:6px;padding:0 12px;margin-bottom:6px;font-size:10px;font-weight:800;color:#334155;text-align:center;}
+.grid-header div:first-child{text-align:left;padding-left:4px;}
+.calendar{display:flex;flex-direction:column;gap:8px;padding:0 12px;}
+.day-row{display:grid;grid-template-columns:60px repeat(6,1fr);gap:6px;background:white;border-radius:14px;padding:8px 6px;box-shadow:0 2px 8px rgba(0,0,0,.06);align-items:start;}
+.day-info{font-size:11px;font-weight:800;}
+.day-info .dow{color:#64748b;font-weight:600;font-size:10px;display:block;}
+.day-info .num{font-size:18px;color:#101828;}
+.slot{border-radius:10px;padding:6px 5px;min-height:52px;cursor:pointer;border:1px dashed #cbd5e1;background:#f8fafc;display:flex;flex-direction:column;gap:2px;overflow:hidden;}
+.slot.has-data{background:#fffbeb;border:1px solid #FFD700;border-left:4px solid #FFD700;}
+.slot small{font-size:9px;font-weight:800;color:#b45309;background:#fef3c7;border-radius:4px;padding:1px 3px;width:fit-content;}
+.slot .musician{font-size:10px;font-weight:800;color:#101828;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.slot .time{font-size:9px;color:#64748b;font-weight:600;}
+.slot.empty::after{content:"+";display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:18px;height:30px;}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:end;z-index:50;}
+#modal.active{display:flex;}
+.modal-box{background:white;width:100%;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow:auto;}
+.modal-box h3{font-size:16px;margin-bottom:12px;}
+.modal-box label{font-size:11px;font-weight:800;color:#475569;margin-top:10px;display:block;text-transform:uppercase;}
+.modal-box input,.modal-box textarea{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;margin-top:4px;font-size:14px;}
+.modal-box textarea{height:70px;resize:none;}
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
+.modal-actions button{flex:1;padding:12px;border-radius:12px;border:none;font-weight:800;}
+.save{background:#101828;color:white;}
+.delete{background:#fee2e2;color:#b91c1c;}
+.close{position:absolute;right:16px;top:12px;border:none;background:#f1f5f9;width:32px;height:32px;border-radius:8px;}
+footer{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px 16px;display:flex;gap:8px;box-shadow:0 -4px 12px rgba(0,0,0,.08);}
+footer button{flex:1;}
+.p-badge{background:#101828;color:#FFD700;padding:2px 5px;border-radius:6px;font-size:9px;font-weight:900;}
+</style>
+</head>
+<body>
+<header>
+<h1><span>TAKI</span> STAGEFLOW PRO</h1>
+<div class="header-btns">
+<button class="btn btn-dark" onclick="exportData()">Exportar</button>
+<button class="btn btn-gold" onclick="document.getElementById('importFile').click()">Importar</button>
+<input type="file" id="importFile" style="display:none" accept=".json" onchange="importData(event)">
+</div>
+</header>
+
+<div class="month-nav">
+<button onclick="changeMonth(-1)">&lt;</button>
+<h2 id="monthLabel">Outubro 2026</h2>
+<button onclick="changeMonth(1)">&gt;</button>
+</div>
+
+<div class="grid-header">
+<div>DATA</div>
+<div><span class="p-badge">P1</span></div>
+<div><span class="p-badge">P2</span></div>
+<div><span class="p-badge">P3</span></div>
+<div><span class="p-badge">P4</span></div>
+<div><span class="p-badge">P5</span></div>
+<div><span class="p-badge">P6</span></div>
+</div>
+
+<div class="calendar" id="calendar"></div>
+
+<div id="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal()">X</button>
+<h3 id="modalTitle">Editar Palco</h3>
+<label>Músico / Banda</label>
+<input id="fMusician" placeholder="Ex: Dudu Nobre Trio">
+<label>Horário</label>
+<input id="fTime" type="time">
+<label>Valor R$</label>
+<input id="fValue" placeholder="Ex: 600">
+<label>Release / Obs</label>
+<textarea id="fRelease" placeholder="Ex: MPB, Samba, voz e violão..."></textarea>
+<div class="modal-actions">
+<button class="delete" onclick="deleteSlot()">Apagar</button>
+<button class="save" onclick="saveSlot()">Salvar</button>
+</div>
+</div>
+</div>
+
+<footer>
+<button class="btn btn-dark" onclick="clearMonth()">Limpar Mês</button>
+<button class="btn btn-gold" onclick="generatePDFText()">Gerar Texto p/ Cliente</button>
+</footer>
+
+<script>
+let currentDate = new Date(2026,9,1);
+let selected = {day:null, p:null};
+let data = JSON.parse(localStorage.getItem('stageflow-pro-v3')||'{}');
+function getKey(year,month,day,p){return `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}-P${p}`}
+function render(){
+const year=currentDate.getFullYear(), month=currentDate.getMonth();
+const daysInMonth=new Date(year,month+1,0).getDate();
+document.getElementById('monthLabel').innerText=new Date(year,month).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+const cal=document.getElementById('calendar'); cal.innerHTML='';
+const dows=['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
+for(let d=1; d<=daysInMonth; d++){
+ const dateObj=new Date(year,month,d);
+ const row=document.createElement('div'); row.className='day-row';
+ let dayHtml=`<div class="day-info"><span class="dow">${dows[dateObj.getDay()]}</span><span class="num">${String(d).padStart(2,'0')}</span></div>`;
+ for(let p=1;p<=6;p++){
+  const key=getKey(year,month,d,p); const item=data[key];
+  if(item){ dayHtml+=`<div class="slot has-data" onclick="openModal(${d},${p})"><small>P${p}</small><span class="musician">${item.musician||''}</span><span class="time">${item.time||''} ${item.value? '• R$'+item.value:''}</span></div>`; } 
+  else { dayHtml+=`<div class="slot empty" onclick="openModal(${d},${p})"></div>`; }
+ }
+ row.innerHTML=dayHtml; cal.appendChild(row);
+}
+}
+function openModal(day,p){
+ selected={day,p}; const year=currentDate.getFullYear(), month=currentDate.getMonth();
+ const key=getKey(year,month,day,p); const item=data[key]||{};
+ document.getElementById('modalTitle').innerText=`Dia ${String(day).padStart(2,'0')} - Palco P${p}`;
+ document.getElementById('fMusician').value=item.musician||''; document.getElementById('fTime').value=item.time||'';
+ document.getElementById('fValue').value=item.value||''; document.getElementById('fRelease').value=item.release||'';
+ document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active');}
+function saveSlot(){
+ const year=currentDate.getFullYear(), month=currentDate.getMonth(); const key=getKey(year,month,selected.day,selected.p);
+ data[key]={ musician:document.getElementById('fMusician').value, time:document.getElementById('fTime').value, value:document.getElementById('fValue').value, release:document.getElementById('fRelease').value };
+ localStorage.setItem('stageflow-pro-v3',JSON.stringify(data)); closeModal(); render();
+}
+function deleteSlot(){
+ const year=currentDate.getFullYear(), month=currentDate.getMonth(); const key=getKey(year,month,selected.day,selected.p);
+ delete data[key]; localStorage.setItem('stageflow-pro-v3',JSON.stringify(data)); closeModal(); render();
+}
+function changeMonth(dir){currentDate.setMonth(currentDate.getMonth()+dir); render();}
+function clearMonth(){if(!confirm('Apagar tudo desse mês?'))return; const year=currentDate.getFullYear(), month=currentDate.getMonth(); Object.keys(data).forEach(k=>{if(k.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)) delete data[k];}); localStorage.setItem('stageflow-pro-v3',JSON.stringify(data)); render();}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`stageflow-pro-${currentDate.getFullYear()}-${currentDate.getMonth()+1}.json`; a.click();}
+function importData(e){const file=e.target.files[0]; if(!file) return; const r=new FileReader(); r.onload=ev=>{try{const j=JSON.parse(ev.target.result); data={...data,...j}; localStorage.setItem('stageflow-pro-v3',JSON.stringify(data)); render(); alert('Importado!');}catch{alert('Arquivo inválido');}}; r.readAsText(file);}
+function generatePDFText(){
+ let txt=`*STAGEFLOW PRO - ${document.getElementById('monthLabel').innerText.toUpperCase()}*\n*P1 a P6 - TAKI Produções*\n\n`;
+ const year=currentDate.getFullYear(), month=currentDate.getMonth(); const daysInMonth=new Date(year,month+1,0).getDate();
+ for(let d=1; d<=daysInMonth; d++){ let has=false; let dayTxt=`*DIA ${String(d).padStart(2,'0')}*\n`;
+  for(let p=1;p<=6;p++){ const key=getKey(year,month,d,p); if(data[key]){has=true; dayTxt+=`P${p}: ${data[key].time||''} - ${data[key].musician} ${data[key].value?'(R$'+data[key].value+')':''}\n${data[key].release? '_'+data[key].release+'_':''}\n`;} }
+  if(has) txt+=dayTxt+'\n';
+ }
+ navigator.clipboard.writeText(txt).then(()=>alert('Texto copiado! Cola no WhatsApp do cliente.'));
+}
+render();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}
+</script>
+</body>
+</html>
