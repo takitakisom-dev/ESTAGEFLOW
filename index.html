@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAKI SOM V19 NOME MAIOR</title>
+<title>TAKI SOM V20 EQUILIBRIO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#E9EEF3}
@@ -15,14 +15,14 @@ body{background:#E9EEF3}
 .barTabs{background:#fff;padding:6px;display:flex;gap:4px;overflow:auto}
 .barTabs button{padding:8px 12px;border:none;border-radius:16px;font-weight:900;font-size:11px;background:#F1F5F9}
 .barTabs button.active{background:#1F2937;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;padding:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:5px;padding:5px}
 .diaCard{background:#fff;border:1.2px solid #111;border-radius:10px;padding:6px;overflow:hidden}
 .diaHead{font-weight:900;color:#1E3A8A;font-size:11px;margin-bottom:4px;display:flex;justify-content:space-between}
 .diaHead small{font-size:8px;color:#475569;background:#E2E8F0;padding:2px 4px;border-radius:6px}
-.linha{display:flex;align-items:center;gap:2px;margin-bottom:3px;width:100%}
-.linha .lbl{flex:0 0 16px;font-size:8px;font-weight:800}
-.linha select.musico{flex:1;min-width:0;padding:6px 2px;border:1.2px solid #000;border-radius:6px;font-size:9.5px;font-weight:800;background:#fff;width:100%}
-.linha select.turno{flex:0 0 34px;min-width:34px;max-width:34px;padding:5px 0;border:1.2px solid #000;border-radius:6px;font-size:8px;font-weight:900;background:#EDE9FE;color:#4C1D95;text-align:center}
+.linha{display:flex;align-items:center;gap:3px;margin-bottom:3px;width:100%}
+.linha .lbl{flex:0 0 14px;font-size:8px;font-weight:800}
+.linha select.musico{flex:1;min-width:0;padding:5px 2px;border:1.2px solid #000;border-radius:6px;font-size:8.8px;font-weight:800;background:#fff}
+.linha select.turno{flex:0 0 44px;min-width:44px;max-width:44px;padding:5px 0;border:1.2px solid #000;border-radius:6px;font-size:7.5px;font-weight:900;background:#EDE9FE;color:#4C1D95;text-align:center}
 .cardBox{background:#fff;border-radius:14px;margin:8px;padding:14px}
 .sec{display:none} .sec.show{display:block}
 .drawer{position:fixed;top:0;left:-320px;width:300px;height:100%;background:#0F172A;color:#fff;z-index:5000;transition:.3s;padding:14px;overflow:auto}
@@ -39,37 +39,35 @@ body{background:#E9EEF3}
 .barBlack{background:#fff!important;color:#000!important;border:1px solid #000}
 .grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important}
 .diaCard{border:0.6px solid #000!important;padding:2px!important}
-.linha select{font-size:6px!important}
 }
 </style>
 </head>
 <body>
-<div class="top"><b><span>TAKI</span> SOM - V19 NOME MAIOR</b><button style="background:#86EFAC" onclick="go('rel')">RELATORIO</button><button style="background:#fff" onclick="window.print()">1 FOLHA</button></div>
+<div class="top"><b><span>TAKI</span> SOM - V20 EQUILIBRIO PERFEITO</b><button style="background:#86EFAC" onclick="go('rel')">RELATORIO</button><button style="background:#fff" onclick="window.print()">1 FOLHA</button></div>
 <button class="btnMenuFull" onclick="openMenu()">☰ MENU COMPLETO - CLIQUE AQUI</button>
 <div class="fundo" id="fundo" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
-<h3 style="color:#FACC15">☰ MENU TAKI SOM V19</h3>
+<h3 style="color:#FACC15">☰ MENU TAKI SOM V20</h3>
 <button class="orange" onclick="exportar()">💾 BACKUP EXPORTAR</button>
 <button class="blue" onclick="document.getElementById('fileIn').click()">📥 IMPORTAR BACKUP</button>
 <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
 <hr style="margin:10px 0;border-color:#334155">
-<button onclick="go('grade');closeMenu()">📅 Grade - Nome Maior</button>
+<button onclick="go('grade');closeMenu()">📅 Grade - Equilibrio Nome + AL/JA</button>
 <button onclick="go('rel');closeMenu()">📊 Relatorio + Cache</button>
-<button onclick="go('art');closeMenu()">🎤 Artistas Nome + Cache</button>
+<button onclick="go('art');closeMenu()">🎤 Artistas + Cache</button>
 <button onclick="go('casa');closeMenu()">🏠 Casas P1-P6</button>
-<button onclick="go('texto');closeMenu()">📝 Texto Cliente</button>
 <button class="green" onclick="window.print();closeMenu()">🖨️ IMPRIMIR 1 FOLHA</button>
 <button class="yellow" onclick="closeMenu()">✖ FECHAR</button>
 </div>
 <div class="barTabs"><button id="tab-grade" class="active" onclick="go('grade')">Grade</button><button id="tab-rel" onclick="go('rel')">Relatorio</button><button id="tab-art" onclick="go('art')">Artistas</button></div>
-<div class="barBlack">V19 NOME MAIOR - APROVEITANDO ESPAÇO - EDILL/GERVASIO CABE COMPLETO</div>
+<div class="barBlack">V20 EQUILIBRIO - NOME COMPLETO + AL/JA COMPLETO - SEM CORTAR NADA</div>
 <div id="sec-grade" class="sec show"><div class="grid" id="grade"></div></div>
 <div id="sec-rel" class="sec"><div class="cardBox"><h3>Relatorio</h3><div id="resRel"></div></div></div>
-<div id="sec-art" class="sec"><div class="cardBox"><h3>Artistas + Cache R$</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="nomeArt" placeholder="NOME" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cacheArt" type="number" placeholder="R$" style="width:90px;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:6px;padding:12px;background:#FACC15;border:none;border-radius:10px;font-weight:900">SALVAR</button><div id="listaArt"></div></div></div>
-<div id="sec-casa" class="sec"><div class="cardBox"><h3>Casas P1-P6</h3><div id="formCasa"></div><button onclick="saveCasas()" style="width:100%;margin-top:8px;padding:12px;background:#0F172A;color:#fff;border:none;border-radius:10px;font-weight:900">Salvar</button></div></div>
-<div id="sec-texto" class="sec"><div class="cardBox"><h3>Texto Cliente</h3><textarea id="txtCli" style="width:100%;height:360px;padding:10px;border-radius:10px;border:1px solid #ccc"></textarea><button onclick="gerarTexto()" style="width:100%;margin-top:6px;padding:12px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Gerar</button><button onclick="copiar()" style="width:100%;margin-top:6px;padding:12px;background:#0F172A;color:#fff;border:none;border-radius:10px;font-weight:900">Copiar</button></div></div>
+<div id="sec-art" class="sec"><div class="cardBox"><h3>Artistas + Cache</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="nomeArt" placeholder="NOME" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cacheArt" type="number" placeholder="R$" style="width:90px;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:6px;padding:12px;background:#FACC15;border:none;border-radius:10px;font-weight:900">SALVAR</button><div id="listaArt"></div></div></div>
+<div id="sec-casa" class="sec"><div class="cardBox"><h3>Casas</h3><div id="formCasa"></div><button onclick="saveCasas()" style="width:100%;margin-top:8px;padding:12px;background:#0F172A;color:#fff;border:none;border-radius:10px;font-weight:900">Salvar</button></div></div>
+<div id="sec-texto" class="sec"><div class="cardBox"><h3>Texto</h3><textarea id="txtCli" style="width:100%;height:360px;padding:10px;border-radius:10px;border:1px solid #ccc"></textarea><button onclick="gerarTexto()" style="width:100%;margin-top:6px;padding:12px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Gerar</button><button onclick="copiar()" style="width:100%;margin-top:6px;padding:12px;background:#0F172A;color:#fff;border:none;border-radius:10px;font-weight:900">Copiar</button></div></div>
 <script>
-var artistas=[{nome:"ANDRE",cache:300},{nome:"EDILL / GERVASIO",cache:300},{nome:"EDILL",cache:300},{nome:"GERVASIO",cache:200},{nome:"LUCIANO",cache:300},{nome:"PAOLI",cache:320},{nome:"ISRAEL",cache:300},{nome:"YGOR",cache:280}];
+var artistas=[{nome:"EDILL / GERVASIO",cache:500},{nome:"ANDRE",cache:300},{nome:"EDILL",cache:300},{nome:"GERVASIO",cache:200},{nome:"LUCIANO",cache:300},{nome:"PAOLI",cache:320},{nome:"ISRAEL",cache:300},{nome:"YGOR",cache:280}];
 var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago"};
 var dados={};
 var diasSem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
@@ -121,12 +119,12 @@ for(var k in rel){
 }
 document.getElementById('resRel').innerHTML=html||'Nenhum show';
 }
-function gerarTexto(){var t='*TAKI SOM V19*\\n\\n';for(var d=1;d<=30;d++){var ds=diasSem[new Date(2026,10,d).getDay()];t+='*Dia '+d+' '+ds+'* - ';for(var p=1;p<=6;p++){var inf=dados[d]['P'+p];if(inf)t+='P'+p+'('+casas['P'+p]+'): '+inf.nome+' '+inf.turno+' | ';}t+='\\n';}document.getElementById('txtCli').value=t;}
+function gerarTexto(){var t='*TAKI SOM V20*\\n\\n';for(var d=1;d<=30;d++){var ds=diasSem[new Date(2026,10,d).getDay()];t+='*Dia '+d+' '+ds+'* - ';for(var p=1;p<=6;p++){var inf=dados[d]['P'+p];if(inf)t+='P'+p+'('+casas['P'+p]+'): '+inf.nome+' '+inf.turno+' | ';}t+='\\n';}document.getElementById('txtCli').value=t;}
 function copiar(){var e=document.getElementById('txtCli');e.select();document.execCommand('copy');alert('Copiado!')}
 function salvar(){try{localStorage.setItem('TAKI_SOM_FINAL',JSON.stringify({artistas,casas,dados}));}catch(e){}}
 function carregar(){
  try{
-  var chaves=['TAKI_SOM_FINAL','TAKI_SOM_FINAL_V15','TAKI_DUPLA_V14'];
+  var chaves=['TAKI_SOM_FINAL'];
   for(var i=0;i<chaves.length;i++){
    var s=localStorage.getItem(chaves[i]);
    if(s){
@@ -138,7 +136,7 @@ function carregar(){
   }
  }catch(e){}
 }
-function exportar(){var blob=new Blob([JSON.stringify({artistas,casas,dados})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BACKUP_TAKI_V19_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('✅ BACKUP BAIXADO!');}
+function exportar(){var blob=new Blob([JSON.stringify({artistas,casas,dados})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BACKUP_TAKI_V20_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert('✅ BACKUP BAIXADO!');}
 function importar(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){try{var o=JSON.parse(ev.target.result); artistas=o.artistas; casas=o.casas; dados=o.dados; salvar(); renderGrade(); renderArt(); renderRel(); alert('✅ BACKUP IMPORTADO!'); closeMenu(); go('grade');}catch(err){alert('Erro no arquivo');}}; r.readAsText(f);}
 try{carregar();renderGrade();renderArt();renderCasa();renderRel();}catch(e){criaDados();renderGrade();}
 </script>
