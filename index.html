@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW VERDE</title>
+<title>ESTAGEFLOW VERDE TOTAL</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 <style>
@@ -23,11 +23,9 @@ body{background:#F0F0F0}
 .linha select{height:26px;border:1.5px solid #BBB;border-radius:6px;font-size:9px;transition:.15s}
 .linha select.nome{flex:1;font-weight:700;background:#fff}
 .linha select.turno{width:48px;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
-
-/* AQUI O VERDE QUE VOCÊ QUER */
+/* VERDE TOTAL - QUANDO TEM MUSICO, TUDO VERDE */
 .linha.preenchida select.nome{background:#DCFCE7!important;border-color:#16A34A!important;color:#166534!important}
 .linha.preenchida select.turno{background:#16A34A!important;color:#fff!important;border-color:#166534!important}
-
 .printTxt{display:none}
 .side{position:fixed;left:-100%;top:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto}
 .side.open{left:0}
@@ -93,7 +91,6 @@ let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt', (e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('btnInstalar').classList.add('show');});
 function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('btnInstalar').classList.remove('show');deferredPrompt=null;});}else{document.getElementById('modalInstalar').classList.add('open');document.getElementById('overlay').classList.add('open');}}
 window.addEventListener('appinstalled', ()=>{document.getElementById('btnInstalar').classList.remove('show');});
-
 var diasSemana={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
 var KEY="ESTAGEFLOW_FINAL_V3_NAO_APAGA";
 var KEY_CASAS="casas_lista_final"; 
@@ -115,7 +112,7 @@ function muda(d,p,tipo,val){
   var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---';
   var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno;
   var linha=document.getElementById('linha_'+d+'_'+p);
-  if(linha){ if(dados[d]['P'+p].nome) linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }
+  if(linha){ if(dados[d]['P'+p].nome && dados[d]['P'+p].nome!="") linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }
 }
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
@@ -148,7 +145,7 @@ for(var d=1;d<=30;d++){
   var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
   var opts=musicosLista.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');
   var preenchida = cur.nome ? ' preenchida' : '';
-  html+='<div class="linha'+preenchida+'" id="linha_'+d+'_'+p+'"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>';
+  html+='<div class="linha'+preenchida+'" id="linha_'+d+'_'+p+'"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select class="turno" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>';
  }
  card.innerHTML=html;
  grade.appendChild(card);
