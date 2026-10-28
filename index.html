@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW - NOV 2026 - 1 DOMINGO</title>
+<title>ESTAGEFLOW - COMPLETO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
-.top{background:#111;color:#fff;padding:8px;display:flex;gap:4px;align-items:center;position:sticky;top:0;z-index:10;width:100%}
-.top b{font-size:11px;white-space:nowrap}
+.top{background:#111;color:#fff;padding:6px 8px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:10;width:100%}
+.menu-btn{font-size:20px;cursor:pointer;padding:2px 8px;background:#222;border-radius:6px}
 .pill{font-size:7px;font-weight:900;padding:4px 6px;border-radius:10px;white-space:nowrap}
 .z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}
-.btnPrint{background:#fff;color:#000;border:0;border-radius:8px;padding:5px 8px;font-size:8px;font-weight:900;cursor:pointer;white-space:nowrap}
+.btnPrint{background:#fff;color:#000;border:0;border-radius:8px;padding:5px 8px;font-size:8px;font-weight:900;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr;gap:4px;padding:4px;width:100%}
 @media(min-width:380px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
@@ -21,50 +21,109 @@ html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
 .linha b{font-size:8px;width:18px;flex-shrink:0;color:#555}
 .linha select{height:24px;border:1px solid #BBB;border-radius:4px;font-size:9px;min-width:0}
 .linha select.nome{flex:1;width:100%;font-weight:700;background:#fff}
-/* MUDANÇA AQUI - ERA 65px, AGORA 44px - MAIS ESPAÇO PRO NOME */
 .linha select.turno{width:44px;flex-shrink:0;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
 .linha select.turno.JA{background:#FFEDD5;color:#9A3412;border-color:#FB923C}
 .linha select.turno.ALJA{background:#DCFCE7;color:#166534;border-color:#86EFAC;width:48px;font-size:7px}
 .printTxt{display:none}
-@media print{
- .top{display:none!important}
- .grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important;padding:0!important}
- .card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important;break-inside:avoid}
- .dia{font-size:5px!important;margin-bottom:1px!important;padding-bottom:1px!important}
- .linha{margin-bottom:1px!important}
- .linha b{font-size:4px!important;width:8px!important}
- .linha select{display:none!important}
- .printTxt{display:inline!important;font-size:4.5px!important;font-weight:700;line-height:1}
- .printTxt.nome{flex:1;border-bottom:0.3px dotted #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
- .printTxt.turno{width:14px;text-align:center;border:0.3px solid #000;flex-shrink:0;padding:0.5px}
- @page{size:A4 landscape;margin:2mm}
-}
+.side{position:fixed;left:-100%;top:0;bottom:0;width:82%;max-width:320px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto;box-shadow:4px 0 20px rgba(0,0,0,.2)}
+.side.open{left:0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:400}
+.overlay.open{display:block}
+.menu-item{padding:12px 0;border-bottom:1px solid #eee;font-weight:700;font-size:13px;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:700;padding:14px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:14px;padding:14px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.modal-box input{width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;margin:5px 0;font-size:14px}
+.modal-box button{width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;margin-top:6px;font-size:14px;cursor:pointer}
+.save{background:#111;color:#fff}.cancel{background:#eee}
+.item-lista{display:flex;justify-content:space-between;align-items:center;background:#f8f8f8;padding:10px;border-radius:10px;margin:6px 0;border:1px solid #eee;font-size:13px}
+.fin-card{background:#f8f8f8;border:1px solid #ddd;border-radius:10px;padding:10px;margin:6px 0}
+.fin-card b{font-size:12px}.fin-card span{font-size:11px;color:#555}
+@media print{.top{display:none!important}.grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important;padding:0!important}.card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important}.dia{font-size:5px!important}.linha{margin-bottom:1px!important}.linha b{font-size:4px!important;width:8px!important}.linha select{display:none!important}.printTxt{display:inline!important;font-size:4.5px!important;font-weight:700}.printTxt.nome{flex:1;border-bottom:0.3px dotted #000;white-space:nowrap;overflow:hidden}.printTxt.turno{width:14px;text-align:center;border:0.3px solid #000;flex-shrink:0}@page{size:A4 landscape;margin:2mm}}
 </style>
 </head>
 <body>
+<div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
+<div class="side" id="side">
+<div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
+<div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
+<div class="menu-item" onclick="closeMenu()">📋 AGENDA DO DIA</div>
+<div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
+<div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
+<div class="menu-item" onclick="zap()">✈️ ENVIAR CRONOGRAMA</div>
+<div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
+<div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
+<div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS</div>
+<div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
+<div class="menu-item" onclick="abrirFinanceiro()">💰 RELATORIO FINANCEIRO - FALTAVA</div>
+<div class="menu-item" onclick="abrirRelatorios()">📊 RELATORIOS GERAIS</div>
+<div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
+<div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
+<div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
+<div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
+<div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
+</div>
+
 <div class="top">
-<b>ESTAGEFLOW - NOV 2026 - 1 DOM</b>
+<span class="menu-btn" onclick="openMenu()">☰</span>
 <span class="pill z" id="cnt">0 FIXOS</span>
 <span class="pill r">FIXO</span>
+<span class="pill z" id="totalFin" style="background:#00E676">R$ 0</span>
 <button class="btnPrint" onclick="window.print()">IMPRIMIR 1 FOLHA</button>
 </div>
+
 <div class="grid" id="grade"></div>
+
+<!-- MODAIS -->
+<div class="modal" id="modalCasas"><div class="modal-box"><h3>🏠 CASAS</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novaCasaInput" placeholder="Ex: P7"><button onclick="addCasa()" style="width:70px;background:#111;color:#fff">+ ADD</button></div><div id="listaCasas" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalCasas()">FECHAR</button></div></div>
+<div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO COM VALOR</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
+<div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 RELATORIO FINANCEIRO</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b><br><span style="font-size:11px">Soma de todos os músicos fixados no mês</span></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button><button class="save" onclick="zapFinanceiro()">📱 ENVIAR FINANCEIRO NO ZAP</button></div></div>
+<div class="modal" id="modalRel"><div class="modal-box"><h3>📊 RELATORIOS GERAIS</h3><div id="conteudoRel"></div><button class="cancel" onclick="fecharRel()">FECHAR</button></div></div>
+
 <script>
-var musicos=["","ANDRE","EDILL / GERVASIO","GERVASIO","PAOLI","LUCIANO","YGOR","ISRAEL","RICK","VATA60","ANDERSON","RENAN"];
 var diasSemana={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
-var KEY="ESTAGEFLOW_NOV2026_1DOM_P1P6_COMPLETO_FINAL";
+var KEY="ESTAGEFLOW_NOV2026_COMPLETO_COM_FIN";
+var KEY_CASAS="casas_lista_final"; var KEY_MUS="musicos_lista_final_valores";
+var musicosPadrao=[{nome:"ANDRE",valor:300},{nome:"EDILL / GERVASIO",valor:400},{nome:"GERVASIO",valor:350},{nome:"PAOLI",valor:300},{nome:"LUCIANO",valor:300},{nome:"YGOR",valor:250},{nome:"ISRAEL",valor:300},{nome:"RICK",valor:300},{nome:"VATA60",valor:300},{nome:"ANDERSON",valor:300},{nome:"RENAN",valor:300}];
+var casasPadrao=["P1","P2","P3","P4","P5","P6"];
+
+function carregarLista(chave,padrao){try{var v=localStorage.getItem(chave);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return padrao;}
+var casas=carregarLista(KEY_CASAS,casasPadrao);
+var musicosObj=carregarLista(KEY_MUS,musicosPadrao);
+var musicosLista=musicosObj.map(m=>typeof m==="string"?m:m.nome);
+
 var dados={};
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
-function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));var c=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)c++;document.getElementById('cnt').textContent=c+" FIXOS"}
+function getValor(nome){var f=musicosObj.find(m=> (m.nome||m)===nome); return f? (f.valor||300):300;}
+function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));localStorage.setItem(KEY_CASAS,JSON.stringify(casas));localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj));atualizaContadores();}
 function carregar(){var s=localStorage.getItem(KEY);if(s){try{dados=JSON.parse(s)}catch(e){vazio()}}else vazio()}
-function muda(d,p,tipo,val){
- dados[d]['P'+p][tipo]=val;
- salvar();
- document.getElementById('pn_'+d+'_'+p).textContent=dados[d]['P'+p].nome||'---';
- document.getElementById('pt_'+d+'_'+p).textContent=dados[d]['P'+p].turno;
- var el=document.getElementById('selT_'+d+'_'+p);
- if(el){el.className='turno '+val; if(val=='AL/JA')el.className='turno ALJA';}
-}
+function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();document.getElementById('pn_'+d+'_'+p).textContent=dados[d]['P'+p].nome||'---';document.getElementById('pt_'+d+'_'+p).textContent=dados[d]['P'+p].turno;var el=document.getElementById('selT_'+d+'_'+p);if(el){el.className='turno '+val; if(val=='AL/JA')el.className='turno ALJA';}}
+function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
+function fecharModais(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open')}
+
+function atualizaContadores(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome){c++; total+=getValor(dados[d]['P'+p].nome);}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total;document.getElementById('totalGeralFin').textContent="TOTAL: R$ "+total;}
+
+// CASAS
+function abrirGestaoCasas(){renderListaCasas();document.getElementById('modalCasas').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function fecharModalCasas(){document.getElementById('modalCasas').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function renderListaCasas(){var div=document.getElementById('listaCasas');div.innerHTML='';casas.forEach((c,i)=>{div.innerHTML+='<div class=item-lista><b>🏠 '+c+'</b><button onclick="casas.splice('+i+',1);salvar();renderListaCasas()" style="background:#fecaca;border:0;padding:5px 8px;border-radius:6px">🗑️</button></div>'});}
+function addCasa(){var n=document.getElementById('novaCasaInput').value.trim().toUpperCase();if(!n)return;casas.push(n);salvar();renderListaCasas();document.getElementById('novaCasaInput').value='';location.reload();}
+
+// MUSICOS
+function abrirGestaoMusicos(){renderListaMusicos();document.getElementById('modalMusicos').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function fecharModalMusicos(){document.getElementById('modalMusicos').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function renderListaMusicos(){var div=document.getElementById('listaMusicos');div.innerHTML='';musicosObj.forEach((m,i)=>{var nome=m.nome||m;var val=m.valor||300;div.innerHTML+='<div class=item-lista><b>🎤 '+nome+' - R$'+val+'</b><button onclick="musicosObj.splice('+i+',1);salvar();renderListaMusicos()" style="background:#fecaca;border:0;padding:5px 8px;border-radius:6px">🗑️</button></div>'});}
+function addMusico(){var n=document.getElementById('novoMusicoInput').value.trim().toUpperCase();var v=parseInt(document.getElementById('novoValorInput').value)||300;if(!n)return;musicosObj.push({nome:n,valor:v});salvar();renderListaMusicos();document.getElementById('novoMusicoInput').value='';document.getElementById('novoValorInput').value='';location.reload();}
+
+// FINANCEIRO
+function abrirFinanceiro(){var html="";var porMusico={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){var val=getValor(cur.nome);total+=val;porMusico[cur.nome]=(porMusico[cur.nome]||{q:0,v:0});porMusico[cur.nome].q++;porMusico[cur.nome].v+=val;}}for(var nome in porMusico){html+='<div class=fin-card><b>'+nome+'</b><br><span>'+porMusico[nome].q+' shows x R$'+(porMusico[nome].v/porMusico[nome].q)+' = <b style=color:#111>R$'+porMusico[nome].v+'</b></span></div>'}if(!html)html='<p style=text-align:center;color:#888> Nenhum músico fixado ainda</p>';document.getElementById('conteudoFin').innerHTML=html;document.getElementById('totalGeralFin').textContent="TOTAL GERAL: R$ "+total;document.getElementById('modalFinanceiro').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function fecharFinanceiro(){document.getElementById('modalFinanceiro').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function zapFinanceiro(){var txt="💰 RELATORIO FINANCEIRO NOV 2026\n";var porMusico={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){var val=getValor(cur.nome);total+=val;porMusico[cur.nome]=(porMusico[cur.nome]||{q:0,v:0});porMusico[cur.nome].q++;porMusico[cur.nome].v+=val;}}for(var n in porMusico){txt+=n+": "+porMusico[n].q+"x = R$"+porMusico[n].v+"\n"}txt+="\nTOTAL: R$"+total;window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank')}
+function abrirRelatorios(){var html="";var totalDias=0;for(var d=1;d<=30;d++){var tem=false;for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)tem=true;if(tem)totalDias++;}html+='<div class=fin-card><b>Dias preenchidos:</b> '+totalDias+'/30</div>';html+='<div class=fin-card><b>Total de fixos:</b> '+document.getElementById('cnt').textContent+'</div>';document.getElementById('conteudoRel').innerHTML=html;document.getElementById('modalRel').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function fecharRel(){document.getElementById('modalRel').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function zap(){var txt="🎤 CRONOGRAMA NOV 2026\n";for(var d=1;d<=30;d++){var line="";for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome)line+=cur.nome+"("+cur.turno+") ";}if(line)txt+="\n"+d+" "+diasSemana[d]+": "+line}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
+
 carregar();
 var grade=document.getElementById('grade');
 for(var d=1;d<=30;d++){
@@ -72,14 +131,14 @@ for(var d=1;d<=30;d++){
  var html='<div class="dia"><span>'+d+' '+diasSemana[d]+'</span><span>'+diasSemana[d]+'</span></div>';
  for(var p=1;p<=6;p++){
   var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
-  var opts=musicos.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');
+  var opts=musicosLista.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');
   var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;
   html+='<div class="linha"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>';
  }
  card.innerHTML=html;
  grade.appendChild(card);
 }
-salvar();
+atualizaContadores();
 </script>
 </body>
 </html>
