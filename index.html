@@ -2,57 +2,92 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW - Calendario 1 ao 31</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ESTAGEFLOW PRO - 1 FOLHA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Arial}
-body{background:#F2F2F2}
-.top{background:#111;display:flex;align-items:center;padding:10px 12px;position:sticky;top:0;z-index:10;color:#fff;gap:8px}
-.top b{font-size:15px}
-.top span.pill{font-size:8px;font-weight:900;padding:4px 8px;border-radius:10px}
-.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}.f{background:#fff;color:#000}
-.menu{margin-left:auto;background:0;border:0;color:#fff;font-size:22px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
-.card{background:#fff;border-radius:10px;padding:8px;border:1px solid #E5E7EB}
-.card .dia{font-size:12px;font-weight:900;margin-bottom:6px;display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:4px}
-.card .dia i{font-size:9px;background:#111;color:#fff;padding:2px 6px;border-radius:10px;font-style:normal}
-.row{display:flex;gap:3px;margin-bottom:4px;align-items:center}
-.row b{font-size:9px;width:22px}
-.row select{font-size:10px;padding:3px;border-radius:5px;border:1px solid #D1D5DB;background:#fff;font-weight:600}
-.row select.nome{flex:1}
-.row select.turno{width:52px;text-align:center;font-weight:900}
-.row select.turno.AL{background:#EDE9FE;color:#5B21B6}
-.row select.turno.JA{background:#FFEDD5;color:#C2410C}
-.row select.turno.ALJA{background:#DCFCE7;color:#166534}
+html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
+.top{background:#111;color:#fff;padding:8px 8px;display:flex;gap:4px;align-items:center;position:sticky;top:0;z-index:20;width:100%}
+.top b{font-size:12px;white-space:nowrap}
+.pill{font-size:7px;font-weight:900;padding:4px 6px;border-radius:10px;white-space:nowrap}
+.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}
+.btnPrint{background:#fff;color:#000;border:none;border-radius:10px;padding:5px 8px;font-weight:900;font-size:8px;cursor:pointer;white-space:nowrap}
+.menuBtn{margin-left:auto;background:transparent;border:0;color:#fff;font-size:18px}
+.grid{display:grid;grid-template-columns:1fr;gap:4px;padding:4px;width:100%}
+@media(min-width:380px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:#fff;border:1px solid #DDD;border-radius:8px;padding:6px;width:100%;min-width:0;overflow:hidden}
+.dia{font-size:9px;font-weight:900;border-bottom:1px solid #EEE;padding-bottom:3px;margin-bottom:4px;display:flex;justify-content:space-between}
+.dia small{font-size:7px;background:#111;color:#fff;padding:1px 5px;border-radius:8px}
+.linha{display:flex;gap:3px;margin-bottom:3px;align-items:center;width:100%;min-width:0}
+.linha b{font-size:7px;width:16px;flex-shrink:0;color:#666}
+.linha select{font-size:8px;padding:2px 1px;border:1px solid #D1D5DB;border-radius:4px;height:20px;min-width:0;background:#fff}
+.linha select.esc{flex:1;width:100%;font-weight:600}
+.linha select.al{width:38px;flex-shrink:0;text-align:center;font-weight:900;background:#F3F4F6}
+.linha select.al.AL{background:#EDE9FE;color:#5B21B6;border-color:#A78BFA}
+.linha select.al.JA{background:#FFEDD5;color:#9A3412;border-color:#FB923C}
+.printOnly{display:none}
+@media print{
+ .top{display:none!important}
+ body{background:#fff!important}
+ .grid{grid-template-columns:repeat(6,1fr)!important;gap:1.5px!important;padding:0!important}
+ .card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important;break-inside:avoid}
+ .dia{font-size:5px!important;margin-bottom:1px!important;padding-bottom:1px!important}
+ .dia small{font-size:4px!important;padding:0 3px!important}
+ .linha{margin-bottom:0.5px!important}
+ .linha b{font-size:4.5px!important;width:10px!important}
+ .linha select{display:none!important}
+ .printOnly{display:inline!important;font-size:4.2px!important;font-weight:700;line-height:1}
+ .printOnly.esc{flex:1;border-bottom:0.3px dotted #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .printOnly.al{width:12px;text-align:center;border:0.3px solid #000;font-size:3.8px!important;flex-shrink:0;padding:0.5px}
+ @page{size:A4 landscape;margin:2mm}
+}
 </style>
 </head>
 <body>
-<div class="top"><b>ESTAGEFLOW</b><span class="pill z" id="info">ZERADO</span><span class="pill r">FIXO</span><span class="pill f" onclick="print()">1 FOLHA</span><button class="menu" onclick="alert('ESTAGEFLOW - Menu: Grade, Relatorio, Casas, Musicos - Tudo fixo, nao apaga')">☰</button></div>
+<div class="top">
+<b>ESTAGEFLOW</b>
+<span class="pill z" id="cnt">ZERADO</span>
+<span class="pill r">FIXO</span>
+<button class="btnPrint" onclick="window.print()">IMPRIMIR 1 FOLHA</button>
+<button class="menuBtn" onclick="alert('ESTAGEFLOW - Grade fixa, não apaga. Selecione artista e AL/JA. Salva automático.')">☰</button>
+</div>
 <div class="grid" id="grade"></div>
 <script>
-var musicos=["","ANDRE","EDILL / GERVASIO","GERVASIO","PAOLI","LUCIANO","YGOR","ISRAEL","RICK","VATA60","ANDERSON"];
-var dados={};var KEY="ESTAGEFLOW_1_AO_31_P1_P5_AL_JA_FIXO_FINAL_2026";
+var musicos=["","ANDRE","EDILL / GERVASIO","GERVASIO","PAOLI","LUCIANO","YGOR","ISRAEL","RICK","VATA60","ANDERSON","RENAN"];
+var dados={};var KEY="ESTAGEFLOW_1_FOLHA_SEM_CORTE_FINAL_2026";
 function vazio(){dados={};for(var d=1;d<=31;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
-function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));var c=0;for(var d=1;d<=31;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)c++;document.getElementById('info').textContent=c==0?'ZERADO':c+' SALVOS'}
+function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));var c=0;for(var d=1;d<=31;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)c++;document.getElementById('cnt').textContent=c==0?"ZERADO":c+" FIXOS"}
 function carregar(){var s=localStorage.getItem(KEY);if(s){try{dados=JSON.parse(s)}catch(e){vazio()}}else vazio()}
-function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var el=document.getElementById('t_'+d+'_'+p);if(tipo=='turno'){el.className='turno '+val.replace('/','');if(val=='AL')el.className='turno AL';if(val=='JA')el.className='turno JA';if(val=='AL/JA')el.className='turno ALJA'}}
+function muda(d,p,campo,val){
+ dados[d]['P'+p][campo]=val;
+ if(campo=='turno'){
+   var el=document.getElementById('sel_al_'+d+'_'+p);
+   if(el){el.className='al '+val.replace('/',''); if(val=='AL')el.className='al AL'; if(val=='JA')el.className='al JA';}
+ }
+ salvar();
+ var txtNome=document.getElementById('txt_n_'+d+'_'+p);
+ var txtAl=document.getElementById('txt_a_'+d+'_'+p);
+ if(txtNome)txtNome.textContent=val!="" && campo=='nome'?val:dados[d]['P'+p].nome||'---';
+ if(txtAl && campo=='turno')txtAl.textContent=val;
+ if(txtNome && campo=='turno')txtNome.textContent=dados[d]['P'+p].nome||'---';
+}
 carregar();
-var grade=document.getElementById('grade');
+var g=document.getElementById('grade');
 for(var d=1;d<=31;d++){
- var dt=new Date(2024,9,d);var sem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"][dt.getDay()];
+ var sem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"][new Date(2024,9,d).getDay()];
  var card=document.createElement('div');card.className='card';
- var h='<div class="dia"><span>'+d+' '+sem+'</span><i>'+sem+'</i></div>';
+ var html='<div class="dia"><span>'+d+' '+sem+'</span><small>'+sem+'</small></div>';
  for(var p=1;p<=6;p++){
   var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
   var opts=musicos.map(m=>'<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>').join('');
-  var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;
-  h+='<div class="row"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><select id="t_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select></div>';
+  var cls=cur.turno=='AL'?'AL':cur.turno=='JA'?'JA':'';
+  html+='<div class="linha"><b>P'+p+'</b><select class="esc" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><span id="txt_n_'+d+'_'+p+'" class="printOnly esc">'+(cur.nome||'---')+'</span><select id="sel_al_'+d+'_'+p+'" class="al '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="txt_a_'+d+'_'+p+'" class="printOnly al">'+cur.turno+'</span></div>';
  }
- card.innerHTML=h;grade.appendChild(card);
+ card.innerHTML=html;g.appendChild(card);
 }
 salvar();
-setInterval(salvar,1000);
+setInterval(salvar,1500);
 </script>
 </body>
 </html>
