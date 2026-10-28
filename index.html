@@ -1,28 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW - FINAL SEM RELOAD</title>
+<title>ESTAGEFLOW FINAL</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/138/138817.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
-.top{background:#111;color:#fff;padding:6px 8px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:10;width:100%}
+body{background:#F0F0F0}
+.top{background:#111;color:#fff;padding:6px 8px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:10}
 .menu-btn{font-size:20px;cursor:pointer;padding:2px 8px;background:#222;border-radius:6px}
-.pill{font-size:7px;font-weight:900;padding:4px 6px;border-radius:10px;white-space:nowrap}
-.z{background:#FBBF24;color:#000}.g{background:#00E676;color:#000}
+.pill{font-size:7px;font-weight:900;padding:4px 6px;border-radius:10px}.z{background:#FBBF24;color:#000}.g{background:#00E676;color:#000}
 .btnPrint{background:#fff;color:#000;border:0;border-radius:8px;padding:5px 8px;font-size:8px;font-weight:900;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr;gap:4px;padding:4px;width:100%}
+.grid{display:grid;grid-template-columns:1fr;gap:4px;padding:4px}
 @media(min-width:380px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
-.card{background:#fff;border:1px solid #CCC;border-radius:8px;padding:6px;width:100%;min-width:0;overflow:hidden}
+.card{background:#fff;border:1px solid #CCC;border-radius:8px;padding:6px}
 .dia{font-size:10px;font-weight:900;border-bottom:2px solid #111;padding-bottom:3px;margin-bottom:5px;display:flex;justify-content:space-between}
-.linha{display:flex;gap:3px;margin-bottom:4px;align-items:center;width:100%;min-width:0}
-.linha b{font-size:8px;width:18px;flex-shrink:0;color:#555}
-.linha select{height:24px;border:1px solid #BBB;border-radius:4px;font-size:9px;min-width:0}
-.linha select.nome{flex:1;width:100%;font-weight:700;background:#fff}
-.linha select.turno{width:44px;flex-shrink:0;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
+.linha{display:flex;gap:3px;margin-bottom:4px;align-items:center}
+.linha b{font-size:8px;width:18px;color:#555}
+.linha select{height:24px;border:1px solid #BBB;border-radius:4px;font-size:9px}
+.linha select.nome{flex:1;font-weight:700;background:#fff}
+.linha select.turno{width:44px;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
 .linha select.turno.JA{background:#FFEDD5;color:#9A3412;border-color:#FB923C}
 .linha select.turno.ALJA{background:#DCFCE7;color:#166534;border-color:#86EFAC;width:48px;font-size:7px}
 .printTxt{display:none}
@@ -31,6 +33,8 @@ html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:400}
 .overlay.open{display:block}
 .menu-item{padding:13px 0;border-bottom:1px solid #eee;font-weight:700;font-size:13px;cursor:pointer}
+.btnInstalar{display:none;background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:14px;margin-bottom:12px;cursor:pointer;border:2px solid #FBBF24}
+.btnInstalar.show{display:block}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:700;padding:14px}
 .modal.open{display:flex}
 .modal-box{background:#fff;border-radius:14px;padding:14px;width:100%;max-width:460px;max-height:90vh;overflow:auto}
@@ -39,7 +43,6 @@ html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
 .save{background:#111;color:#fff}.cancel{background:#eee}
 .item-lista{display:flex;justify-content:space-between;align-items:center;background:#f8f8f8;padding:10px;border-radius:10px;margin:6px 0;border:1px solid #eee;font-size:13px}
 .musico-header{background:#111;color:#fff;padding:8px 10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-.musico-lista{font-size:12px;line-height:1.6;padding:8px 0}
 .badge{display:inline-block;background:#eee;border-radius:12px;padding:2px 6px;font-size:10px;font-weight:800;margin:2px}
 @media print{.top{display:none!important}.grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important;padding:0!important}.card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important}.dia{font-size:5px!important}.linha{margin-bottom:1px!important}.linha b{font-size:4px!important;width:8px!important}.linha select{display:none!important}.printTxt{display:inline!important;font-size:4.5px!important;font-weight:700}.printTxt.nome{flex:1;border-bottom:0.3px dotted #000;white-space:nowrap;overflow:hidden}.printTxt.turno{width:14px;text-align:center;border:0.3px solid #000;flex-shrink:0}@page{size:A4 landscape;margin:2mm}}
 </style>
@@ -48,21 +51,14 @@ html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
 <div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
 <div class="side" id="side">
 <div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
+<div id="btnInstalar" class="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</div>
 <div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
-<div class="menu-item" style="background:#FFF9C4;border-radius:8px;padding-left:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
+<div class="menu-item" style="background:#FFF9C4;border-radius:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
 <div class="menu-item" onclick="abrirFinanceiro()">💰 RELATÓRIO FINANCEIRO</div>
-<div class="menu-item" onclick="closeMenu()">📋 AGENDA DO DIA</div>
-<div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
-<div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
 <div class="menu-item" onclick="zapGeral()">✈️ ENVIAR CRONOGRAMA GERAL</div>
 <div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
 <div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
 <div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS + VALOR</div>
-<div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
-<div class="menu-item" onclick="closeMenu()">📊 RELATÓRIOS GERAIS</div>
-<div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
-<div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
-<div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
 <div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
 </div>
 
@@ -77,111 +73,53 @@ html,body{width:100%;overflow-x:hidden;background:#F0F0F0}
 
 <div class="modal" id="modalPorMusico"><div class="modal-box" style="max-width:500px"><h3>🎤📋 RELATÓRIO POR MÚSICO</h3><div id="conteudoPorMusico"></div><button class="cancel" onclick="fecharPorMusico()">FECHAR</button><button class="save" onclick="zapPorMusico()">📱 ENVIAR NO ZAP</button></div></div>
 <div class="modal" id="modalCasas"><div class="modal-box"><h3>🏠 CADASTRAR CASAS</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novaCasaInput" placeholder="Ex: P7" style="flex:1"><button onclick="addCasa()" style="width:70px;background:#111;color:#fff;border-radius:8px">+ ADD</button></div><div id="listaCasas" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalCasas()">FECHAR</button></div></div>
-<div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome" style="flex:1"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO (FICA NA TELA)</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
+<div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome do músico" style="flex:1"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO (FICA NA TELA)</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
 <div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button></div></div>
+<div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b> no topo do menu<br><br>2 - Se não aparecer o botão: Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: botão Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
 
 <script>
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt', (e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('btnInstalar').classList.add('show');});
+function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('btnInstalar').classList.remove('show');deferredPrompt=null;});}else{document.getElementById('modalInstalar').classList.add('open');document.getElementById('overlay').classList.add('open');}}
+window.addEventListener('appinstalled', ()=>{document.getElementById('btnInstalar').classList.remove('show');});
+
 var diasSemana={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
-var KEY="ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL";
+var KEY="ESTAGEFLOW_FINAL_V3_NAO_APAGA";
 var KEY_CASAS="casas_lista_final"; 
 var KEY_MUS="musicos_lista_final_valores";
 var musicosPadrao=[{nome:"ANDRÉ",valor:300},{nome:"ANDERSON VAT60 SOLO",valor:300},{nome:"EDILL",valor:300},{nome:"EDILL / GERVASIO",valor:400},{nome:"GERVASIO",valor:350}];
 var casasPadrao=["P1","P2","P3","P4","P5","P6"];
-
 function carregarLista(chave,padrao){try{var v=localStorage.getItem(chave);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return padrao;}
 var casas=carregarLista(KEY_CASAS,casasPadrao);
 var musicosObj=carregarLista(KEY_MUS,musicosPadrao);
 var musicosLista=musicosObj.map(m=>m.nome||m);
 var dados={};
-
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
 function getValor(nome){var f=musicosObj.find(m=> (m.nome||m)===nome); return f? (f.valor||300):300;}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));localStorage.setItem(KEY_CASAS,JSON.stringify(casas));localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj));atualizaContadores();}
-function carregar(){var s=localStorage.getItem(KEY);if(s){try{dados=JSON.parse(s)}catch(e){vazio()}}else vazio()}
-function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();document.getElementById('pn_'+d+'_'+p).textContent=dados[d]['P'+p].nome||'---';document.getElementById('pt_'+d+'_'+p).textContent=dados[d]['P'+p].turno;var el=document.getElementById('selT_'+d+'_'+p);if(el){el.className='turno '+val; if(val=='AL/JA')el.className='turno ALJA';}}
+function carregar(){var chaves=["ESTAGEFLOW_FINAL_V3_NAO_APAGA","ESTAGEFLOW_FINAL_FIXADO_V2","ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL","ESTAGEFLOW_NOV2026_COMPLETO_COM_FIN","ESTAGEFLOW_NOV2026_1DOM_MENU_FINAL"];for(var k of chaves){var s=localStorage.getItem(k); if(s){try{var tmp=JSON.parse(s); if(tmp[1] && tmp[1].P1){dados=tmp; localStorage.setItem(KEY,JSON.stringify(tmp)); break;}}catch(e){}}} if(!dados[1]) vazio();}
+function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---'; var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno;}
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
 function fecharModais(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open')}
 function atualizaContadores(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome){c++; total+=getValor(dados[d]['P'+p].nome);}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total; var el=document.getElementById('totalGeralFin'); if(el) el.textContent="TOTAL: R$ "+total;}
-
-function atualizarTodosOsSelects(){
-  var selects=document.querySelectorAll('select.nome');
-  selects.forEach(function(sel){
-    var atual=sel.value;
-    var html='<option value="">ESCOLHA MUSICO</option>';
-    musicosLista.forEach(function(m){
-      html+='<option '+(m==atual?'selected':'')+'>'+m+'</option>';
-    });
-    sel.innerHTML=html;
-  });
-}
-
+function addOpcaoEmTodosOsSelects(novoNome){var selects=document.querySelectorAll('select.nome'); selects.forEach(function(sel){var ja=false; for(var i=0;i<sel.options.length;i++) if(sel.options[i].value===novoNome) ja=true; if(!ja){var o=document.createElement('option'); o.value=novoNome; o.textContent=novoNome; sel.appendChild(o);}});}
 function abrirGestaoCasas(){renderListaCasas();document.getElementById('modalCasas').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function fecharModalCasas(){document.getElementById('modalCasas').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function renderListaCasas(){var div=document.getElementById('listaCasas');div.innerHTML='';casas.forEach((c,i)=>{div.innerHTML+='<div class=item-lista><b>🏠 '+c+'</b><button onclick="excluirCasa('+i+')" style="background:#fecaca;border:0;padding:5px 8px;border-radius:6px;width:auto">🗑️</button></div>'});}
-function addCasa(){
-  var n=document.getElementById('novaCasaInput').value.trim().toUpperCase();
-  if(!n)return;
-  casas.push(n);
-  salvar();
-  renderListaCasas();
-  document.getElementById('novaCasaInput').value='';
-  document.getElementById('novaCasaInput').focus();
-}
-function excluirCasa(i){casas.splice(i,1);salvar();renderListaCasas();}
-
+function addCasa(){var n=document.getElementById('novaCasaInput').value.trim().toUpperCase();if(!n)return;casas.push(n);salvar();renderListaCasas();document.getElementById('novaCasaInput').value='';document.getElementById('novaCasaInput').focus();}
 function abrirGestaoMusicos(){renderListaMusicos();document.getElementById('modalMusicos').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function fecharModalMusicos(){document.getElementById('modalMusicos').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function renderListaMusicos(){var div=document.getElementById('listaMusicos');div.innerHTML='';musicosObj.forEach((m,i)=>{var nome=m.nome||m;var val=m.valor||300;div.innerHTML+='<div class=item-lista><b>🎤 '+nome+' - R$'+val+'</b><button onclick="excluirMusico('+i+')" style="background:#fecaca;border:0;padding:5px 8px;border-radius:6px;width:auto">🗑️</button></div>'});}
-function addMusico(){
-  var n=document.getElementById('novoMusicoInput').value.trim().toUpperCase();
-  var v=parseInt(document.getElementById('novoValorInput').value)||300;
-  if(!n)return;
-  musicosObj.push({nome:n,valor:v});
-  musicosLista.push(n);
-  salvar();
-  renderListaMusicos();
-  atualizarTodosOsSelects();
-  document.getElementById('novoMusicoInput').value='';
-  document.getElementById('novoValorInput').value='';
-  document.getElementById('novoMusicoInput').focus();
-}
-function excluirMusico(i){musicosObj.splice(i,1);musicosLista.splice(i,1);salvar();renderListaMusicos();atualizarTodosOsSelects();}
-
-function abrirRelatorioPorMusico(){
- var porMusico={};
- for(var d=1;d<=30;d++) for(var p=1;p<=6;p++){ var cur=dados[d]['P'+p]; if(cur.nome){ if(!porMusico[cur.nome]) porMusico[cur.nome]=[]; porMusico[cur.nome].push({dia:d, diaSem:diasSemana[d], p:'P'+p, turno:cur.turno}); }}
- var html="";
- var nomes=Object.keys(porMusico).sort();
- if(nomes.length==0){ html='<p style="text-align:center;color:#888;padding:20px">Nenhum músico escalado ainda.</p>'; }
- nomes.forEach(function(nome){
-  var lista=porMusico[nome];
-  var total=lista.length;
-  var valor=getValor(nome);
-  html+='<div class="musico-header"><span>🎤 '+nome+'</span><span style="background:#FBBF24;color:#000;padding:2px 8px;border-radius:10px;font-size:11px">'+total+' SHOWS - R$'+(total*valor)+'</span></div>';
-  html+='<div class="musico-lista">';
-  lista.forEach(function(it){ html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+'</span> '; });
-  html+='</div>';
- });
- document.getElementById('conteudoPorMusico').innerHTML=html;
- document.getElementById('modalPorMusico').classList.add('open');document.getElementById('overlay').classList.add('open');
-}
+function addMusico(){var n=document.getElementById('novoMusicoInput').value.trim().toUpperCase();var v=parseInt(document.getElementById('novoValorInput').value)||300;if(!n)return;if(musicosLista.includes(n)){alert('Já existe!');return;}musicosObj.push({nome:n,valor:v});musicosLista.push(n);salvar();renderListaMusicos();addOpcaoEmTodosOsSelects(n);document.getElementById('novoMusicoInput').value='';document.getElementById('novoValorInput').value='';document.getElementById('novoMusicoInput').focus();}
+function excluirCasa(i){casas.splice(i,1);salvar();renderListaCasas();}
+function excluirMusico(i){musicosObj.splice(i,1);musicosLista.splice(i,1);salvar();renderListaMusicos();}
+function abrirRelatorioPorMusico(){var porMusico={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){if(!porMusico[cur.nome])porMusico[cur.nome]=[];porMusico[cur.nome].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno});}}var html="";var nomes=Object.keys(porMusico).sort();if(nomes.length==0)html='<p style="text-align:center;color:#888;padding:20px">Nenhum músico escalado ainda.</p>';nomes.forEach(function(nome){var lista=porMusico[nome];var total=lista.length;var valor=getValor(nome);html+='<div class="musico-header"><span>🎤 '+nome+'</span><span style="background:#FBBF24;color:#000;padding:2px 8px;border-radius:10px;font-size:11px">'+total+' SHOWS - R$'+(total*valor)+'</span></div><div style="padding:8px 0">';lista.forEach(function(it){html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+'</span> ';});html+='</div>';});document.getElementById('conteudoPorMusico').innerHTML=html;document.getElementById('modalPorMusico').classList.add('open');document.getElementById('overlay').classList.add('open');}
 function fecharPorMusico(){document.getElementById('modalPorMusico').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-function zapPorMusico(){
- var porMusico={};
- for(var d=1;d<=30;d++) for(var p=1;p<=6;p++){ var cur=dados[d]['P'+p]; if(cur.nome){ if(!porMusico[cur.nome]) porMusico[cur.nome]=[]; porMusico[cur.nome].push({dia:d, diaSem:diasSemana[d], p:'P'+p, turno:cur.turno}); }}
- var txt="📋 RELATÓRIO POR MÚSICO - NOV 2026\n\n";
- for(var nome in porMusico){
-  var lista=porMusico[nome];
-  txt+= "🎤 "+nome+" - "+lista.length+" SHOWS\n";
-  lista.forEach(function(it){ txt+= "Dia "+it.dia+" "+it.diaSem+" "+it.p+" "+it.turno+"\n"; });
-  txt+="\n";
- }
- window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
-}
+function zapPorMusico(){var porMusico={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){if(!porMusico[cur.nome])porMusico[cur.nome]=[];porMusico[cur.nome].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno});}}var txt="📋 RELATÓRIO POR MÚSICO - NOV 2026\n\n";for(var nome in porMusico){var lista=porMusico[nome];txt+="🎤 "+nome+" - "+lista.length+" SHOWS\n";lista.forEach(function(it){txt+="Dia "+it.dia+" "+it.diaSem+" "+it.p+" "+it.turno+"\n";});txt+="\n";}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
 function abrirFinanceiro(){var porMusico={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){var val=getValor(cur.nome);total+=val;porMusico[cur.nome]=(porMusico[cur.nome]||{q:0,v:0});porMusico[cur.nome].q++;porMusico[cur.nome].v+=val;}}var html="";for(var n in porMusico){html+='<div class=item-lista><b>'+n+'</b><span>'+porMusico[n].q+'x = R$'+porMusico[n].v+'</span></div>'}if(!html)html='<p style=text-align:center;color:#888> Nenhum fixo</p>';document.getElementById('conteudoFin').innerHTML=html;document.getElementById('totalGeralFin').textContent="TOTAL: R$ "+total;document.getElementById('modalFinanceiro').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function fecharFinanceiro(){document.getElementById('modalFinanceiro').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-function zapGeral(){var txt="🎤 CRONOGRAMA NOV 2026\n";for(var d=1;d<=30;d++){var line="";for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome)line+=cur.nome+"("+cur.turno+") ";}if(line)txt+="\n"+d+" "+diasSemana[d]+": "+line}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
+function zapGeral(){var txt="🎤 CRONOGRAMA NOV 2026 - P1 A P6\n";for(var d=1;d<=30;d++){var line="";for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome)line+=cur.nome+"("+cur.turno+") ";}if(line)txt+="\n"+d+" "+diasSemana[d]+": "+line}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
 
 carregar();
 var grade=document.getElementById('grade');
@@ -198,6 +136,7 @@ for(var d=1;d<=30;d++){
  grade.appendChild(card);
 }
 atualizaContadores();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
 </script>
 </body>
 </html>
