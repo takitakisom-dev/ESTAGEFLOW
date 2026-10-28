@@ -2,161 +2,57 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAKI SOM V30 FIXO FINAL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESTAGEFLOW - Calendario 1 ao 31</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#E9EEF3}
-.top{background:#0F172A;color:#fff;padding:5px 6px;display:flex;gap:4px;position:sticky;top:0;z-index:9999;align-items:center}
-.top b{flex:1;font-size:11px} .top b span{color:#FACC15}
-.top .saveStatus{font-size:8px;background:#FACC15;color:#000;padding:3px 7px;border-radius:10px;font-weight:900;min-width:56px;text-align:center}
-.top button{padding:5px 7px;border:none;border-radius:6px;font-weight:900;font-size:8px}
-.barTabs{background:#fff;padding:4px;display:flex;gap:3px;overflow:auto;align-items:center}
-.barTabs button{padding:6px 10px;border:none;border-radius:12px;font-weight:900;font-size:9px;background:#F1F5F9;white-space:nowrap}
-.barTabs button.active{background:#1F2937;color:#fff}
-.barTabs button.menuSmall{background:#FACC15;color:#000}
-.barBlack{background:#1F2937;color:#fff;text-align:center;padding:4px;font-weight:900;font-size:7px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:4px;padding:4px}
-.diaCard{background:#fff;border:1.2px solid #222;border-radius:8px;padding:4px}
-.diaHead{font-weight:900;color:#1E3A8A;font-size:10px;margin-bottom:3px;display:flex;justify-content:space-between}
-.diaHead small{font-size:6.5px;color:#475569;background:#E2E8F0;padding:2px 4px;border-radius:3px}
-.linha{display:flex;align-items:center;gap:2px;margin-bottom:2.5px;width:100%}
-.linha .lbl{flex:0 0 11px;font-size:6.5px;font-weight:900}
-.linha select.musico{flex:1;min-width:0;padding:4px 1px;border:1px solid #000;border-radius:5px;font-size:7px;font-weight:800;background:#fff}
-.linha select.turno{flex:0 0 44px;min-width:44px;max-width:44px;padding:4px 0;border:1px solid #000;border-radius:5px;font-size:6.5px;font-weight:900;background:#EDE9FE;color:#4C1D95;text-align:center}
-.cardBox{background:#fff;border-radius:10px;margin:5px;padding:10px}
-.sec{display:none} .sec.show{display:block}
-.drawer{position:fixed;top:0;left:-310px;width:290px;height:100%;background:#0F172A;color:#fff;z-index:5000;transition:.25s;padding:12px;overflow:auto}
-.drawer.open{left:0}
-.drawer button{width:100%;padding:10px;margin-bottom:5px;border:none;border-radius:8px;font-weight:800;text-align:left;background:#1E293B;color:#fff;font-size:12px}
-.drawer button.yellow{background:#FACC15;color:#000;text-align:center}
-.drawer button.green{background:#22C55E;color:#000;text-align:center;font-weight:900}
-.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:4000} .fundo.show{display:block}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Arial}
+body{background:#F2F2F2}
+.top{background:#111;display:flex;align-items:center;padding:10px 12px;position:sticky;top:0;z-index:10;color:#fff;gap:8px}
+.top b{font-size:15px}
+.top span.pill{font-size:8px;font-weight:900;padding:4px 8px;border-radius:10px}
+.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}.f{background:#fff;color:#000}
+.menu{margin-left:auto;background:0;border:0;color:#fff;font-size:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:#fff;border-radius:10px;padding:8px;border:1px solid #E5E7EB}
+.card .dia{font-size:12px;font-weight:900;margin-bottom:6px;display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:4px}
+.card .dia i{font-size:9px;background:#111;color:#fff;padding:2px 6px;border-radius:10px;font-style:normal}
+.row{display:flex;gap:3px;margin-bottom:4px;align-items:center}
+.row b{font-size:9px;width:22px}
+.row select{font-size:10px;padding:3px;border-radius:5px;border:1px solid #D1D5DB;background:#fff;font-weight:600}
+.row select.nome{flex:1}
+.row select.turno{width:52px;text-align:center;font-weight:900}
+.row select.turno.AL{background:#EDE9FE;color:#5B21B6}
+.row select.turno.JA{background:#FFEDD5;color:#C2410C}
+.row select.turno.ALJA{background:#DCFCE7;color:#166534}
 </style>
 </head>
 <body>
-<div class="top"><b><span>TAKI</span> SOM V30 FIXO</b><span class="saveStatus" id="saveStatus">ZERADO</span><button style="background:#86EFAC" onclick="go('rel')">RELATORIO</button><button style="background:#fff" onclick="window.print()">1 FOLHA</button></div>
-<div class="fundo" id="fundo" onclick="closeMenu()"></div>
-<div class="drawer" id="drawer">
-<h3 style="color:#FACC15">☰ MENU V30</h3>
-<div style="background:#22C55E;color:#000;padding:8px;border-radius:6px;font-size:11px;font-weight:900;margin:8px 0;text-align:center" id="statusDrawer">FIXO - NÃO APAGA</div>
-<div style="background:#1E293B;padding:8px;border-radius:6px;font-size:10px;text-align:center;margin-bottom:8px" id="contadorDrawer">0 shows</div>
-<button class="green" onclick="forcarSalvar();alert('✅ FIXO SALVO!');">💾 SALVAR FIXO</button>
-<button onclick="zerarGrade()" style="background:#7F1D1D;text-align:center">🧹 ZERAR TUDO</button>
-<button onclick="closeMenu()" class="yellow">✖ FECHAR</button>
-<div style="font-size:7px;color:#94A3B8;margin-top:8px">V30 - Cada célula salva separada<br>Não apaga mais nem atualizando<br>Menu pequeno = mais espaço</div>
-</div>
-<div class="barTabs">
-<button class="menuSmall" onclick="openMenu()">☰ MENU</button>
-<button id="tab-grade" class="active" onclick="go('grade')">Grade</button>
-<button id="tab-rel" onclick="go('rel')">Relatorio</button>
-<button id="tab-art" onclick="go('art')">Artistas</button>
-</div>
-<div class="barBlack" id="barBlack">V30 FIXO - ZERADO - NÃO APAGA - MENU PEQUENO - MAIS ESPAÇO NA TELA</div>
-<div id="sec-grade" class="sec show"><div class="grid" id="grade"></div></div>
-<div id="sec-rel" class="sec"><div class="cardBox"><h3>Relatório</h3><div id="resRel"></div></div></div>
-<div id="sec-art" class="sec"><div class="cardBox"><h3>Artistas</h3><div style="display:flex;gap:5px;margin-top:8px"><input id="nomeArt" placeholder="NOME" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cacheArt" type="number" placeholder="R$" style="width:75px;padding:8px;border-radius:6px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:5px;padding:10px;background:#FACC15;border:none;border-radius:8px;font-weight:900">SALVAR</button><div id="listaArt" style="margin-top:6px"></div></div></div>
-
+<div class="top"><b>ESTAGEFLOW</b><span class="pill z" id="info">ZERADO</span><span class="pill r">FIXO</span><span class="pill f" onclick="print()">1 FOLHA</span><button class="menu" onclick="alert('ESTAGEFLOW - Menu: Grade, Relatorio, Casas, Musicos - Tudo fixo, nao apaga')">☰</button></div>
+<div class="grid" id="grade"></div>
 <script>
-var artistas=[
-{nome:"EDILL / GERVASIO",cache:500},{nome:"ANDRE",cache:300},{nome:"ANDRE / GERVASIO",cache:500},
-{nome:"LUCIANO",cache:300},{nome:"YGOR",cache:280},{nome:"ISRAEL",cache:300},
-{nome:"GERVASIO",cache:200},{nome:"PAOLI",cache:320},{nome:"ANDERSON VAT 60 SOLO",cache:300},
-{nome:"VATA60",cache:250},{nome:"RICK",cache:250}
-];
-var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago"};
-var dados={};
-var diasSem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
-var KEY="TAKI_V30_FIXO";
-function criaDadosVazio(){dados={};for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"};}}
-function contar(o){var c=0;try{for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(o[d]&&o[d]['P'+p]&&o[d]['P'+p].nome&&o[d]['P'+p].nome!="")c++;}catch(e){}return c;}
-function forcarSalvar(){
- try{
-  var qtd=contar(dados);
-  // salva principal
-  localStorage.setItem(KEY, JSON.stringify(dados));
-  // salva cada célula separada - blindagem total
-  for(var d=1;d<=30;d++){
-   for(var p=1;p<=6;p++){
-    if(dados[d]&&dados[d]['P'+p]){
-     localStorage.setItem(KEY+"_"+d+"_"+p+"_nome", dados[d]['P'+p].nome||"");
-     localStorage.setItem(KEY+"_"+d+"_"+p+"_turno", dados[d]['P'+p].turno||"AL");
-    }
-   }
-  }
-  localStorage.setItem(KEY+"_artistas", JSON.stringify(artistas));
-  document.getElementById('saveStatus').textContent=qtd==0?"ZERADO":"✅ "+qtd+" FIXO";
-  document.getElementById('saveStatus').style.background=qtd==0?"#FACC15":"#22C55E";
-  var cd=document.getElementById('contadorDrawer'); if(cd) cd.textContent=qtd==0?"0 shows":qtd+" shows FIXOS - não apaga";
-  var bb=document.getElementById('barBlack'); if(bb) bb.textContent=qtd==0?"V30 ZERADO - PRONTO PRA PREENCHER - MENU PEQUENO":"V30 FIXO - "+qtd+" SHOWS - NÃO APAGA AO ATUALIZAR";
- }catch(e){}
-}
-function carregar(){
- var achou=false;
- try{
-  // tenta principal
-  var raw=localStorage.getItem(KEY);
-  if(raw){
-   var o=JSON.parse(raw);
-   if(o && typeof o==="object"){
-    // se é dados direto ou com wrapper
-    if(o[1] && o[1]['P1']){ dados=o; achou=true; }
-    else if(o.dados){ dados=o.dados; achou=true; }
-    else { dados=o; if(contar(dados)>0) achou=true; }
-   }
-  }
-  // tenta células individuais - se principal falhou, reconstrói
-  if(!achou){
-   var temp={}; var temAlgum=false;
-   for(var d=1;d<=30;d++){
-    temp[d]={};
-    for(var p=1;p<=6;p++){
-     var nome=localStorage.getItem(KEY+"_"+d+"_"+p+"_nome");
-     var turno=localStorage.getItem(KEY+"_"+d+"_"+p+"_turno");
-     if(nome!==null || turno!==null){ temAlgum=true; temp[d]['P'+p]={nome:nome||"",turno:turno||"AL"}; }
-     else { temp[d]['P'+p]={nome:"",turno:"AL"}; }
-    }
-   }
-   if(temAlgum && contar(temp)>0){ dados=temp; achou=true; }
-  }
-  var artRaw=localStorage.getItem(KEY+"_artistas");
-  if(artRaw){ try{ artistas=JSON.parse(artRaw); }catch(e){} }
- }catch(e){}
- return achou;
-}
-function zerarGrade(){ if(confirm("Zerar tudo e começar do zero?")){ criaDadosVazio(); for(var d=1;d<=30;d++) for(var p=1;p<=6;p++){ localStorage.removeItem(KEY+"_"+d+"_"+p+"_nome"); localStorage.removeItem(KEY+"_"+d+"_"+p+"_turno"); } forcarSalvar(); renderGrade(); renderRel(); closeMenu(); go('grade'); } }
-function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show')}
-function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show')}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');document.querySelectorAll('.barTabs button').forEach(b=>b.classList.remove('active'));var t=document.getElementById('tab-'+id);if(t)t.classList.add('active');if(id=='grade')renderGrade();if(id=='rel')renderRel();if(id=='art')renderArt();}
-function salvarCelula(d,p,campo,valor){ if(!dados[d]) dados[d]={}; if(!dados[d]['P'+p]) dados[d]['P'+p]={nome:"",turno:"AL"}; dados[d]['P'+p][campo]=valor; forcarSalvar(); }
-function renderGrade(){
- var cont=document.getElementById('grade'); cont.innerHTML='';
- for(var d=1;d<=30;d++){
-  var dt=new Date(2026,10,d); var ds=diasSem[dt.getDay()];
-  var card=document.createElement('div'); card.className='diaCard';
-  var html='<div class="diaHead"><span>'+d+' ▼</span><small>'+ds+'</small></div>';
-  for(var p=1;p<=6;p++){
-   var cur=(dados[d]&&dados[d]['P'+p])?dados[d]['P'+p]:{nome:"",turno:"AL"};
-   var listaTemp=[...artistas]; if(cur.nome&&!listaTemp.find(x=>x.nome==cur.nome)) listaTemp.unshift({nome:cur.nome,cache:300});
-   var optsArt=listaTemp.map(a=>'<option value="'+a.nome.replace(/"/g,'&quot;')+'" '+(a.nome==cur.nome?'selected':'')+'>'+a.nome+'</option>').join('');
-   var optsTurno='<option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option>';
-   html+='<div class="linha"><span class="lbl">P'+p+':</span><select class="musico" onchange="salvarCelula('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+optsArt+'</select><select class="turno" onchange="salvarCelula('+d+','+p+',\'turno\',this.value)">'+optsTurno+'</select></div>';
-  }
-  card.innerHTML=html; cont.appendChild(card);
- }
-}
-function addArt(){var n=document.getElementById('nomeArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cacheArt').value)||0;if(!n)return;var idx=artistas.findIndex(a=>a.nome==n);if(idx>=0)artistas[idx].cache=c;else artistas.push({nome:n,cache:c});document.getElementById('nomeArt').value='';document.getElementById('cacheArt').value='';renderArt();renderGrade();forcarSalvar();}
-function renderArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:6px;background:#F1F5F9;border-radius:6px;margin-top:3px"><div><b style="font-size:9px">'+a.nome+'</b><br><span style="color:green;font-weight:900;font-size:9px">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);renderArt();renderGrade();forcarSalvar()" style="background:#FFD2D2;border:none;padding:3px 6px;border-radius:4px">X</button></div>').join('');}
-function getCache(nome){if(!nome)return 0;var base=nome.trim().split('/')[0].trim();var f=artistas.find(a=>a.nome==base||a.nome==nome);return f?f.cache:300;}
-function renderRel(){var rel={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var inf=dados[d]&&dados[d]['P'+p]?dados[d]['P'+p]:null;if(!inf||!inf.nome)continue;var nomes=inf.nome.split('/').map(s=>s.trim().toUpperCase()).filter(s=>s);var qtd=(inf.turno=='AL/JA'?2:1);for(var n=0;n<nomes.length;n++){var nm=nomes[n];if(!rel[nm])rel[nm]={shows:0,total:0,lista:[]};rel[nm].shows+=qtd;rel[nm].total+=getCache(nm)*qtd;rel[nm].lista.push('Dia '+d+' P'+p+' '+inf.turno);}}var html='';for(var k in rel){var r=rel[k];html+='<div style="background:#F9FAFB;padding:6px;border-radius:6px;margin-top:4px;border-left:3px solid #FACC15"><b style="font-size:10px">'+k+' - '+r.shows+'</b><div style="color:green;font-weight:900;font-size:10px">R$ '+r.total+'</div><div style="font-size:8px">'+r.lista.join('<br>')+'</div></div>';}document.getElementById('resRel').innerHTML=html||'Nenhum show';}
-
-// INICIA ZERADO, MAS SE JÁ TIVER SALVO CARREGA
-criaDadosVazio();
+var musicos=["","ANDRE","EDILL / GERVASIO","GERVASIO","PAOLI","LUCIANO","YGOR","ISRAEL","RICK","VATA60","ANDERSON"];
+var dados={};var KEY="ESTAGEFLOW_1_AO_31_P1_P5_AL_JA_FIXO_FINAL_2026";
+function vazio(){dados={};for(var d=1;d<=31;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
+function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));var c=0;for(var d=1;d<=31;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)c++;document.getElementById('info').textContent=c==0?'ZERADO':c+' SALVOS'}
+function carregar(){var s=localStorage.getItem(KEY);if(s){try{dados=JSON.parse(s)}catch(e){vazio()}}else vazio()}
+function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var el=document.getElementById('t_'+d+'_'+p);if(tipo=='turno'){el.className='turno '+val.replace('/','');if(val=='AL')el.className='turno AL';if(val=='JA')el.className='turno JA';if(val=='AL/JA')el.className='turno ALJA'}}
 carregar();
-renderGrade(); renderArt(); renderRel();
-forcarSalvar();
-setInterval(forcarSalvar, 2000);
-window.addEventListener('beforeunload', forcarSalvar);
+var grade=document.getElementById('grade');
+for(var d=1;d<=31;d++){
+ var dt=new Date(2024,9,d);var sem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"][dt.getDay()];
+ var card=document.createElement('div');card.className='card';
+ var h='<div class="dia"><span>'+d+' '+sem+'</span><i>'+sem+'</i></div>';
+ for(var p=1;p<=6;p++){
+  var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
+  var opts=musicos.map(m=>'<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>').join('');
+  var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;
+  h+='<div class="row"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><select id="t_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select></div>';
+ }
+ card.innerHTML=h;grade.appendChild(card);
+}
+salvar();
+setInterval(salvar,1000);
 </script>
 </body>
 </html>
