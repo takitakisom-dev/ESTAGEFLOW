@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW COMPACTO</title>
+<title>ESTAGEFLOW NOME GIGANTE</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 html,body{width:100%;background:#F0F0F0}
@@ -11,16 +11,16 @@ html,body{width:100%;background:#F0F0F0}
 .top b{font-size:9px}.pill{font-size:7px;font-weight:900;padding:3px 5px;border-radius:8px}.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}.btn{background:#fff;color:#000;border:0;border-radius:6px;padding:4px 6px;font-size:7px;font-weight:900}
 .grid{display:grid;grid-template-columns:1fr;gap:3px;padding:3px}
 @media(min-width:400px){.grid{grid-template-columns:repeat(2,1fr)}}
-.card{background:#fff;border:1px solid #CCC;border-radius:6px;padding:4px}
-.dia{font-size:8px;font-weight:900;border-bottom:1.5px solid #111;padding-bottom:2px;margin-bottom:3px;display:flex;justify-content:space-between}
-/* --- COMPACTO - MENOR --- */
-.linha{display:flex;gap:2px;margin-bottom:2px;align-items:center;height:22px}
-.linha b{font-size:7px;width:14px;flex-shrink:0;color:#555}
-.linha select{height:20px;border:1px solid #AAA;border-radius:4px;font-size:8px;line-height:1}
-.linha select.nome{flex:1;font-weight:600;font-size:9px;padding:0 4px}
-.linha select.turno{width:36px;flex-shrink:0;font-weight:800;font-size:7px;text-align:center;background:#EDE9FE;color:#5B21B6}
+.card{background:#fff;border:1px solid #CCC;border-radius:6px;padding:5px}
+.dia{font-size:8px;font-weight:900;border-bottom:1.5px solid #111;padding-bottom:2px;margin-bottom:4px;display:flex;justify-content:space-between}
+/* --- SEU QUADRADO ROSA - NOME GIGANTE --- */
+.linha{display:flex;gap:3px;margin-bottom:3px;align-items:center}
+.linha b{font-size:7px;width:14px;flex-shrink:0;color:#222;font-weight:900}
+.linha select{height:24px;border:1px solid #AAA;border-radius:5px}
+.linha select.nome{flex:1;width:82%;font-weight:700;font-size:10px;padding:0 6px;background:#fff;border:1.5px solid #666} 
+.linha select.turno{width:38px;flex-shrink:0;font-weight:900;font-size:7px;text-align:center;padding:0;background:#EDE9FE;color:#5B21B6;border:1px solid #A78BFA}
 .linha select.turno.JA{background:#FFEDD5;color:#9A3412}
-.linha select.turno.ALJA{background:#DCFCE7;color:#166534;width:42px;font-size:6.5px}
+.linha select.turno.ALJA{background:#DCFCE7;color:#166534;width:44px;font-size:6px}
 .printTxt{display:none}
 @media print{.top{display:none!important}.grid{grid-template-columns:repeat(6,1fr)!important;gap:1px!important;padding:0!important}.card{border:.4px solid #000!important;border-radius:0!important;padding:1px!important}.dia{font-size:4px!important;margin-bottom:1px!important}.linha{margin-bottom:0!important;height:10px!important}.linha b{font-size:3px!important;width:6px!important}.linha select{display:none!important}.printTxt{display:inline!important;font-size:3.5px!important;font-weight:700}.printTxt.nome{flex:1;border-bottom:.3px dotted #000;white-space:nowrap;overflow:hidden}.printTxt.turno{width:12px;text-align:center;border:.3px solid #000}@page{size:A4 landscape;margin:2mm}}
 </style>
@@ -31,14 +31,14 @@ html,body{width:100%;background:#F0F0F0}
 <script>
 var musicos=["","ANDRE","EDILL / GERVASIO","GERVASIO","PAOLI","LUCIANO","YGOR","ISRAEL","RICK","VATA60","ANDERSON","RENAN"];
 var dias={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
-var KEY="ESTAGEFLOW_COMPACTO_MENOR_FINAL";var dados={};
+var KEY="ESTAGEFLOW_QUADRADO_ROSA_GIGANTE";var dados={};
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));var c=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome)c++;document.getElementById('cnt').textContent=c+" FIXOS"}
 function carregar(){var s=localStorage.getItem(KEY);if(s){try{dados=JSON.parse(s)}catch(e){vazio()}}else vazio()}
 function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();document.getElementById('pn_'+d+'_'+p).textContent=dados[d]['P'+p].nome||'---';document.getElementById('pt_'+d+'_'+p).textContent=val;var el=document.getElementById('selT_'+d+'_'+p);if(el){el.className='turno '+val;if(val=='AL/JA')el.className='turno ALJA';}}
 carregar();var g=document.getElementById('g');
 for(var d=1;d<=30;d++){var card=document.createElement('div');card.className='card';var h='<div class="dia"><span>'+d+' '+dias[d]+'</span><span>'+dias[d]+'</span></div>';
-for(var p=1;p<=6;p++){var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};var opts=musicos.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;h+='<div class="linha"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>'}card.innerHTML=h;g.appendChild(card)}salvar();
+for(var p=1;p<=6;p++){var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};var opts=musicos.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;h+='<div class="linha"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>'}card.innerHTML=h;g.appendChild(card)}salvar();
 </script>
 </body>
 </html>
