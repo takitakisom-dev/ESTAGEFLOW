@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW MENU COMPLETO</title>
+<title>ESTAGEFLOW VERDE</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 <style>
@@ -20,13 +20,16 @@ body{background:#F0F0F0}
 .dia{font-size:10px;font-weight:900;border-bottom:2px solid #111;padding-bottom:3px;margin-bottom:5px;display:flex;justify-content:space-between}
 .linha{display:flex;gap:3px;margin-bottom:4px;align-items:center}
 .linha b{font-size:8px;width:18px;color:#555}
-.linha select{height:24px;border:1px solid #BBB;border-radius:4px;font-size:9px}
+.linha select{height:26px;border:1.5px solid #BBB;border-radius:6px;font-size:9px;transition:.15s}
 .linha select.nome{flex:1;font-weight:700;background:#fff}
-.linha select.turno{width:44px;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
-.linha select.turno.JA{background:#FFEDD5;color:#9A3412;border-color:#FB923C}
-.linha select.turno.ALJA{background:#DCFCE7;color:#166534;border-color:#86EFAC;width:48px;font-size:7px}
+.linha select.turno{width:48px;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
+
+/* AQUI O VERDE QUE VOCÊ QUER */
+.linha.preenchida select.nome{background:#DCFCE7!important;border-color:#16A34A!important;color:#166534!important}
+.linha.preenchida select.turno{background:#16A34A!important;color:#fff!important;border-color:#166534!important}
+
 .printTxt{display:none}
-.side{position:fixed;left:-100%;top:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto;box-shadow:4px 0 20px rgba(0,0,0,.2)}
+.side{position:fixed;left:-100%;top:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto}
 .side.open{left:0}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:400}
 .overlay.open{display:block}
@@ -50,9 +53,7 @@ body{background:#F0F0F0}
 <div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
 <div class="side" id="side">
 <div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
-
 <div id="btnInstalar" class="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</div>
-
 <div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
 <div class="menu-item" style="background:#FFF9C4;border-radius:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
 <div class="menu-item" onclick="abrirFinanceiro()">💰 RELATÓRIO FINANCEIRO</div>
@@ -60,21 +61,15 @@ body{background:#F0F0F0}
 <div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
 <div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
 <div class="menu-item" onclick="zapGeral()">✈️ ENVIAR CRONOGRAMA GERAL</div>
-
 <div class="sep"></div>
-
 <div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
 <div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS + VALOR</div>
-
 <div class="sep"></div>
-
 <div class="menu-item" onclick="closeMenu()">📊 RELATÓRIOS GERAIS</div>
 <div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
 <div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
 <div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
-
 <div class="sep"></div>
-
 <div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
 </div>
 
@@ -91,7 +86,7 @@ body{background:#F0F0F0}
 <div class="modal" id="modalCasas"><div class="modal-box"><h3>🏠 CADASTRAR CASAS</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novaCasaInput" placeholder="Ex: P7" style="flex:1"><button onclick="addCasa()" style="width:70px;background:#111;color:#fff;border-radius:8px">+ ADD</button></div><div id="listaCasas" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalCasas()">FECHAR</button></div></div>
 <div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome do músico" style="flex:1"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO (FICA NA TELA)</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
 <div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button></div></div>
-<div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b> no topo do menu<br><br>2 - Se não aparecer o botão: Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
+<div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b><br><br>2 - Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
 
 <script>
 let deferredPrompt=null;
@@ -113,8 +108,15 @@ var dados={};
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
 function getValor(nome){var f=musicosObj.find(m=> (m.nome||m)===nome); return f? (f.valor||300):300;}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));localStorage.setItem(KEY_CASAS,JSON.stringify(casas));localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj));atualizaContadores();}
-function carregar(){var chaves=["ESTAGEFLOW_FINAL_V3_NAO_APAGA","ESTAGEFLOW_FINAL_FIXADO_V2","ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL","ESTAGEFLOW_NOV2026_COMPLETO_COM_FIN","ESTAGEFLOW_NOV2026_1DOM_MENU_FINAL"];for(var k of chaves){var s=localStorage.getItem(k); if(s){try{var tmp=JSON.parse(s); if(tmp[1] && tmp[1].P1){dados=tmp; localStorage.setItem(KEY,JSON.stringify(tmp)); break;}}catch(e){}}} if(!dados[1]) vazio();}
-function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---'; var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno;}
+function carregar(){var chaves=["ESTAGEFLOW_FINAL_V3_NAO_APAGA","ESTAGEFLOW_FINAL_FIXADO_V2","ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL"];for(var k of chaves){var s=localStorage.getItem(k); if(s){try{var tmp=JSON.parse(s); if(tmp[1] && tmp[1].P1){dados=tmp; localStorage.setItem(KEY,JSON.stringify(tmp)); break;}}catch(e){}}} if(!dados[1]) vazio();}
+function muda(d,p,tipo,val){
+  dados[d]['P'+p][tipo]=val;
+  salvar();
+  var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---';
+  var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno;
+  var linha=document.getElementById('linha_'+d+'_'+p);
+  if(linha){ if(dados[d]['P'+p].nome) linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }
+}
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
 function fecharModais(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open')}
@@ -145,8 +147,8 @@ for(var d=1;d<=30;d++){
  for(var p=1;p<=6;p++){
   var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
   var opts=musicosLista.map(function(m){return '<option '+(m==cur.nome?'selected':'')+'>'+m+'</option>'}).join('');
-  var cls=cur.turno=='AL/JA'?'ALJA':cur.turno;
-  html+='<div class="linha"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno '+cls+'" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>';
+  var preenchida = cur.nome ? ' preenchida' : '';
+  html+='<div class="linha'+preenchida+'" id="linha_'+d+'_'+p+'"><b>P'+p+'</b><select class="nome" onchange="muda('+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA MUSICO</option>'+opts+'</select><span id="pn_'+d+'_'+p+'" class="printTxt nome">'+(cur.nome||'---')+'</span><select id="selT_'+d+'_'+p+'" class="turno" onchange="muda('+d+','+p+',\'turno\',this.value)"><option value="AL" '+(cur.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select><span id="pt_'+d+'_'+p+'" class="printTxt turno">'+cur.turno+'</span></div>';
  }
  card.innerHTML=html;
  grade.appendChild(card);
