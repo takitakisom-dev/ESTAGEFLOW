@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW COMPLETO FINAL</title>
+<title>ESTAGEFLOW FINANCEIRO CORRIGIDO</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 <style>
@@ -53,10 +53,8 @@ body{background:#F0F0F0}
 <div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
 <div class="side" id="side">
 <div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
-
 <div id="btnInstalar" class="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</div>
 <div class="btnShare" onclick="compartilharApp()">🔗 COMPARTILHAR APP</div>
-
 <div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
 <div class="menu-item" style="background:#FFF9C4;border-radius:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
 <div class="menu-item" onclick="abrirFinanceiro()">💰 RELATÓRIO FINANCEIRO</div>
@@ -64,24 +62,17 @@ body{background:#F0F0F0}
 <div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
 <div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
 <div class="menu-item" onclick="zapGeral()">✈️ ENVIAR CRONOGRAMA GERAL</div>
-
 <div class="sep"></div>
-
 <div class="btnBackup" onclick="exportarBackup()">💾 EXPORTAR BACKUP (SALVAR)</div>
 <div class="btnBackup" style="background:#FEF3C7;border-color:#F59E0B;color:#78350F" onclick="document.getElementById('inputImport').click()">📥 IMPORTAR BACKUP (RESTAURAR)</div>
-
 <div class="sep"></div>
-
 <div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
 <div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS + VALOR</div>
-
 <div class="sep"></div>
-
 <div class="menu-item" onclick="closeMenu()">📊 RELATÓRIOS GERAIS</div>
 <div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
 <div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
 <div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
-
 <div class="sep"></div>
 <div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
 </div>
@@ -98,7 +89,7 @@ body{background:#F0F0F0}
 <div class="modal" id="modalPorMusico"><div class="modal-box" style="max-width:500px"><h3>🎤📋 RELATÓRIO POR MÚSICO</h3><div id="conteudoPorMusico"></div><button class="cancel" onclick="fecharPorMusico()">FECHAR</button><button class="save" onclick="zapPorMusico()">📱 ENVIAR NO ZAP</button></div></div>
 <div class="modal" id="modalCasas"><div class="modal-box"><h3>🏠 CADASTRAR CASAS</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novaCasaInput" placeholder="Ex: P7" style="flex:1"><button onclick="addCasa()" style="width:70px;background:#111;color:#fff;border-radius:8px">+ ADD</button></div><div id="listaCasas" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalCasas()">FECHAR</button></div></div>
 <div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome do músico" style="flex:1"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO (FICA NA TELA)</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
-<div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button></div></div>
+<div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 FINANCEIRO - CORRIGIDO BARRA</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button></div></div>
 <div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b><br><br>2 - Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
 
 <script>
@@ -111,7 +102,7 @@ var diasSemana={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",
 var KEY="ESTAGEFLOW_FINAL_V3_NAO_APAGA";
 var KEY_CASAS="casas_lista_final"; 
 var KEY_MUS="musicos_lista_final_valores";
-var musicosPadrao=[{nome:"ANDRÉ",valor:300},{nome:"ANDERSON VAT60 SOLO",valor:300},{nome:"EDILL",valor:300},{nome:"EDILL / GERVASIO",valor:400},{nome:"GERVASIO",valor:350}];
+var musicosPadrao=[{nome:"ANDRÉ",valor:300},{nome:"EDILL",valor:300},{nome:"GERVASIO",valor:300},{nome:"YGOR",valor:300},{nome:"ANDERSON VAT60 SOLO",valor:300}];
 var casasPadrao=["P1","P2","P3","P4","P5","P6"];
 function carregarLista(chave,padrao){try{var v=localStorage.getItem(chave);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return padrao;}
 var casas=carregarLista(KEY_CASAS,casasPadrao);
@@ -119,16 +110,25 @@ var musicosObj=carregarLista(KEY_MUS,musicosPadrao);
 var musicosLista=musicosObj.map(m=>m.nome||m);
 var dados={};
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
-function getValor(nome){var f=musicosObj.find(m=> (m.nome||m)===nome); return f? (f.valor||300):300;}
-function extrairMusicos(nomeStr){if(!nomeStr) return []; if(nomeStr.indexOf('/')===-1) return [nomeStr.trim()]; return nomeStr.split('/').map(function(s){return s.trim().toUpperCase();}).filter(Boolean);}
-function getValorIndividual(nomeInd, valorDuo, qtd){var f=musicosObj.find(function(m){return (m.nome||m).toUpperCase()===nomeInd.toUpperCase();}); if(f && f.valor) return f.valor; return Math.round(valorDuo / qtd);}
+function getValor(nome){var f=musicosObj.find(m=> (m.nome||m).toUpperCase()===nome.toUpperCase()); return f? (f.valor||300):300;}
+
+// CORREÇÃO PRINCIPAL: DIVIDE POR BARRA
+function extrairMusicos(nomeStr){
+  if(!nomeStr) return [];
+  // Se tem barra, divide em 2 ou mais
+  if(nomeStr.includes('/')){
+    return nomeStr.split('/').map(function(s){return s.trim().toUpperCase();}).filter(Boolean);
+  }
+  return [nomeStr.trim().toUpperCase()];
+}
+
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));localStorage.setItem(KEY_CASAS,JSON.stringify(casas));localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj));atualizaContadores();}
 function carregar(){var chaves=["ESTAGEFLOW_FINAL_V3_NAO_APAGA","ESTAGEFLOW_FINAL_FIXADO_V2","ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL"];for(var k of chaves){var s=localStorage.getItem(k); if(s){try{var tmp=JSON.parse(s); if(tmp[1] && tmp[1].P1){dados=tmp; localStorage.setItem(KEY,JSON.stringify(tmp)); break;}}catch(e){}}} if(!dados[1]) vazio();}
 function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---'; var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno; var linha=document.getElementById('linha_'+d+'_'+p); if(linha){ if(dados[d]['P'+p].nome && dados[d]['P'+p].nome!="") linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }}
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
 function fecharModais(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open')}
-function atualizaContadores(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome){c++; total+=getValor(dados[d]['P'+p].nome);}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total; var el=document.getElementById('totalGeralFin'); if(el) el.textContent="TOTAL: R$ "+total;}
+function atualizaContadores(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(dados[d]['P'+p].nome){c++; var lista=extrairMusicos(dados[d]['P'+p].nome); lista.forEach(function(n){ total+=getValor(n); });}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total; var el=document.getElementById('totalGeralFin'); if(el) el.textContent="TOTAL: R$ "+total;}
 function addOpcaoEmTodosOsSelects(novoNome){var selects=document.querySelectorAll('select.nome'); selects.forEach(function(sel){var ja=false; for(var i=0;i<sel.options.length;i++) if(sel.options[i].value===novoNome) ja=true; if(!ja){var o=document.createElement('option'); o.value=novoNome; o.textContent=novoNome; sel.appendChild(o);}});}
 function abrirGestaoCasas(){renderListaCasas();document.getElementById('modalCasas').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function fecharModalCasas(){document.getElementById('modalCasas').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
@@ -141,14 +141,13 @@ function addMusico(){var n=document.getElementById('novoMusicoInput').value.trim
 function excluirCasa(i){casas.splice(i,1);salvar();renderListaCasas();}
 function excluirMusico(i){musicosObj.splice(i,1);musicosLista.splice(i,1);salvar();renderListaMusicos();}
 
-// BACKUP E COMPARTILHAR
 function exportarBackup(){
-  var backup={dados:dados,casas:casas,musicosObj:musicosObj,data:new Date().toISOString(),versao:"FINAL_COMPLETO"};
+  var backup={dados:dados,casas:casas,musicosObj:musicosObj,data:new Date().toISOString(),versao:"FINAL_CORRIGIDO_BARRA"};
   var blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a'); a.href=url; a.download="ESTAGEFLOW_BACKUP_"+new Date().toISOString().slice(0,10)+".json"; a.click();
   URL.revokeObjectURL(url);
-  alert("✅ Backup exportado! Salva esse arquivo no Drive/Whatsapp pra não perder!");
+  alert("✅ Backup exportado!");
   closeMenu();
 }
 function importarArquivo(event){
@@ -160,7 +159,7 @@ function importarArquivo(event){
       if(backup.dados){ dados=backup.dados; localStorage.setItem(KEY,JSON.stringify(dados)); }
       if(backup.casas){ casas=backup.casas; localStorage.setItem(KEY_CASAS,JSON.stringify(casas)); }
       if(backup.musicosObj){ musicosObj=backup.musicosObj; musicosLista=musicosObj.map(m=>m.nome||m); localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj)); }
-      alert("✅ Backup restaurado com sucesso! A página vai recarregar.");
+      alert("✅ Backup restaurado! A página vai recarregar.");
       location.reload();
     }catch(err){ alert("❌ Erro ao importar: arquivo inválido!"); }
   };
@@ -169,12 +168,8 @@ function importarArquivo(event){
 function compartilharApp(){
   var url=window.location.href;
   var texto="🎤 ESTAGEFLOW - Meu app de agenda de músicos: "+url;
-  if(navigator.share){
-    navigator.share({title:"ESTAGEFLOW",text:texto,url:url}).then(()=>{closeMenu();}).catch(()=>{});
-  }else{
-    if(navigator.clipboard){ navigator.clipboard.writeText(url); alert("🔗 Link copiado! Agora é só colar no WhatsApp:\n\n"+url); }
-    else{ window.open('https://wa.me/?text='+encodeURIComponent(texto),'_blank'); }
-  }
+  if(navigator.share){ navigator.share({title:"ESTAGEFLOW",text:texto,url:url}).then(()=>{closeMenu();}).catch(()=>{}); }
+  else{ if(navigator.clipboard){ navigator.clipboard.writeText(url); alert("🔗 Link copiado! "+url); } else{ window.open('https://wa.me/?text='+encodeURIComponent(texto),'_blank'); } }
   closeMenu();
 }
 
@@ -194,9 +189,9 @@ function abrirRelatorioPorMusico(){
   nomes.forEach(function(nome){
     var lista=porMusico[nome];
     var total=lista.length;
-    var valorInd=getValorIndividual(nome, getValor(nome), 1);
+    var valorInd=getValor(nome);
     html+='<div class="musico-header"><span>🎤 '+nome+'</span><span style="background:#00E676;color:#000;padding:2px 8px;border-radius:10px;font-size:11px">'+total+' SHOWS - R$'+(total*valorInd)+'</span></div><div style="padding:8px 0">';
-    lista.forEach(function(it){html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+' ('+it.origem+')</span> ';});
+    lista.forEach(function(it){html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+'</span> ';});
     html+='</div>';
   });
   document.getElementById('conteudoPorMusico').innerHTML=html;
@@ -215,7 +210,7 @@ function zapPorMusico(){
       });
     }
   }
-  var txt="📋 RELATÓRIO POR MÚSICO - NOV 2026 (BARRA DIVIDIDA)\n\n";
+  var txt="📋 RELATÓRIO POR MÚSICO - CORRIGIDO\n\n";
   for(var nome in porMusico){
     var lista=porMusico[nome];
     txt+="🎤 "+nome+" - "+lista.length+" SHOWS\n";
@@ -229,11 +224,10 @@ function abrirFinanceiro(){
   for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){
     var cur=dados[d]['P'+p];
     if(cur.nome){
-      var valDuo=getValor(cur.nome);
-      total+=valDuo;
       var lista=extrairMusicos(cur.nome);
       lista.forEach(function(nomeInd){
-        var valInd=getValorIndividual(nomeInd,valDuo,lista.length);
+        var valInd=getValor(nomeInd);
+        total+=valInd;
         porMusico[nomeInd]=(porMusico[nomeInd]||{q:0,v:0});
         porMusico[nomeInd].q++;
         porMusico[nomeInd].v+=valInd;
