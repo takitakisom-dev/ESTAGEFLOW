@@ -3,146 +3,290 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAKI SOM V27 ZERADO EQUILIBRIO</title>
+<title>TAKI SOM V28 FINAL FIXO</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
 body{background:#E9EEF3}
-.top{background:#0F172A;color:#fff;padding:6px 8px;display:flex;gap:6px;position:sticky;top:0;z-index:1000;align-items:center}
-.top b{flex:1;font-size:10px} .top b span{color:#FACC15}
-.top .saveStatus{font-size:8px;background:#22C55E;color:#000;padding:3px 6px;border-radius:6px;font-weight:900}
-.top button{padding:5px 8px;border:none;border-radius:7px;font-weight:900;font-size:9px}
-.btnMenuFull{background:#FACC15;color:#000;padding:10px;border:none;width:calc(100% - 10px);margin:5px;border-radius:10px;font-weight:900;font-size:13px}
-.barBlack{background:#1F2937;color:#fff;text-align:center;padding:5px;font-weight:900;font-size:8px}
-.barTabs{background:#fff;padding:5px;display:flex;gap:4px;overflow:auto}
-.barTabs button{padding:7px 10px;border:none;border-radius:14px;font-weight:900;font-size:10px;background:#F1F5F9}
+.top{background:#0F172A;color:#fff;padding:6px 8px;display:flex;gap:6px;position:sticky;top:0;z-index:9999;align-items:center}
+.top b{flex:1;font-size:11px} .top b span{color:#FACC15}
+.top .saveStatus{font-size:9px;background:#22C55E;color:#000;padding:4px 8px;border-radius:20px;font-weight:900;min-width:62px;text-align:center}
+.top button{padding:6px 10px;border:none;border-radius:8px;font-weight:900;font-size:10px}
+.btnMenuFull{background:#FACC15;color:#000;padding:12px;border:none;width:calc(100% - 10px);margin:5px;border-radius:10px;font-weight:900;font-size:14px}
+.barBlack{background:#1F2937;color:#fff;text-align:center;padding:6px;font-weight:900;font-size:8px;letter-spacing:.2px}
+.barTabs{background:#fff;padding:5px;display:flex;gap:4px;overflow:auto;border-bottom:1px solid #E2E8F0}
+.barTabs button{padding:8px 12px;border:none;border-radius:20px;font-weight:900;font-size:11px;background:#F1F5F9}
 .barTabs button.active{background:#1F2937;color:#fff}
-/* V27 - V20 ORIGINAL MAS CORRIGIDO SEM CORTAR */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:5px;padding:5px}
+/* EQUILIBRIO PERFEITO - 2 POR LINHA - NAO CORTA */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:5px;padding:5px}
 .diaCard{background:#fff;border:1.2px solid #222;border-radius:9px;padding:5px}
-.diaHead{font-weight:900;color:#1E3A8A;font-size:10px;margin-bottom:4px;display:flex;justify-content:space-between}
-.diaHead small{font-size:7px;color:#475569;background:#E2E8F0;padding:2px 4px;border-radius:4px}
+.diaHead{font-weight:900;color:#1E3A8A;font-size:11px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.diaHead small{font-size:7px;color:#475569;background:#E2E8F0;padding:2px 5px;border-radius:4px}
 .linha{display:flex;align-items:center;gap:3px;margin-bottom:3px;width:100%}
-.linha .lbl{flex:0 0 12px;font-size:7px;font-weight:900}
-.linha select.musico{flex:1;min-width:0;padding:4px 1px 4px 2px;border:1.2px solid #000;border-radius:5px;font-size:7px;font-weight:800;background:#fff;line-height:1;letter-spacing:-0.2px}
-.linha select.turno{flex:0 0 44px;min-width:44px;max-width:44px;padding:4px 0;border:1.2px solid #000;border-radius:5px;font-size:7px;font-weight:900;background:#EDE9FE;color:#4C1D95;text-align:center;letter-spacing:0}
+.linha .lbl{flex:0 0 12px;font-size:7px;font-weight:900;color:#000}
+.linha select.musico{flex:1;min-width:0;padding:5px 2px;border:1.2px solid #000;border-radius:6px;font-size:7.2px;font-weight:800;background:#fff;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.linha select.turno{flex:0 0 44px;min-width:44px;max-width:44px;padding:5px 0;border:1.2px solid #000;border-radius:6px;font-size:7px;font-weight:900;background:#EDE9FE;color:#4C1D95;text-align:center}
 .cardBox{background:#fff;border-radius:12px;margin:6px;padding:12px}
 .sec{display:none} .sec.show{display:block}
-.drawer{position:fixed;top:0;left:-320px;width:300px;height:100%;background:#0F172A;color:#fff;z-index:5000;transition:.3s;padding:14px;overflow:auto}
+.drawer{position:fixed;top:0;left:-330px;width:310px;height:100%;background:#0F172A;color:#fff;z-index:5000;transition:.3s;padding:14px;overflow:auto}
 .drawer.open{left:0}
-.drawer button{width:100%;padding:11px;margin-bottom:6px;border:none;border-radius:9px;font-weight:800;text-align:left;background:#1E293B;color:#fff;font-size:12px}
+.drawer button{width:100%;padding:12px;margin-bottom:6px;border:none;border-radius:9px;font-weight:800;text-align:left;background:#1E293B;color:#fff;font-size:13px}
 .drawer button.yellow{background:#FACC15;color:#000;text-align:center}
 .drawer button.green{background:#22C55E;color:#000;text-align:center;font-weight:900}
-.drawer button.blue{background:#3B82F6;color:#fff;text-align:center;font-weight:900}
-.drawer button.orange{background:#F97316;color:#fff;text-align:center;font-weight:900}
-.drawer button.red{background:#EF4444;color:#fff;text-align:center;font-weight:900}
+.drawer button.blue{background:#3B82F6;color:#fff;text-align:center}
+.drawer button.orange{background:#F97316;color:#fff;text-align:center}
+.drawer button.red{background:#EF4444;color:#fff;text-align:center}
 .fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:4000} .fundo.show{display:block}
 </style>
 </head>
 <body>
-<div class="top"><b><span>TAKI</span> SOM V27 ZERADO</b><span class="saveStatus" id="saveStatus">ZERADO</span><button style="background:#86EFAC" onclick="go('rel')">RELATORIO</button><button style="background:#fff" onclick="window.print()">1 FOLHA</button></div>
+<div class="top"><b><span>TAKI</span> SOM V28 FIXO</b><span class="saveStatus" id="saveStatus">ZERADO</span><button style="background:#86EFAC" onclick="go('rel')">RELATORIO</button><button style="background:#fff" onclick="window.print()">1 FOLHA</button></div>
 <button class="btnMenuFull" onclick="openMenu()">☰ MENU COMPLETO - CLIQUE AQUI</button>
 <div class="fundo" id="fundo" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
-<h3 style="color:#FACC15">☰ MENU V27 ZERADO</h3>
-<div style="background:#22C55E;color:#000;padding:8px;border-radius:8px;font-size:11px;font-weight:900;margin:8px 0;text-align:center" id="statusDrawer">✅ COMEÇA ZERADO - VOCÊ PREENCHE</div>
-<div style="background:#1E293B;padding:8px;border-radius:8px;font-size:10px;text-align:center;margin-bottom:8px;color:#94A3B8" id="contadorDrawer">0 shows - grade limpa</div>
-<button class="green" onclick="forcarSalvar();alert('✅ SALVO!');">💾 SALVAR AGORA</button>
-<button class="blue" onclick="zerarGrade()">🧹 ZERAR TUDO (COMEÇAR DO ZERO)</button>
-<button class="orange" onclick="recuperarTudo()">♻️ RECUPERAR OS 180 ANTIGOS (SE QUISER)</button>
+<h3 style="color:#FACC15">☰ MENU V28 FINAL FIXO</h3>
+<div style="background:#22C55E;color:#000;padding:10px;border-radius:8px;font-size:12px;font-weight:900;margin:8px 0;text-align:center" id="statusDrawer">✅ COMEÇA ZERADO - NÃO APAGA</div>
+<div style="background:#1E293B;padding:8px;border-radius:8px;font-size:11px;text-align:center;margin-bottom:8px" id="contadorDrawer">0 shows - grade limpa</div>
+<button class="green" onclick="forcarSalvar();alert('✅ SALVO FIXO! Pode atualizar que não apaga mais.');">💾 SALVAR AGORA - FIXO</button>
+<button class="blue" onclick="zerarGrade()">🧹 ZERAR TUDO</button>
+<button class="orange" onclick="recuperar180()">♻️ RECUPERAR 180 ANTIGOS SE QUISER</button>
 <button class="orange" style="background:#FACC15;color:#000" onclick="exportar()">💾 EXPORTAR BACKUP</button>
 <button class="blue" onclick="document.getElementById('fileIn').click()">📥 IMPORTAR BACKUP</button>
 <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<hr style="margin:10px 0;border-color:#334155">
-<button onclick="go('grade');closeMenu()">📅 Grade Zerada V27</button>
+<hr style="margin:12px 0;border-color:#334155">
+<button onclick="go('grade');closeMenu()">📅 Grade Mensal</button>
 <button onclick="go('rel');closeMenu()">📊 Relatório</button>
 <button onclick="go('art');closeMenu()">🎤 Artistas</button>
-<button class="yellow" onclick="closeMenu()">✖ FECHAR</button>
+<button class="yellow" onclick="closeMenu()">✖ FECHAR MENU</button>
+<div style="font-size:8px;color:#94A3B8;margin-top:12px;line-height:12px">V28 FINAL FIXO<br>Chave: TAKI_FIXO_V28<br>Não apaga ao atualizar<br>Nome completo + AL/JA completo<br>2 por linha - compacto</div>
 </div>
 <div class="barTabs"><button id="tab-grade" class="active" onclick="go('grade')">Grade</button><button id="tab-rel" onclick="go('rel')">Relatorio</button><button id="tab-art" onclick="go('art')">Artistas</button></div>
-<div class="barBlack">V27 ZERADO - NOME COMPLETO SEM CORTAR + AL/JA SEM CORTAR - 2 POR LINHA - MENSAL COMPACTO</div>
+<div class="barBlack" id="barBlack">V28 FINAL - ZERADO - NOME COMPLETO SEM CORTAR - AL/JA COMPLETO - FIXO NÃO APAGA</div>
 <div id="sec-grade" class="sec show"><div class="grid" id="grade"></div></div>
-<div id="sec-rel" class="sec"><div class="cardBox"><h3>Relatório</h3><div id="resRel"></div></div></div>
-<div id="sec-art" class="sec"><div class="cardBox"><h3>Artistas - Cadastre os nomes</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="nomeArt" placeholder="NOME EX: EDILL / GERVASIO" style="flex:1;padding:9px;border-radius:7px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cacheArt" type="number" placeholder="R$" style="width:80px;padding:9px;border-radius:7px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:6px;padding:11px;background:#FACC15;border:none;border-radius:9px;font-weight:900">SALVAR ARTISTA</button><div id="listaArt"></div></div></div>
+<div id="sec-rel" class="sec"><div class="cardBox"><h3>Relatório + Cache</h3><div id="resRel"></div></div></div>
+<div id="sec-art" class="sec"><div class="cardBox"><h3>Artistas</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="nomeArt" placeholder="NOME EX: EDILL / GERVASIO" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cacheArt" type="number" placeholder="R$" style="width:85px;padding:10px;border-radius:8px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:6px;padding:12px;background:#FACC15;border:none;border-radius:9px;font-weight:900">SALVAR ARTISTA</button><div id="listaArt" style="margin-top:8px"></div></div></div>
+
 <script>
 var artistas=[
-{nome:"EDILL / GERVÁSIO",cache:500},{nome:"EDILL / GERVASIO",cache:500},
-{nome:"ANDRE",cache:300},{nome:"ANDRÉ",cache:300},{nome:"ANDRE / GERVASIO",cache:500},
-{nome:"LUCIANO",cache:300},{nome:"YGOR",cache:280},{nome:"ISRAEL",cache:300},
-{nome:"GERVASIO",cache:200},{nome:"GERVÁSIO",cache:200},{nome:"PAOLI",cache:320},
-{nome:"ANDERSON VAT 60 SOLO",cache:300},{nome:"ANDERSON VAT 60 DUO",cache:400},{nome:"VATA60",cache:250},{nome:"RICK",cache:250}
+{nome:"EDILL / GERVASIO",cache:500},
+{nome:"EDILL / GERVÁSIO",cache:500},
+{nome:"ANDRE",cache:300},
+{nome:"ANDRE / GERVASIO",cache:500},
+{nome:"ANDRÉ",cache:300},
+{nome:"LUCIANO",cache:300},
+{nome:"YGOR",cache:280},
+{nome:"ISRAEL",cache:300},
+{nome:"GERVASIO",cache:200},
+{nome:"PAOLI",cache:320},
+{nome:"ANDERSON VAT 60 SOLO",cache:300},
+{nome:"ANDERSON VAT 60 DUO",cache:400},
+{nome:"VATA60",cache:250},
+{nome:"RICK",cache:250}
 ];
 var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago"};
 var dados={};
 var diasSem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
-var KEY="TAKI_V27_ZERADO_EQUILIBRIO";
-function criaDadosVazio(){dados={};for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"};}}
-function contarPreenchidos(o){var c=0;try{for(var d=1;d<=30;d++)for(var p=1;p<=6;p++)if(o[d]&&o[d]['P'+p]&&o[d]['P'+p].nome&&o[d]['P'+p].nome!="")c++;}catch(e){}return c;}
+var KEY="TAKI_FIXO_V28_FINAL_NAO_APAGA";
+
+function criaDadosVazio(){
+ dados={};
+ for(var d=1;d<=30;d++){
+  dados[d]={};
+  for(var p=1;p<=6;p++) dados[d]['P'+p]={nome:"",turno:"AL"};
+ }
+}
+function contar(o){
+ var c=0;
+ try{
+  for(var d=1;d<=30;d++) for(var p=1;p<=6;p++) if(o[d] && o[d]['P'+p] && o[d]['P'+p].nome && o[d]['P'+p].nome!="") c++;
+ }catch(e){}
+ return c;
+}
 function forcarSalvar(){
  try{
-  localStorage.setItem(KEY, JSON.stringify({artistas:artistas,casas:casas,dados:dados,v:"V27"}));
-  document.getElementById('saveStatus').textContent=contarPreenchidos(dados)==0?"ZERADO":"✅ "+contarPreenchidos(dados);
-  document.getElementById('contadorDrawer').textContent=contarPreenchidos(dados)==0?"0 shows - grade limpa":contarPreenchidos(dados)+" shows salvos";
+  var pacote=JSON.stringify({artistas:artistas,casas:casas,dados:dados,v:"V28",ts:Date.now()});
+  localStorage.setItem(KEY, pacote);
+  var qtd=contar(dados);
+  document.getElementById('saveStatus').textContent = qtd==0 ? "ZERADO" : "✅ "+qtd+" FIXO";
+  document.getElementById('saveStatus').style.background = qtd==0 ? "#FACC15" : "#22C55E";
+  document.getElementById('contadorDrawer').textContent = qtd==0 ? "0 shows - grade limpa" : qtd+" shows FIXOS - não apaga";
+  document.getElementById('statusDrawer').textContent = qtd==0 ? "✅ Zerado" : "✅ "+qtd+" shows fixos";
+  document.getElementById('barBlack').textContent = qtd==0 ? "V28 ZERADO - PRONTO PRA PREENCHER" : "V28 FIXO - "+qtd+" SHOWS SALVOS - PODE ATUALIZAR";
   return true;
- }catch(e){return false;}
+ }catch(e){
+  alert("Erro ao salvar: "+e);
+  return false;
+ }
 }
-function carregarMaisCompleto(){
- var melhor=null,melhorCount=-1;
+function carregar(){
+ try{
+  var raw=localStorage.getItem(KEY);
+  if(!raw) return false;
+  var o=JSON.parse(raw);
+  if(!o.dados) return false;
+  artistas=o.artistas||artistas;
+  casas=o.casas||casas;
+  dados=o.dados;
+  return true;
+ }catch(e){ return false; }
+}
+function carregar180Antigo(){
+ var melhor=null, melhorCount=-1;
  try{
   for(var i=0;i<localStorage.length;i++){
-   var k=localStorage.key(i); if(!k) continue; if(k.toUpperCase().indexOf("TAKI")==-1) continue;
-   try{var raw=localStorage.getItem(k); if(!raw) continue; var o=JSON.parse(raw); if(!o.dados) continue; var cnt=contarPreenchidos(o.dados); if(cnt>melhorCount){melhorCount=cnt;melhor=o;}}catch(e){}
+   var k=localStorage.key(i);
+   if(!k) continue;
+   if(k.toUpperCase().indexOf("TAKI")==-1) continue;
+   if(k==KEY) continue;
+   try{
+    var raw=localStorage.getItem(k);
+    if(!raw) continue;
+    var o=JSON.parse(raw);
+    if(!o.dados) continue;
+    var cnt=contar(o.dados);
+    if(cnt>melhorCount){melhorCount=cnt;melhor=o;}
+   }catch(e){}
   }
-  if(melhor&&melhorCount>0){
-   casas=melhor.casas||casas; dados=melhor.dados;
-   if(melhor.artistas){for(var a=0;a<melhor.artistas.length;a++){var nm=melhor.artistas[a].nome; if(!artistas.find(x=>x.nome==nm)) artistas.push(melhor.artistas[a]);}}
-   for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){if(dados[d]&&dados[d]['P'+p]&&dados[d]['P'+p].nome){var n=dados[d]['P'+p].nome; if(n&&!artistas.find(x=>x.nome==n)) artistas.push({nome:n,cache:300});}}
+  if(melhor && melhorCount>0){
+   casas=melhor.casas||casas;
+   dados=melhor.dados;
+   if(melhor.artistas){
+    for(var a=0;a<melhor.artistas.length;a++){
+     var nm=melhor.artistas[a].nome;
+     if(!artistas.find(x=>x.nome==nm)) artistas.push(melhor.artistas[a]);
+    }
+   }
+   for(var d=1;d<=30;d++) for(var p=1;p<=6;p++){
+    if(dados[d] && dados[d]['P'+p] && dados[d]['P'+p].nome){
+     var n=dados[d]['P'+p].nome;
+     if(n && !artistas.find(x=>x.nome==n)) artistas.push({nome:n,cache:300});
+    }
+   }
    return true;
   }
  }catch(e){}
  return false;
 }
+function recuperar180(){
+ if(carregar180Antigo()){
+  renderGrade(); renderArt(); renderRel(); forcarSalvar();
+  alert("✅ Recuperei "+contar(dados)+" shows antigos!");
+  closeMenu(); go('grade');
+ }else{
+  alert("Não achei backup antigo.");
+ }
+}
 function zerarGrade(){
- if(confirm("Zerar tudo e começar do zero?")){
-  criaDadosVazio(); forcarSalvar(); renderGrade(); renderRel();
-  document.getElementById('saveStatus').textContent="ZERADO";
-  alert("✅ Grade zerada! Agora pode preencher do zero.");
+ if(confirm("Tem certeza? Vai zerar tudo e começar do zero?")){
+  criaDadosVazio();
+  forcarSalvar();
+  renderGrade(); renderRel();
+  alert("✅ Zerado! Agora pode preencher do zero.");
   closeMenu(); go('grade');
  }
 }
-function recuperarTudo(){var ok=carregarMaisCompleto(); if(ok){renderGrade();renderArt();renderRel();forcarSalvar();alert("✅ RECUPEREI "+contarPreenchidos(dados)+" SHOWS antigos!");closeMenu();go('grade');}else{alert("Não achei backup antigo.");}}
 function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show')}
 function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show')}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');document.querySelectorAll('.barTabs button').forEach(b=>b.classList.remove('active'));var t=document.getElementById('tab-'+id);if(t)t.classList.add('active');if(id=='grade')renderGrade();if(id=='rel')renderRel();if(id=='art')renderArt();}
+function go(id){
+ document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
+ document.getElementById('sec-'+id).classList.add('show');
+ document.querySelectorAll('.barTabs button').forEach(b=>b.classList.remove('active'));
+ var t=document.getElementById('tab-'+id); if(t) t.classList.add('active');
+ if(id=='grade') renderGrade();
+ if(id=='rel') renderRel();
+ if(id=='art') renderArt();
+}
 function renderGrade(){
- var cont=document.getElementById('grade');cont.innerHTML='';
+ var cont=document.getElementById('grade');
+ cont.innerHTML='';
  for(var d=1;d<=30;d++){
-  var dt=new Date(2026,10,d);var ds=diasSem[dt.getDay()];
-  var card=document.createElement('div');card.className='diaCard';
+  var dt=new Date(2026,10,d);
+  var ds=diasSem[dt.getDay()];
+  var card=document.createElement('div');
+  card.className='diaCard';
   var html='<div class="diaHead"><span>'+d+' ▼</span><small>'+ds+'</small></div>';
   for(var p=1;p<=6;p++){
-   var cur=dados[d]['P'+p]||{nome:"",turno:"AL"};
-   var listaTemp=[...artistas]; if(cur.nome&&!listaTemp.find(x=>x.nome==cur.nome)) listaTemp.unshift({nome:cur.nome,cache:300});
-   var optsArt=listaTemp.map(a=>'<option value="'+a.nome+'" '+(a.nome==cur.nome?'selected':'')+'>'+a.nome+'</option>').join('');
+   var cur = (dados[d] && dados[d]['P'+p]) ? dados[d]['P'+p] : {nome:"",turno:"AL"};
+   var listaTemp=[...artistas];
+   if(cur.nome && !listaTemp.find(x=>x.nome==cur.nome)) listaTemp.unshift({nome:cur.nome,cache:300});
+   var optsArt=listaTemp.map(a=>'<option value="'+a.nome.replace(/"/g,'&quot;')+'" '+(a.nome==cur.nome?'selected':'')+'>'+a.nome+'</option>').join('');
    var optsTurno='<option '+(cur.turno=='AL'?'selected':'')+'>AL</option><option '+(cur.turno=='JA'?'selected':'')+'>JA</option><option '+(cur.turno=='AL/JA'?'selected':'')+'>AL/JA</option>';
-   html+='<div class="linha"><span class="lbl">P'+p+':</span><select class="musico" title="'+cur.nome+'" onchange="dados['+d+']['+'P'+p+'].nome=this.value; forcarSalvar();"><option value="">ESCOLHA</option>'+optsArt+'</select><select class="turno" onchange="dados['+d+']['+'P'+p+'].turno=this.value; forcarSalvar();">'+optsTurno+'</select></div>';
+   html+='<div class="linha"><span class="lbl">P'+p+':</span><select class="musico" onchange="dados['+d+']['+'P'+p+'].nome=this.value; forcarSalvar();"><option value="">ESCOLHA</option>'+optsArt+'</select><select class="turno" onchange="dados['+d+']['+'P'+p+'].turno=this.value; forcarSalvar();">'+optsTurno+'</select></div>';
   }
-  card.innerHTML=html;cont.appendChild(card);
+  card.innerHTML=html;
+  cont.appendChild(card);
  }
 }
-function addArt(){var n=document.getElementById('nomeArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cacheArt').value)||0;if(!n)return;var idx=artistas.findIndex(a=>a.nome==n);if(idx>=0)artistas[idx].cache=c;else artistas.push({nome:n,cache:c});document.getElementById('nomeArt').value='';document.getElementById('cacheArt').value='';renderArt();renderGrade();forcarSalvar();}
-function renderArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:8px;background:#F1F5F9;border-radius:7px;margin-top:3px"><div><b style="font-size:10px">'+a.nome+'</b><br><span style="color:green;font-weight:900;font-size:10px">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);renderArt();renderGrade();forcarSalvar()" style="background:#FFD2D2;border:none;padding:3px 7px;border-radius:5px">X</button></div>').join('');}
-function getCache(nome){if(!nome) return 0; var base=nome.trim().split('/')[0].trim(); var f=artistas.find(a=>a.nome==base||a.nome==nome);return f?f.cache:300;}
-function renderRel(){var rel={}; for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var inf=dados[d]['P'+p]; if(!inf||!inf.nome) continue; var nomes=inf.nome.split('/').map(s=>s.trim().toUpperCase()).filter(s=>s); var qtd=(inf.turno=='AL/JA'?2:1); for(var n=0;n<nomes.length;n++){var nm=nomes[n]; if(!rel[nm]) rel[nm]={shows:0,total:0,lista:[]}; rel[nm].shows+=qtd; rel[nm].total+=getCache(nm)*qtd; rel[nm].lista.push('Dia '+d+' P'+p+' '+inf.turno);}} var html='';for(var k in rel){var r=rel[k]; html+='<div style="background:#F9FAFB;padding:8px;border-radius:8px;margin-top:5px;border-left:3px solid #FACC15"><b style="font-size:11px">'+k+' - '+r.shows+'</b><div style="color:green;font-weight:900;font-size:11px">R$ '+r.total+'</div><div style="font-size:9px">'+r.lista.join('<br>')+'</div></div>';} document.getElementById('resRel').innerHTML=html||'Nenhum show - grade zerada';}
-function exportar(){forcarSalvar(); var blob=new Blob([localStorage.getItem(KEY)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='TAKI_V27_ZERADO.json';a.click();}
-function importar(e){var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){try{var o=JSON.parse(ev.target.result); artistas=o.artistas||artistas; casas=o.casas||casas; dados=o.dados; forcarSalvar(); renderGrade(); renderArt(); renderRel(); alert('✅ IMPORTADO!'); closeMenu(); go('grade');}catch(err){alert('Erro');}}; r.readAsText(f);}
+function addArt(){
+ var n=document.getElementById('nomeArt').value.toUpperCase().trim();
+ var c=parseFloat(document.getElementById('cacheArt').value)||0;
+ if(!n) return;
+ var idx=artistas.findIndex(a=>a.nome==n);
+ if(idx>=0) artistas[idx].cache=c; else artistas.push({nome:n,cache:c});
+ document.getElementById('nomeArt').value='';
+ document.getElementById('cacheArt').value='';
+ renderArt(); renderGrade(); forcarSalvar();
+}
+function renderArt(){
+ document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#F1F5F9;border-radius:7px;margin-top:4px"><div><b style="font-size:10px">'+a.nome+'</b><br><span style="color:green;font-weight:900;font-size:10px">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);renderArt();renderGrade();forcarSalvar()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:5px;font-weight:900">X</button></div>').join('');
+}
+function getCache(nome){
+ if(!nome) return 0;
+ var base=nome.trim().split('/')[0].trim();
+ var f=artistas.find(a=>a.nome==base || a.nome==nome);
+ return f?f.cache:300;
+}
+function renderRel(){
+ var rel={};
+ for(var d=1;d<=30;d++) for(var p=1;p<=6;p++){
+  var inf=dados[d] && dados[d]['P'+p] ? dados[d]['P'+p] : null;
+  if(!inf||!inf.nome) continue;
+  var nomes=inf.nome.split('/').map(s=>s.trim().toUpperCase()).filter(s=>s);
+  var qtd=(inf.turno=='AL/JA'?2:1);
+  for(var n=0;n<nomes.length;n++){
+   var nm=nomes[n];
+   if(!rel[nm]) rel[nm]={shows:0,total:0,lista:[]};
+   rel[nm].shows+=qtd;
+   rel[nm].total+=getCache(nm)*qtd;
+   rel[nm].lista.push('Dia '+d+' P'+p+' '+inf.turno);
+  }
+ }
+ var html='';
+ for(var k in rel){
+  var r=rel[k];
+  html+='<div style="background:#F9FAFB;padding:8px;border-radius:8px;margin-top:5px;border-left:3px solid #FACC15"><b style="font-size:11px">'+k+' - '+r.shows+' shows</b><div style="color:green;font-weight:900;font-size:11px">R$ '+r.total+'</div><div style="font-size:9px;margin-top:3px">'+r.lista.join('<br>')+'</div></div>';
+ }
+ document.getElementById('resRel').innerHTML=html||'Nenhum show - grade zerada';
+}
+function exportar(){
+ forcarSalvar();
+ var blob=new Blob([localStorage.getItem(KEY)],{type:'application/json'});
+ var a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='BACKUP_TAKI_V28_FIXO_'+new Date().toISOString().slice(0,10)+'.json';
+ a.click();
+}
+function importar(e){
+ var f=e.target.files[0]; if(!f) return;
+ var r=new FileReader();
+ r.onload=function(ev){
+  try{
+   var o=JSON.parse(ev.target.result);
+   artistas=o.artistas||artistas;
+   casas=o.casas||casas;
+   dados=o.dados;
+   forcarSalvar(); renderGrade(); renderArt(); renderRel();
+   alert('✅ Importado e FIXO!');
+   closeMenu(); go('grade');
+  }catch(err){alert('Erro no arquivo');}
+ };
+ r.readAsText(f);
+}
 
-// COMEÇA ZERADO - NÃO CARREGA AUTOMATICO OS 180
-criaDadosVazio();
-// tenta carregar só a chave V27 atual (zerada), não as antigas
-try{
- var s=localStorage.getItem(KEY);
- if(s){ var o=JSON.parse(s); if(o.dados && contarPreenchidos(o.dados)>0){ dados=o.dados; artistas=o.artistas||artistas; } }
-}catch(e){}
+// INICIALIZA ZERADO - SÓ CARREGA SE JÁ TIVER SALVO NESTA CHAVE FIXA
+var temSalvo=carregar();
+if(!temSalvo){
+ criaDadosVazio();
+}
 renderGrade(); renderArt(); renderRel();
 forcarSalvar();
 window.addEventListener('beforeunload', forcarSalvar);
