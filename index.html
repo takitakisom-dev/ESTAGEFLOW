@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW VERDE TOTAL</title>
+<title>ESTAGEFLOW COMPLETO FINAL</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 <style>
@@ -23,7 +23,6 @@ body{background:#F0F0F0}
 .linha select{height:26px;border:1.5px solid #BBB;border-radius:6px;font-size:9px;transition:.15s}
 .linha select.nome{flex:1;font-weight:700;background:#fff}
 .linha select.turno{width:48px;font-weight:900;text-align:center;background:#EDE9FE;color:#5B21B6;border-color:#A78BFA;font-size:8px}
-/* VERDE TOTAL - QUANDO TEM MUSICO, TUDO VERDE */
 .linha.preenchida select.nome{background:#DCFCE7!important;border-color:#16A34A!important;color:#166534!important}
 .linha.preenchida select.turno{background:#16A34A!important;color:#fff!important;border-color:#166534!important}
 .printTxt{display:none}
@@ -34,6 +33,8 @@ body{background:#F0F0F0}
 .menu-item{padding:13px 0;border-bottom:1px solid #eee;font-weight:700;font-size:13px;cursor:pointer}
 .btnInstalar{display:none;background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:14px;margin-bottom:12px;cursor:pointer;border:2px solid #FBBF24}
 .btnInstalar.show{display:block}
+.btnBackup{background:#E0F2FE;border:2px solid #0EA5E9;color:#0C4A6E;padding:12px;border-radius:10px;font-weight:900;font-size:13px;margin-bottom:8px;cursor:pointer;text-align:center}
+.btnShare{background:#111;color:#fff;padding:12px;border-radius:10px;font-weight:900;font-size:13px;margin-bottom:12px;cursor:pointer;text-align:center;border:2px solid #00E676}
 .sep{height:8px;border-bottom:1px solid #eee;margin:6px 0}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:700;padding:14px}
 .modal.open{display:flex}
@@ -48,10 +49,14 @@ body{background:#F0F0F0}
 </style>
 </head>
 <body>
+<input type="file" id="inputImport" accept=".json" style="display:none" onchange="importarArquivo(event)">
 <div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
 <div class="side" id="side">
 <div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
+
 <div id="btnInstalar" class="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</div>
+<div class="btnShare" onclick="compartilharApp()">🔗 COMPARTILHAR APP</div>
+
 <div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
 <div class="menu-item" style="background:#FFF9C4;border-radius:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
 <div class="menu-item" onclick="abrirFinanceiro()">💰 RELATÓRIO FINANCEIRO</div>
@@ -59,14 +64,24 @@ body{background:#F0F0F0}
 <div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
 <div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
 <div class="menu-item" onclick="zapGeral()">✈️ ENVIAR CRONOGRAMA GERAL</div>
+
 <div class="sep"></div>
+
+<div class="btnBackup" onclick="exportarBackup()">💾 EXPORTAR BACKUP (SALVAR)</div>
+<div class="btnBackup" style="background:#FEF3C7;border-color:#F59E0B;color:#78350F" onclick="document.getElementById('inputImport').click()">📥 IMPORTAR BACKUP (RESTAURAR)</div>
+
+<div class="sep"></div>
+
 <div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
 <div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS + VALOR</div>
+
 <div class="sep"></div>
+
 <div class="menu-item" onclick="closeMenu()">📊 RELATÓRIOS GERAIS</div>
 <div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
 <div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
 <div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
+
 <div class="sep"></div>
 <div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
 </div>
@@ -91,6 +106,7 @@ let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt', (e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('btnInstalar').classList.add('show');});
 function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('btnInstalar').classList.remove('show');deferredPrompt=null;});}else{document.getElementById('modalInstalar').classList.add('open');document.getElementById('overlay').classList.add('open');}}
 window.addEventListener('appinstalled', ()=>{document.getElementById('btnInstalar').classList.remove('show');});
+
 var diasSemana={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
 var KEY="ESTAGEFLOW_FINAL_V3_NAO_APAGA";
 var KEY_CASAS="casas_lista_final"; 
@@ -104,16 +120,11 @@ var musicosLista=musicosObj.map(m=>m.nome||m);
 var dados={};
 function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++)dados[d]['P'+p]={nome:"",turno:"AL"}}}
 function getValor(nome){var f=musicosObj.find(m=> (m.nome||m)===nome); return f? (f.valor||300):300;}
+function extrairMusicos(nomeStr){if(!nomeStr) return []; if(nomeStr.indexOf('/')===-1) return [nomeStr.trim()]; return nomeStr.split('/').map(function(s){return s.trim().toUpperCase();}).filter(Boolean);}
+function getValorIndividual(nomeInd, valorDuo, qtd){var f=musicosObj.find(function(m){return (m.nome||m).toUpperCase()===nomeInd.toUpperCase();}); if(f && f.valor) return f.valor; return Math.round(valorDuo / qtd);}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));localStorage.setItem(KEY_CASAS,JSON.stringify(casas));localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj));atualizaContadores();}
 function carregar(){var chaves=["ESTAGEFLOW_FINAL_V3_NAO_APAGA","ESTAGEFLOW_FINAL_FIXADO_V2","ESTAGEFLOW_NOV2026_POR_MUSICO_FINAL"];for(var k of chaves){var s=localStorage.getItem(k); if(s){try{var tmp=JSON.parse(s); if(tmp[1] && tmp[1].P1){dados=tmp; localStorage.setItem(KEY,JSON.stringify(tmp)); break;}}catch(e){}}} if(!dados[1]) vazio();}
-function muda(d,p,tipo,val){
-  dados[d]['P'+p][tipo]=val;
-  salvar();
-  var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---';
-  var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno;
-  var linha=document.getElementById('linha_'+d+'_'+p);
-  if(linha){ if(dados[d]['P'+p].nome && dados[d]['P'+p].nome!="") linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }
-}
+function muda(d,p,tipo,val){dados[d]['P'+p][tipo]=val;salvar();var pn=document.getElementById('pn_'+d+'_'+p); if(pn) pn.textContent=dados[d]['P'+p].nome||'---'; var pt=document.getElementById('pt_'+d+'_'+p); if(pt) pt.textContent=dados[d]['P'+p].turno; var linha=document.getElementById('linha_'+d+'_'+p); if(linha){ if(dados[d]['P'+p].nome && dados[d]['P'+p].nome!="") linha.classList.add('preenchida'); else linha.classList.remove('preenchida'); }}
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeMenu(){document.getElementById('side').classList.remove('open');if(!document.querySelector('.modal.open'))document.getElementById('overlay').classList.remove('open')}
 function fecharModais(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open')}
@@ -129,10 +140,116 @@ function renderListaMusicos(){var div=document.getElementById('listaMusicos');di
 function addMusico(){var n=document.getElementById('novoMusicoInput').value.trim().toUpperCase();var v=parseInt(document.getElementById('novoValorInput').value)||300;if(!n)return;if(musicosLista.includes(n)){alert('Já existe!');return;}musicosObj.push({nome:n,valor:v});musicosLista.push(n);salvar();renderListaMusicos();addOpcaoEmTodosOsSelects(n);document.getElementById('novoMusicoInput').value='';document.getElementById('novoValorInput').value='';document.getElementById('novoMusicoInput').focus();}
 function excluirCasa(i){casas.splice(i,1);salvar();renderListaCasas();}
 function excluirMusico(i){musicosObj.splice(i,1);musicosLista.splice(i,1);salvar();renderListaMusicos();}
-function abrirRelatorioPorMusico(){var porMusico={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){if(!porMusico[cur.nome])porMusico[cur.nome]=[];porMusico[cur.nome].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno});}}var html="";var nomes=Object.keys(porMusico).sort();if(nomes.length==0)html='<p style="text-align:center;color:#888;padding:20px">Nenhum músico escalado ainda.</p>';nomes.forEach(function(nome){var lista=porMusico[nome];var total=lista.length;var valor=getValor(nome);html+='<div class="musico-header"><span>🎤 '+nome+'</span><span style="background:#FBBF24;color:#000;padding:2px 8px;border-radius:10px;font-size:11px">'+total+' SHOWS - R$'+(total*valor)+'</span></div><div style="padding:8px 0">';lista.forEach(function(it){html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+'</span> ';});html+='</div>';});document.getElementById('conteudoPorMusico').innerHTML=html;document.getElementById('modalPorMusico').classList.add('open');document.getElementById('overlay').classList.add('open');}
+
+// BACKUP E COMPARTILHAR
+function exportarBackup(){
+  var backup={dados:dados,casas:casas,musicosObj:musicosObj,data:new Date().toISOString(),versao:"FINAL_COMPLETO"};
+  var blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download="ESTAGEFLOW_BACKUP_"+new Date().toISOString().slice(0,10)+".json"; a.click();
+  URL.revokeObjectURL(url);
+  alert("✅ Backup exportado! Salva esse arquivo no Drive/Whatsapp pra não perder!");
+  closeMenu();
+}
+function importarArquivo(event){
+  var file=event.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var backup=JSON.parse(e.target.result);
+      if(backup.dados){ dados=backup.dados; localStorage.setItem(KEY,JSON.stringify(dados)); }
+      if(backup.casas){ casas=backup.casas; localStorage.setItem(KEY_CASAS,JSON.stringify(casas)); }
+      if(backup.musicosObj){ musicosObj=backup.musicosObj; musicosLista=musicosObj.map(m=>m.nome||m); localStorage.setItem(KEY_MUS,JSON.stringify(musicosObj)); }
+      alert("✅ Backup restaurado com sucesso! A página vai recarregar.");
+      location.reload();
+    }catch(err){ alert("❌ Erro ao importar: arquivo inválido!"); }
+  };
+  reader.readAsText(file);
+}
+function compartilharApp(){
+  var url=window.location.href;
+  var texto="🎤 ESTAGEFLOW - Meu app de agenda de músicos: "+url;
+  if(navigator.share){
+    navigator.share({title:"ESTAGEFLOW",text:texto,url:url}).then(()=>{closeMenu();}).catch(()=>{});
+  }else{
+    if(navigator.clipboard){ navigator.clipboard.writeText(url); alert("🔗 Link copiado! Agora é só colar no WhatsApp:\n\n"+url); }
+    else{ window.open('https://wa.me/?text='+encodeURIComponent(texto),'_blank'); }
+  }
+  closeMenu();
+}
+
+function abrirRelatorioPorMusico(){
+  var porMusico={};
+  for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){
+    var cur=dados[d]['P'+p];
+    if(cur.nome){
+      extrairMusicos(cur.nome).forEach(function(nomeInd){
+        if(!porMusico[nomeInd]) porMusico[nomeInd]=[];
+        porMusico[nomeInd].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno,origem:cur.nome});
+      });
+    }
+  }
+  var html="";var nomes=Object.keys(porMusico).sort();
+  if(nomes.length==0)html='<p style="text-align:center;color:#888;padding:20px">Nenhum músico escalado ainda.</p>';
+  nomes.forEach(function(nome){
+    var lista=porMusico[nome];
+    var total=lista.length;
+    var valorInd=getValorIndividual(nome, getValor(nome), 1);
+    html+='<div class="musico-header"><span>🎤 '+nome+'</span><span style="background:#00E676;color:#000;padding:2px 8px;border-radius:10px;font-size:11px">'+total+' SHOWS - R$'+(total*valorInd)+'</span></div><div style="padding:8px 0">';
+    lista.forEach(function(it){html+='<span class="badge">'+it.dia+' '+it.diaSem+' - '+it.p+' - '+it.turno+' ('+it.origem+')</span> ';});
+    html+='</div>';
+  });
+  document.getElementById('conteudoPorMusico').innerHTML=html;
+  document.getElementById('modalPorMusico').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
 function fecharPorMusico(){document.getElementById('modalPorMusico').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
-function zapPorMusico(){var porMusico={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){if(!porMusico[cur.nome])porMusico[cur.nome]=[];porMusico[cur.nome].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno});}}var txt="📋 RELATÓRIO POR MÚSICO - NOV 2026\n\n";for(var nome in porMusico){var lista=porMusico[nome];txt+="🎤 "+nome+" - "+lista.length+" SHOWS\n";lista.forEach(function(it){txt+="Dia "+it.dia+" "+it.diaSem+" "+it.p+" "+it.turno+"\n";});txt+="\n";}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
-function abrirFinanceiro(){var porMusico={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome){var val=getValor(cur.nome);total+=val;porMusico[cur.nome]=(porMusico[cur.nome]||{q:0,v:0});porMusico[cur.nome].q++;porMusico[cur.nome].v+=val;}}var html="";for(var n in porMusico){html+='<div class=item-lista><b>'+n+'</b><span>'+porMusico[n].q+'x = R$'+porMusico[n].v+'</span></div>'}if(!html)html='<p style=text-align:center;color:#888> Nenhum fixo</p>';document.getElementById('conteudoFin').innerHTML=html;document.getElementById('totalGeralFin').textContent="TOTAL: R$ "+total;document.getElementById('modalFinanceiro').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function zapPorMusico(){
+  var porMusico={};
+  for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){
+    var cur=dados[d]['P'+p];
+    if(cur.nome){
+      extrairMusicos(cur.nome).forEach(function(nomeInd){
+        if(!porMusico[nomeInd]) porMusico[nomeInd]=[];
+        porMusico[nomeInd].push({dia:d,diaSem:diasSemana[d],p:'P'+p,turno:cur.turno});
+      });
+    }
+  }
+  var txt="📋 RELATÓRIO POR MÚSICO - NOV 2026 (BARRA DIVIDIDA)\n\n";
+  for(var nome in porMusico){
+    var lista=porMusico[nome];
+    txt+="🎤 "+nome+" - "+lista.length+" SHOWS\n";
+    lista.forEach(function(it){txt+="Dia "+it.dia+" "+it.diaSem+" "+it.p+" "+it.turno+"\n";});
+    txt+="\n";
+  }
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+function abrirFinanceiro(){
+  var porMusico={};var total=0;
+  for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){
+    var cur=dados[d]['P'+p];
+    if(cur.nome){
+      var valDuo=getValor(cur.nome);
+      total+=valDuo;
+      var lista=extrairMusicos(cur.nome);
+      lista.forEach(function(nomeInd){
+        var valInd=getValorIndividual(nomeInd,valDuo,lista.length);
+        porMusico[nomeInd]=(porMusico[nomeInd]||{q:0,v:0});
+        porMusico[nomeInd].q++;
+        porMusico[nomeInd].v+=valInd;
+      });
+    }
+  }
+  var html="";
+  for(var n in porMusico){
+    html+='<div class=item-lista><b>🎤 '+n+'</b><span>'+porMusico[n].q+'x = R$'+porMusico[n].v+'</span></div>'
+  }
+  if(!html)html='<p style=text-align:center;color:#888> Nenhum fixo</p>';
+  document.getElementById('conteudoFin').innerHTML=html;
+  document.getElementById('totalGeralFin').textContent="TOTAL: R$ "+total;
+  document.getElementById('modalFinanceiro').classList.add('open');
+  document.getElementById('overlay').classList.add('open')
+}
 function fecharFinanceiro(){document.getElementById('modalFinanceiro').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function zapGeral(){var txt="🎤 CRONOGRAMA NOV 2026 - P1 A P6\n";for(var d=1;d<=30;d++){var line="";for(var p=1;p<=6;p++){var cur=dados[d]['P'+p];if(cur.nome)line+=cur.nome+"("+cur.turno+") ";}if(line)txt+="\n"+d+" "+diasSemana[d]+": "+line}window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');}
 
