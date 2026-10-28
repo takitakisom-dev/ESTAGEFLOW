@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW FINAL</title>
+<title>ESTAGEFLOW MENU COMPLETO</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/138/138817.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#F0F0F0}
@@ -28,13 +26,14 @@ body{background:#F0F0F0}
 .linha select.turno.JA{background:#FFEDD5;color:#9A3412;border-color:#FB923C}
 .linha select.turno.ALJA{background:#DCFCE7;color:#166534;border-color:#86EFAC;width:48px;font-size:7px}
 .printTxt{display:none}
-.side{position:fixed;left:-100%;top:0;bottom:0;width:82%;max-width:320px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto;box-shadow:4px 0 20px rgba(0,0,0,.2)}
+.side{position:fixed;left:-100%;top:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:600;transition:.25s;padding:14px;overflow:auto;box-shadow:4px 0 20px rgba(0,0,0,.2)}
 .side.open{left:0}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:400}
 .overlay.open{display:block}
 .menu-item{padding:13px 0;border-bottom:1px solid #eee;font-weight:700;font-size:13px;cursor:pointer}
 .btnInstalar{display:none;background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:14px;margin-bottom:12px;cursor:pointer;border:2px solid #FBBF24}
 .btnInstalar.show{display:block}
+.sep{height:8px;border-bottom:1px solid #eee;margin:6px 0}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:700;padding:14px}
 .modal.open{display:flex}
 .modal-box{background:#fff;border-radius:14px;padding:14px;width:100%;max-width:460px;max-height:90vh;overflow:auto}
@@ -44,21 +43,38 @@ body{background:#F0F0F0}
 .item-lista{display:flex;justify-content:space-between;align-items:center;background:#f8f8f8;padding:10px;border-radius:10px;margin:6px 0;border:1px solid #eee;font-size:13px}
 .musico-header{background:#111;color:#fff;padding:8px 10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;margin-top:12px}
 .badge{display:inline-block;background:#eee;border-radius:12px;padding:2px 6px;font-size:10px;font-weight:800;margin:2px}
-@media print{.top{display:none!important}.grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important;padding:0!important}.card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important}.dia{font-size:5px!important}.linha{margin-bottom:1px!important}.linha b{font-size:4px!important;width:8px!important}.linha select{display:none!important}.printTxt{display:inline!important;font-size:4.5px!important;font-weight:700}.printTxt.nome{flex:1;border-bottom:0.3px dotted #000;white-space:nowrap;overflow:hidden}.printTxt.turno{width:14px;text-align:center;border:0.3px solid #000;flex-shrink:0}@page{size:A4 landscape;margin:2mm}}
+@media print{.top{display:none!important}.grid{grid-template-columns:repeat(6,1fr)!important;gap:2px!important}.card{border:0.5px solid #000!important;border-radius:0!important;padding:2px!important}.dia{font-size:5px!important}.linha select{display:none!important}.printTxt{display:inline!important;font-size:4.5px!important;font-weight:700}@page{size:A4 landscape;margin:2mm}}
 </style>
 </head>
 <body>
 <div class="overlay" id="overlay" onclick="closeMenu();fecharModais()"></div>
 <div class="side" id="side">
 <div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW MENU</div>
+
 <div id="btnInstalar" class="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</div>
+
 <div class="menu-item" onclick="closeMenu()">🏠 INICIO - AGENDA P1 A P6</div>
 <div class="menu-item" style="background:#FFF9C4;border-radius:8px" onclick="abrirRelatorioPorMusico()">🎤📋 RELATÓRIO POR MÚSICO</div>
 <div class="menu-item" onclick="abrirFinanceiro()">💰 RELATÓRIO FINANCEIRO</div>
+<div class="menu-item" onclick="closeMenu()">📋 AGENDA DO DIA</div>
+<div class="menu-item" onclick="closeMenu()">📅 AGENDA DO MES</div>
+<div class="menu-item" onclick="closeMenu()">🗓️ AGENDA DO ANO</div>
 <div class="menu-item" onclick="zapGeral()">✈️ ENVIAR CRONOGRAMA GERAL</div>
-<div style="height:8px;border-bottom:1px solid #eee;margin:6px 0"></div>
+
+<div class="sep"></div>
+
 <div class="menu-item" onclick="abrirGestaoCasas()">🏠 CADASTRAR CASAS</div>
 <div class="menu-item" onclick="abrirGestaoMusicos()">🎤 CADASTRAR MUSICOS + VALOR</div>
+
+<div class="sep"></div>
+
+<div class="menu-item" onclick="closeMenu()">📊 RELATÓRIOS GERAIS</div>
+<div class="menu-item" onclick="closeMenu()">🍴 VER RESTAURANTES</div>
+<div class="menu-item" onclick="closeMenu()">🎤 VER MUSICOS</div>
+<div class="menu-item" onclick="closeMenu()">⚙️ CONFIG</div>
+
+<div class="sep"></div>
+
 <div class="menu-item" onclick="closeMenu()" style="color:red;font-weight:900">🚪 FECHAR MENU</div>
 </div>
 
@@ -75,7 +91,7 @@ body{background:#F0F0F0}
 <div class="modal" id="modalCasas"><div class="modal-box"><h3>🏠 CADASTRAR CASAS</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novaCasaInput" placeholder="Ex: P7" style="flex:1"><button onclick="addCasa()" style="width:70px;background:#111;color:#fff;border-radius:8px">+ ADD</button></div><div id="listaCasas" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalCasas()">FECHAR</button></div></div>
 <div class="modal" id="modalMusicos"><div class="modal-box"><h3>🎤 MUSICOS + VALOR</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="novoMusicoInput" placeholder="Nome do músico" style="flex:1"><input id="novoValorInput" type="number" placeholder="R$300" style="width:90px"></div><button onclick="addMusico()" style="background:#111;color:#fff;margin-top:8px">+ ADD MUSICO (FICA NA TELA)</button><div id="listaMusicos" style="margin-top:10px"></div><button class="cancel" onclick="fecharModalMusicos()">FECHAR</button></div></div>
 <div class="modal" id="modalFinanceiro"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin"></div><div style="background:#111;color:#fff;padding:12px;border-radius:10px;margin-top:10px;text-align:center"><b id="totalGeralFin" style="font-size:16px">TOTAL: R$ 0</b></div><button class="cancel" onclick="fecharFinanceiro()">FECHAR</button></div></div>
-<div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b> no topo do menu<br><br>2 - Se não aparecer o botão: Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: botão Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
+<div class="modal" id="modalInstalar"><div class="modal-box"><h3>📲 COMO INSTALAR</h3><p style="font-size:13px;line-height:1.6;margin-top:10px">1 - Clica em <b>INSTALAR APP NO CELULAR</b> no topo do menu<br><br>2 - Se não aparecer o botão: Chrome > 3 pontinhos > Adicionar à tela inicial<br><br>3 - iPhone: Compartilhar > Adicionar à Tela de Início</p><button class="cancel" onclick="document.getElementById('modalInstalar').classList.remove('open');document.getElementById('overlay').classList.remove('open')">FECHAR</button></div></div>
 
 <script>
 let deferredPrompt=null;
