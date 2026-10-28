@@ -3,202 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TAKI STAGEFLOW PRO - COMPLETO</title>
+<title>TAKI SOM - STAGEFLOW PRO</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#A8D5E5}
-.top{background:#1E293B;color:#fff;padding:12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:1000}
-.top b{flex:1;font-size:16px} .top b span{color:#FACC15}
-.top button{padding:8px 14px;border:none;border-radius:8px;font-weight:800;font-size:12px}
-.btnExp{background:#334155;color:#fff} .btnImp{background:#FACC15;color:#000}
-.btnMenuFull{background:#FACC15;color:#000;padding:14px;border:none;width:calc(100% - 16px);margin:8px;border-radius:10px;font-weight:900;font-size:15px}
-.mesBar{background:#fff;padding:10px;margin:8px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-.mesBar button{background:#1E293B;color:#fff;border:none;width:40px;height:40px;border-radius:10px;font-size:20px;font-weight:900}
-.mesBar b{font-size:16px}
-.headerP{display:grid;grid-template-columns:60px repeat(6,1fr);gap:6px;padding:0 8px;margin-bottom:4px;font-size:11px;font-weight:900;text-align:center}
-.headerP span{background:#1E293B;color:#FACC15;padding:4px;border-radius:8px}
-.linha{background:#fff;margin:6px 8px;border-radius:14px;display:grid;grid-template-columns:60px repeat(6,1fr);gap:6px;padding:10px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.1)}
-.data{line-height:1.1} .data small{font-size:11px;color:#666} .data b{font-size:20px}
-.cardP{border:1.5px dashed #CBD5E1;background:#F1F5F9;border-radius:10px;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:700;cursor:pointer;position:relative}
-.cardP.has{background:#fff;border:1.5px solid #1E293B;border-style:solid}
-.cardP .cache{font-size:8px;color:#16A34A;font-weight:900}
-.cardP .turno{font-size:7px;background:#EFE8FF;color:#4A2AC0;padding:1px 4px;border-radius:4px;font-weight:900}
-.bottomBar{position:fixed;bottom:0;left:0;right:0;background:#A8D5E5;padding:8px;display:flex;gap:8px;z-index:1000}
-.bottomBar button{flex:1;padding:14px;border:none;border-radius:12px;font-weight:900;font-size:13px}
-.btnLimpar{background:#1E293B;color:#fff} .btnGerar{background:#FACC15;color:#000}
-.drawer{position:fixed;top:0;left:-300px;width:290px;height:100%;background:#1E293B;color:#fff;z-index:3000;transition:0.3s;padding:16px;overflow:auto}
-.drawer.open{left:0} .drawer button{width:100%;padding:14px;margin-bottom:8px;border:none;border-radius:10px;font-weight:800;text-align:left;background:#334155;color:#fff}
-.drawer .close{background:#FACC15;color:#000;text-align:center;margin-top:16px}
-.fundo{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;display:none} .fundo.show{display:block}
-.sec{display:none;padding-bottom:80px} .sec.show{display:block}
-.cardModal{background:#fff;border-radius:12px;padding:12px;margin:8px}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#A8D5E5;color:#111}
+.top{background:#1E293B;color:#fff;padding:12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:100}
+.top b{flex:1} .top b span{color:#FACC15}
+.top button{padding:8px 12px;border:none;border-radius:8px;font-weight:800}
+.btnMenu{background:#FACC15;color:#000;padding:14px;border:none;width:calc(100% - 12px);margin:6px;border-radius:12px;font-weight:900;font-size:15px}
+.mesBar{background:#fff;margin:6px 8px;padding:10px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
+.mesBar button{background:#1E293B;color:#fff;border:none;width:40px;height:40px;border-radius:10px;font-size:18px;font-weight:900}
+.header{display:grid;grid-template-columns:62px repeat(6,1fr);gap:6px;padding:0 8px;margin-bottom:4px}
+.header span{background:#1E293B;color:#FACC15;padding:5px;border-radius:8px;text-align:center;font-weight:900;font-size:11px}
+.linha{background:#fff;margin:6px 8px;border-radius:14px;display:grid;grid-template-columns:62px repeat(6,1fr);gap:6px;padding:8px;align-items:center}
+.data small{font-size:10px;color:#666} .data b{font-size:20px;display:block}
+.card{border:1.5px dashed #CBD5E1;background:#F1F5F9;border-radius:10px;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:10px;cursor:pointer}
+.card.has{background:#fff;border:solid 1.5px #1E293B}
+.card .c{color:#16A34A;font-size:9px} .card .t{font-size:8px;background:#EFE8FF;color:#4A2AC0;padding:1px 4px;border-radius:4px}
+.sec{display:none;padding-bottom:90px} .sec.show{display:block}
+.cardBox{background:#fff;border-radius:14px;margin:8px;padding:14px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#A8D5E5;padding:8px;display:flex;gap:8px}
+.bottom button{flex:1;padding:14px;border:none;border-radius:12px;font-weight:900}
+.b1{background:#1E293B;color:#fff} .b2{background:#FACC15;color:#000}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:5000;padding:16px}
 .modal.show{display:flex}
-@media print{.top,.btnMenuFull,.bottomBar,.mesBar,.headerP{display:none!important} body{background:#fff} .linha{border:1px solid #000;break-inside:avoid}}
+.drawer{position:fixed;top:0;left:-300px;width:285px;height:100%;background:#1E293B;color:#fff;z-index:6000;transition:.3s;padding:16px;overflow:auto}
+.drawer.open{left:0}
+.drawer button{width:100%;padding:14px;margin-bottom:8px;border:none;border-radius:10px;font-weight:800;text-align:left;background:#334155;color:#fff}
+.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:5500} .fundo.show{display:block}
+@media print{.top,.btnMenu,.bottom,.mesBar,.header{display:none!important} body{background:#fff} .linha{border:1px solid #000;break-inside:avoid}}
 </style>
 </head>
 <body>
-
-<div class="top"><b><span>TAKI</span> STAGEFLOW PRO</b><button class="btnExp" onclick="exportar()">Exportar</button><button class="btnImp" onclick="document.getElementById('fileIn').click()">Importar</button><input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)"></div>
-
-<button class="btnMenuFull" onclick="openMenu()">☰ MENU COMPLETO - CLIQUE AQUI</button>
-
+<div class="top"><b><span>TAKI</span> SOM - STAGEFLOW PRO</b><button onclick="exportar()">💾</button><button style="background:#FACC15;color:#000" onclick="window.print()">🖨️</button></div>
+<button class="btnMenu" onclick="openMenu()">☰ MENU COMPLETO</button>
 <div class="fundo" id="fundo" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
-<h3>☰ MENU COMPLETO</h3>
-<button onclick="go('grade');closeMenu()">📅 Grade Mensal P1-P6</button>
-<button onclick="go('rel');closeMenu()">📊 Relatório + Cachê Total</button>
-<button onclick="go('art');closeMenu()">🎤 Artistas - Nome + Cachê</button>
-<button onclick="go('casa');closeMenu()">🏠 Casas P1-P6</button>
-<button onclick="go('texto');closeMenu()">📝 Gerar Texto p/ Cliente</button>
+<h3>☰ MENU TAKI SOM</h3><br>
+<button onclick="go('grade');closeMenu()">📅 Grade P1-P6 (1 ao 30)</button>
+<button onclick="go('art');closeMenu()">🎤 Artistas - Nome + Cachê R$</button>
+<button onclick="go('rel');closeMenu()">📊 Relatório + Total R$</button>
+<button onclick="go('texto');closeMenu()">📝 Gerar Texto Cliente</button>
 <button onclick="window.print();closeMenu()">🖨️ Impressão 1 Folha</button>
-<button onclick="exportar();closeMenu()">💾 Backup</button>
-<button onclick="if(confirm('Limpar tudo?')){localStorage.clear();location.reload();}">🧹 Limpar Tudo</button>
-<button class="close" onclick="closeMenu()">✖ FECHAR MENU</button>
+<button onclick="exportar();closeMenu()">💾 Backup JSON</button>
+<button style="background:#FACC15;color:#000;text-align:center" onclick="closeMenu()">✖ FECHAR</button>
 </div>
-
 <div id="sec-grade" class="sec show">
-<div class="mesBar"><button onclick="mudaMes(-1)"><</button><b id="mesTxt">novembro de 2026</b><button onclick="mudaMes(1)">></button></div>
-<div class="headerP"><span>DATA</span><span>P1</span><span>P2</span><span>P3</span><span>P4</span><span>P5</span><span>P6</span></div>
-<div id="listaDias"></div>
-<div style="height:80px"></div>
+<div class="mesBar"><button onclick="mudaMes(-1)"><</button><b id="mesTxt"></b><button onclick="mudaMes(1)">></button></div>
+<div class="header"><span>DATA</span><span>P1</span><span>P2</span><span>P3</span><span>P4</span><span>P5</span><span>P6</span></div>
+<div id="lista"></div>
 </div>
-
-<div id="sec-rel" class="sec"><div class="cardModal"><h3>Relatório com Cachê</h3><div id="resRel" style="margin-top:10px"></div></div></div>
-<div id="sec-art" class="sec">
-<div class="cardModal">
-<h3>Artistas - Nome + Cachê</h3>
-<div style="display:flex;gap:6px;margin-top:10px">
-<input id="nomeArt" placeholder="Nome ex: ANDRE" style="flex:1;padding:12px;border:1px solid #ccc;border-radius:10px;font-weight:800">
-<input id="cacheArt" type="number" placeholder="R$ 350" style="width:110px;padding:12px;border:1px solid #ccc;border-radius:10px;font-weight:800">
-</div>
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">SALVAR NOME + CACHÊ</button>
-<div id="listaArt" style="margin-top:10px"></div>
-</div>
-</div>
-<div id="sec-casa" class="sec"><div class="cardModal"><h3>Casas P1-P6</h3><div id="formCasa"></div><button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:14px;background:#1E293B;color:#fff;border:none;border-radius:10px;font-weight:900">Salvar Casas</button></div></div>
-<div id="sec-texto" class="sec"><div class="cardModal"><h3>Texto p/ Cliente</h3><textarea id="txtCliente" style="width:100%;height:300px;margin-top:10px;padding:10px;border-radius:10px;border:1px solid #ccc;font-size:12px"></textarea><button onclick="gerarTexto()" style="width:100%;margin-top:8px;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Gerar Texto</button><button onclick="copiarTexto()" style="width:100%;margin-top:8px;padding:14px;background:#1E293B;color:#fff;border:none;border-radius:10px;font-weight:900">Copiar</button></div></div>
-
-<div class="bottomBar"><button class="btnLimpar" onclick="limparMes()">Limpar Mês</button><button class="btnGerar" onclick="go('texto');gerarTexto()">Gerar Texto p/ Cliente</button></div>
-
-<div class="modal" id="modalShow">
-<div style="background:#fff;border-radius:16px;padding:16px;width:100%;max-width:360px">
-<h3 id="modalTitle">Escolher Show</h3>
-<select id="selArtista" style="width:100%;padding:12px;margin-top:10px;border-radius:10px;font-weight:800"></select>
-<div style="display:flex;gap:8px;margin-top:8px">
-<select id="selTurno" style="flex:1;padding:12px;border-radius:10px;font-weight:800"><option value="AL">AL - Almoço</option><option value="JA">JA - Janta</option><option value="AL/JA">AL/JA - Almoço e Janta</option></select>
-<input id="selCacheEdit" type="number" placeholder="Cachê" style="width:100px;padding:12px;border-radius:10px;font-weight:800">
-</div>
-<div style="display:flex;gap:8px;margin-top:12px">
-<button onclick="salvarShow()" style="flex:1;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Salvar</button>
-<button onclick="removerShow()" style="flex:1;padding:14px;background:#FFD2D2;border:none;border-radius:10px;font-weight:900;color:#C00">Remover</button>
-<button onclick="fecharModal()" style="flex:1;padding:14px;background:#E5E7EB;border:none;border-radius:10px;font-weight:800">Fechar</button>
-</div>
-</div>
-</div>
-
+<div id="sec-art" class="sec"><div class="cardBox"><h3>🎤 Artistas - Nome + Cachê</h3><div style="display:flex;gap:6px;margin-top:10px"><input id="nomeArt" placeholder="NOME ex: ANDRE" style="flex:1;padding:12px;border-radius:10px;border:1px solid #ccc;font-weight:800"><input id="cacheArt" type="number" placeholder="R$ 350" style="width:110px;padding:12px;border-radius:10px;border:1px solid #ccc;font-weight:800"></div><button onclick="addArt()" style="width:100%;margin-top:8px;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">SALVAR NOME + CACHÊ</button><div id="listaArt" style="margin-top:10px"></div></div></div>
+<div id="sec-rel" class="sec"><div class="cardBox"><h3>📊 Relatório + Cachê Total</h3><div id="resRel" style="margin-top:10px"></div></div></div>
+<div id="sec-texto" class="sec"><div class="cardBox"><h3>📝 Texto para Cliente</h3><textarea id="txtCli" style="width:100%;height:320px;margin-top:10px;padding:10px;border-radius:10px;border:1px solid #ccc"></textarea><button onclick="gerarTexto()" style="width:100%;margin-top:8px;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Gerar Texto</button><button onclick="copiar()" style="width:100%;margin-top:8px;padding:14px;background:#1E293B;color:#fff;border:none;border-radius:10px;font-weight:900">Copiar</button></div></div>
+<div class="bottom"><button class="b1" onclick="if(confirm('Limpar mês?')){criaMes();render()}">Limpar Mês</button><button class="b2" onclick="go('texto');gerarTexto()">Gerar Texto p/ Cliente</button></div>
+<div class="modal" id="modal"><div style="background:#fff;border-radius:16px;padding:16px;width:100%;max-width:360px"><h3 id="mTitle"></h3><select id="selArt" style="width:100%;padding:12px;margin-top:10px;border-radius:10px;font-weight:800"></select><div style="display:flex;gap:6px;margin-top:8px"><select id="selTurno" style="flex:1;padding:12px;border-radius:10px;font-weight:800"><option>AL</option><option>JA</option><option>AL/JA</option></select><input id="selCache" type="number" style="width:110px;padding:12px;border-radius:10px;font-weight:800"></div><div style="display:flex;gap:6px;margin-top:12px"><button onclick="salvarShow()" style="flex:1;padding:14px;background:#FACC15;border:none;border-radius:10px;font-weight:900">Salvar</button><button onclick="removerShow()" style="flex:1;padding:14px;background:#FFD2D2;border:none;border-radius:10px;font-weight:900;color:#900">Remover</button><button onclick="fecharModal()" style="flex:1;padding:14px;background:#E5E7EB;border:none;border-radius:10px;font-weight:800">Fechar</button></div></div></div>
 <script>
-var mesesNomes=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
-var mesAtual=10; var anoAtual=2026; // novembro 2026 = 10
-var artistas=[
-{nome:"ANDRE",cache:300},{nome:"EDILL",cache:350},{nome:"LUCIANO",cache:300},{nome:"PAOLI",cache:320},{nome:"ISRAEL",cache:300},{nome:"YGOR",cache:280},{nome:"Eli",cache:250},{nome:"Grill",cache:300}
-];
+var meses=["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+var mes=10, ano=2026;
+var artistas=[{nome:"ANDRE",cache:300},{nome:"EDILL",cache:350},{nome:"LUCIANO",cache:300},{nome:"PAOLI",cache:320},{nome:"ISRAEL",cache:300},{nome:"YGOR",cache:280}];
 var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago"};
-var dados={}; var editDia=null; var editP=null;
-
-function criaMes(){ dados={}; var diasNoMes=new Date(anoAtual,mesAtual+1,0).getDate(); for(var d=1;d<=diasNoMes;d++){ dados[d]={}; for(var p=1;p<=6;p++) dados[d]['P'+p]=null; } }
-criaMes();
-
-function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show');}
-function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show');}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show'); if(id=='grade') renderGrade(); if(id=='rel') renderRel(); if(id=='art') renderArt(); if(id=='casa') renderCasa(); if(id=='texto') gerarTexto();}
-function mudaMes(dir){ mesAtual+=dir; if(mesAtual<0){mesAtual=11; anoAtual--;} if(mesAtual>11){mesAtual=0; anoAtual++;} criaMes(); carregar(); renderGrade(); }
-function renderGrade(){
- document.getElementById('mesTxt').innerText=mesesNomes[mesAtual]+' de '+anoAtual;
- var container=document.getElementById('listaDias'); container.innerHTML='';
- var diasNoMes=new Date(anoAtual,mesAtual+1,0).getDate();
- for(var d=1; d<=diasNoMes; d++){
-  var dt=new Date(anoAtual,mesAtual,d); var dsNome=dt.toLocaleDateString('pt-BR',{weekday:'short'}); 
-  var row=document.createElement('div'); row.className='linha';
-  var html='<div class="data"><small>'+dsNome+'</small><br><b>'+String(d).padStart(2,'0')+'</b></div>';
-  for(var p=1;p<=6;p++){
-   var info=dados[d]['P'+p];
-   if(info){
-    html+='<div class="cardP has" onclick="abrirModal('+d+','+p+')"><b style="font-size:9px">'+info.nome+'</b><span class="turno">'+info.turno+'</span><span class="cache">R$'+info.cache+'</span></div>';
-   }else{
-    html+='<div class="cardP" onclick="abrirModal('+d+','+p+')"><span style="color:#94A3B8;font-size:18px">+</span></div>';
-   }
-  }
-  row.innerHTML=html; container.appendChild(row);
- }
- salvarLS();
-}
-function abrirModal(d,p){
- editDia=d; editP=p;
- var sel=document.getElementById('selArtista'); sel.innerHTML=artistas.map(a=>'<option value="'+a.nome+'">'+a.nome+' - R$'+a.cache+'</option>').join('');
- var atual=dados[d]['P'+p];
- document.getElementById('modalTitle').innerText='Dia '+d+' - P'+p+' ('+casas['P'+p]+')';
- if(atual){ sel.value=atual.nome; document.getElementById('selTurno').value=atual.turno; document.getElementById('selCacheEdit').value=atual.cache; }
- else { document.getElementById('selTurno').value='AL'; var artSel=artistas.find(a=>a.nome==sel.value); document.getElementById('selCacheEdit').value=artSel?artSel.cache:300; }
- document.getElementById('modalShow').classList.add('show');
- sel.onchange=function(){ var a=artistas.find(x=>x.nome==this.value); if(a) document.getElementById('selCacheEdit').value=a.cache; }
-}
-function fecharModal(){document.getElementById('modalShow').classList.remove('show');}
-function salvarShow(){
- var nome=document.getElementById('selArtista').value;
- var turno=document.getElementById('selTurno').value;
- var cache=parseFloat(document.getElementById('selCacheEdit').value)||0;
- dados[editDia]['P'+editP]={nome:nome,turno:turno,cache:cache};
- fecharModal(); renderGrade();
-}
-function removerShow(){ dados[editDia]['P'+editP]=null; fecharModal(); renderGrade(); }
-function addArt(){
- var n=document.getElementById('nomeArt').value.toUpperCase().trim();
- var c=parseFloat(document.getElementById('cacheArt').value)||0;
- if(!n) return;
- var idx=artistas.findIndex(a=>a.nome==n);
- if(idx>=0) artistas[idx].cache=c; else artistas.push({nome:n,cache:c});
- document.getElementById('nomeArt').value=''; document.getElementById('cacheArt').value='';
- renderArt(); salvarLS();
-}
-function renderArt(){
- document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:12px;background:#F1F5F9;border-radius:10px;margin-top:6px"><div><b>'+a.nome+'</b><br><span style="color:green;font-weight:900">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);renderArt();salvarLS()" style="background:#FFD2D2;border:none;padding:6px 12px;border-radius:8px">X</button></div>').join('');
-}
-function renderCasa(){
- var html='';
- for(var k in casas){ html+='<div style="margin-top:8px"><label style="font-weight:800;font-size:12px">'+k+'</label><input id="casa_'+k+'" value="'+casas[k]+'" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:4px"></div>'; }
- document.getElementById('formCasa').innerHTML=html;
-}
-function saveCasas(){ for(var k in casas){ casas[k]=document.getElementById('casa_'+k).value; } salvarLS(); alert('Casas salvas!'); go('grade'); }
-function renderRel(){
- var html='';
- for(var i=0;i<artistas.length;i++){
-  var art=artistas[i]; var lista=[]; var total=0; var dias=[];
-  for(var d in dados){ for(var p=1;p<=6;p++){ var inf=dados[d]['P'+p]; if(inf && inf.nome==art.nome){ lista.push('Dia '+d+' P'+p+' ('+casas['P'+p]+' '+inf.turno+')'); total+=inf.cache; if(!dias.includes(d)) dias.push(d); } } }
-  if(lista.length==0) continue;
-  html+='<div style="background:#fff;padding:12px;border-radius:12px;margin-top:8px;border-left:4px solid #FACC15"><b>'+art.nome+' - '+lista.length+' shows - Dias: '+dias.join(', ')+'</b><div style="color:green;font-weight:900;margin-top:4px">TOTAL: R$ '+total+'</div><div style="font-size:11px;margin-top:6px">'+lista.join('<br>')+'</div></div>';
- }
- document.getElementById('resRel').innerHTML=html||'Nenhum show';
-}
-function gerarTexto(){
- var txt='*TAKI STAGEFLOW - '+mesesNomes[mesAtual].toUpperCase()+' '+anoAtual+'*\n\n';
- for(var d in dados){
-  var tem=false; for(var p=1;p<=6;p++) if(dados[d]['P'+p]) tem=true;
-  if(!tem) continue;
-  txt+='*Dia '+d+'* - ';
-  for(var p=1;p<=6;p++){ var inf=dados[d]['P'+p]; if(inf) txt+= 'P'+p+'('+casas['P'+p]+'): '+inf.nome+' '+inf.turno+'  '; }
-  txt+='\n';
- }
- document.getElementById('txtCliente').value=txt;
-}
-function copiarTexto(){ var t=document.getElementById('txtCliente'); t.select(); document.execCommand('copy'); alert('Copiado!'); }
-function limparMes(){ if(confirm('Limpar mês todo?')){ criaMes(); renderGrade(); } }
-function salvarLS(){ try{ localStorage.setItem('TAKI_V9', JSON.stringify({artistas,casas,dados,mesAtual,anoAtual})); }catch(e){} }
-function carregar(){ try{ var txt=localStorage.getItem('TAKI_V9'); if(!txt) return; var o=JSON.parse(txt); if(o.artistas) artistas=o.artistas; if(o.casas) casas=o.casas; if(o.mesAtual!==undefined){ mesAtual=o.mesAtual; anoAtual=o.anoAtual; } if(o.dados){ var diasNoMes=new Date(anoAtual,mesAtual+1,0).getDate(); var ok=true; for(var d=1;d<=diasNoMes;d++) if(!o.dados[d]) ok=false; if(ok) dados=o.dados; else { if(o.dados[1]){ for(var d in o.dados){ if(d<=diasNoMes) dados[d]=o.dados[d]; } } } } }catch(e){} }
-function exportar(){ var a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas,casas,dados,mesAtual,anoAtual})); a.download="TAKI_BACKUP_"+mesesNomes[mesAtual]+"_"+anoAtual+".json"; a.click(); }
-function importar(e){ var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){ try{ var o=JSON.parse(ev.target.result); artistas=o.artistas; casas=o.casas; dados=o.dados; mesAtual=o.mesAtual; anoAtual=o.anoAtual; salvarLS(); renderGrade(); alert('Importado!'); }catch(err){alert('Erro no arquivo');} }; r.readAsText(f); }
-
-carregar(); renderGrade(); renderArt(); renderCasa();
+var dados={}; var eDia=null,eP=null;
+function criaMes(){dados={}; var tot=new Date(ano,mes+1,0).getDate(); for(var d=1;d<=tot;d++){dados[d]={}; for(var p=1;p<=6;p++) dados[d]['P'+p]=null;}}
+function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show')}
+function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show')}
+function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show'); if(id=='grade') render(); if(id=='art') renderArt(); if(id=='rel') renderRel(); if(id=='texto') gerarTexto()}
+function mudaMes(dir){mes+=dir; if(mes<0){mes=11;ano--} if(mes>11){mes=0;ano++} criaMes(); salvar(); render()}
+function render(){document.getElementById('mesTxt').innerText=meses[mes]+" de "+ano; var cont=document.getElementById('lista'); cont.innerHTML=''; var tot=new Date(ano,mes+1,0).getDate(); for(var d=1;d<=tot;d++){var dt=new Date(ano,mes,d); var ds=dt.toLocaleDateString('pt-BR',{weekday:'short'}); var row=document.createElement('div'); row.className='linha'; var h='<div class="data"><small>'+ds+'</small><b>'+String(d).padStart(2,'0')+'</b></div>'; for(var p=1;p<=6;p++){var info=dados[d]['P'+p]; if(info) h+='<div class="card has" onclick="abrir('+d+','+p+')"><b style="font-size:9px">'+info.nome+'</b><span class="t">'+info.turno+'</span><span class="c">R$'+info.cache+'</span></div>'; else h+='<div class="card" onclick="abrir('+d+','+p+')"><span style="font-size:18px;color:#94A3B8">+</span></div>';} row.innerHTML=h; cont.appendChild(row);} salvar();}
+function abrir(d,p){eDia=d; eP=p; var sel=document.getElementById('selArt'); sel.innerHTML=artistas.map(a=>'<option value="'+a.nome+'">'+a.nome+' - R$'+a.cache+'</option>').join(''); var cur=dados[d]['P'+p]; document.getElementById('mTitle').innerText='Dia '+d+' - P'+p+' ('+casas['P'+p]+')'; if(cur){sel.value=cur.nome; document.getElementById('selTurno').value=cur.turno; document.getElementById('selCache').value=cur.cache;} else{var a=artistas[0]; document.getElementById('selTurno').value='AL'; document.getElementById('selCache').value=a?a.cache:300;} document.getElementById('modal').classList.add('show'); sel.onchange=function(){var f=artistas.find(x=>x.nome==this.value); if(f) document.getElementById('selCache').value=f.cache}}
+function fecharModal(){document.getElementById('modal').classList.remove('show')}
+function salvarShow(){var n=document.getElementById('selArt').value; var t=document.getElementById('selTurno').value; var c=parseFloat(document.getElementById('selCache').value)||0; dados[eDia]['P'+eP]={nome:n,turno:t,cache:c}; fecharModal(); render();}
+function removerShow(){dados[eDia]['P'+eP]=null; fecharModal(); render();}
+function addArt(){var n=document.getElementById('nomeArt').value.toUpperCase().trim(); var c=parseFloat(document.getElementById('cacheArt').value)||0; if(!n) return; var i=artistas.findIndex(a=>a.nome==n); if(i>=0) artistas[i].cache=c; else artistas.push({nome:n,cache:c}); document.getElementById('nomeArt').value=''; document.getElementById('cacheArt').value=''; renderArt(); salvar();}
+function renderArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:12px;background:#F1F5F9;border-radius:10px;margin-top:6px"><div><b>'+a.nome+'</b><br><span style="color:green;font-weight:900">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);renderArt();salvar()" style="background:#FFD2D2;border:none;padding:6px 12px;border-radius:8px">X</button></div>').join('');}
+function renderRel(){var html=''; for(var k=0;k<artistas.length;k++){var art=artistas[k]; var lista=[]; var tot=0; for(var d in dados){for(var p=1;p<=6;p++){var inf=dados[d]['P'+p]; if(inf && inf.nome==art.nome){lista.push('Dia '+d+' P'+p+' '+inf.turno); tot+=inf.cache;}}} if(lista.length==0) continue; html+='<div style="background:#fff;padding:12px;border-radius:12px;margin-top:8px;border-left:4px solid #FACC15"><b>'+art.nome+' - '+lista.length+' shows</b><div style="color:green;font-weight:900">TOTAL R$ '+tot+'</div><div style="font-size:11px;margin-top:4px">'+lista.join('<br>')+'</div></div>';} document.getElementById('resRel').innerHTML=html||'Nenhum show';}
+function gerarTexto(){var t='*TAKI SOM - '+meses[mes].toUpperCase()+' '+ano+'*\\n\\n'; for(var d in dados){var tem=false; for(var p=1;p<=6;p++) if(dados[d]['P'+p]) tem=true; if(!tem) continue; t+='*Dia '+d+'* - '; for(var p=1;p<=6;p++){var inf=dados[d]['P'+p]; if(inf) t+='P'+p+'('+casas['P'+p]+'): '+inf.nome+' '+inf.turno+' | ';} t+='\\n';} document.getElementById('txtCli').value=t;}
+function copiar(){var el=document.getElementById('txtCli'); el.select(); document.execCommand('copy'); alert('Copiado!')}
+function salvar(){try{localStorage.setItem('TAKI_SOM_V10',JSON.stringify({artistas,casas,dados,mes,ano}))}catch(e){}}
+function carregar(){try{var s=localStorage.getItem('TAKI_SOM_V10'); if(!s) return; var o=JSON.parse(s); if(o.artistas) artistas=o.artistas; if(o.casas) casas=o.casas; if(o.mes!==undefined){mes=o.mes; ano=o.ano} if(o.dados){var tot=new Date(ano,mes+1,0).getDate(); var ok=true; for(var d=1;d<=tot;d++) if(!o.dados[d]) ok=false; if(ok) dados=o.dados;}}catch(e){}}
+function exportar(){var a=document.createElement('a'); a.href='data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify({artistas,casas,dados,mes,ano})); a.download='TAKI_SOM_'+meses[mes]+'_'+ano+'.json'; a.click()}
+try{criaMes(); carregar(); render(); renderArt();}catch(err){criaMes(); render();}
 </script>
 </body>
 </html>
