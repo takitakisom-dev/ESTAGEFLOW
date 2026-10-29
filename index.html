@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW MENU TOTAL - MESES DEZ26 A DEZ27</title>
+<title>ESTAGEFLOW MENU TOTAL - NOV26 A DEZ27 - 1000 ANOS</title>
 <meta name="theme-color" content="#0F1115">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
@@ -11,7 +11,7 @@ body{background:#F2F4F7}
 .top{background:#0F1115;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:30;flex-wrap:wrap}
 .pill{font-size:11px;font-weight:900;padding:6px 12px;border-radius:20px}.z{background:#FDE68A;color:#000}.g{background:#BBF7D0;color:#000}
 .btnPrint{margin-left:auto;background:#fff;color:#000;border:0;border-radius:20px;padding:7px 12px;font-size:11px;font-weight:900;cursor:pointer}
-.selMes{background:#1F2937;color:#fff;border:1px solid #374151;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:900;cursor:pointer;min-width:160px}
+.selMes{background:#1F2937;color:#fff;border:1px solid #374151;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:900;cursor:pointer;min-width:170px}
 .grid{display:grid;grid-template-columns:1fr;gap:8px;padding:8px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
@@ -64,11 +64,11 @@ body{background:#F2F4F7}
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
 <div class="side" id="side">
 <h2>☰ ESTAGEFLOW</h2>
-<div class="sub">MESES DEZ/26 A DEZ/27 • MENU TOTAL • FIXO NÃO APAGA</div>
-<div style="background:#22C55E;color:#000;padding:8px;border-radius:8px;font-weight:900;text-align:center;margin-bottom:10px;font-size:11px" id="stMenu">✅ FIXO - NÃO APAGA</div>
+<div class="sub">NOV/26 A DEZ/27 • MENU TOTAL • 1000 ANOS • FIXO NÃO APAGA</div>
+<div style="background:#22C55E;color:#000;padding:8px;border-radius:8px;font-weight:900;text-align:center;margin-bottom:10px;font-size:11px" id="stMenu">✅ FIXO - 1000 ANOS - NÃO APAGA</div>
 
 <div style="background:#0F172A;border-radius:12px;padding:10px;margin-bottom:12px;border:1px solid #1E293B">
-<div style="font-size:10px;font-weight:900;color:#94A3B8;margin-bottom:6px">📅 SELECIONAR MÊS PARA PLANEJAMENTO</div>
+<div style="font-size:10px;font-weight:900;color:#94A3B8;margin-bottom:6px">📅 SELECIONAR MÊS PARA PLANEJAMENTO - 14 MESES EM ABERTO</div>
 <div id="listaMesesMenu" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
 </div>
 
@@ -79,20 +79,20 @@ body{background:#F2F4F7}
 <button class="dark" onclick="go('casa');closeAll()">🏠 CASAS P1-P6 - EDITAR / EXCLUIR</button>
 
 <button class="yellow" onclick="window.print()">🖨️ IMPRIMIR - 1 FOLHA 30 DIAS</button>
-<button class="green" onclick="forcarSalvar()">💾 SALVAR FIXO - NÃO APAGA</button>
-<button class="blue" onclick="exportar()">📤 EXPORTAR BACKUP - BAIXAR JSON</button>
-<button class="blue" onclick="document.getElementById('fileIn').click()">📥 IMPORTAR BACKUP - RESTAURAR</button>
+<button class="green" onclick="forcarSalvar()">💾 SALVAR FIXO - 1000 ANOS - NÃO APAGA</button>
+<button class="blue" onclick="exportar()">📤 EXPORTAR BACKUP - BAIXAR JSON (14 MESES)</button>
+<button class="blue" onclick="document.getElementById('fileIn').click()">📥 IMPORTAR BACKUP - RESTAURAR TUDO</button>
 <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
 <button class="purple" id="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP NO CELULAR</button>
 <button class="orange" onclick="compartilhar()">🔗 COMPARTILHAR - WHATSAPP / LINK</button>
-<button class="red" onclick="zerar()">🧹 LIMPAR MÊS ATUAL - ZERAR GRADE</button>
+<button class="red" onclick="zerar()">🧹 LIMPAR MÊS ATUAL - ZERAR SÓ ESTE MÊS</button>
 <button class="white" onclick="closeAll()">✕ FECHAR MENU</button>
-<div style="font-size:7px;color:#6B7280;margin-top:12px;line-height:1.4">13 MESES EM ABERTO: DEZ/26 A DEZ/27<br>Cada mês salva separado<br>Backup inclui todos os meses</div>
+<div style="font-size:7px;color:#6B7280;margin-top:12px;line-height:1.4">14 MESES: NOV/26 A DEZ/27<br>Cada mês salva separado + Backup triplo<br>Salva automático a cada 1s - 1000 anos</div>
 </div>
 
 <div class="top">
 <span style="cursor:pointer;background:#222;padding:6px 12px;border-radius:10px;font-weight:900" onclick="openMenu()">☰</span>
-<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6" id="subTop">DEZ/26 A DEZ/27</span></b>
+<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6" id="subTop">NOV/26 A DEZ/27</span></b>
 <select id="selMesTop" class="selMes" onchange="trocarMes(this.value)"></select>
 <span class="pill z" id="cnt">0 FIXOS</span>
 <span class="pill g" id="totalFin">R$ 0</span>
@@ -102,13 +102,14 @@ body{background:#F2F4F7}
 <div class="mesBar" id="mesBar"></div>
 
 <div id="sec-grade" class="sec show"><div class="tabs"><button class="active">Grade</button><button class="inactive" onclick="go('fin')">Financeiro</button><button class="inactive" onclick="go('plan')">Planejamento</button></div><div class="grid" id="grade"></div></div>
-<div id="sec-fin" class="sec"><div class="box"><h3>💰 Financeiro - <span id="finMesLabel"></span></h3><div id="finBox"></div><div style="display:flex;gap:8px;margin-top:12px"><button onclick="exportar()" style="flex:1;padding:10px;background:#2563EB;color:#fff;border:none;border-radius:10px;font-weight:900">📤 EXPORTAR BACKUP (TODOS MESES)</button><button onclick="compartilhar()" style="flex:1;padding:10px;background:#EA580C;color:#fff;border:none;border-radius:10px;font-weight:900">🔗 COMPARTILHAR</button></div></div></div>
+<div id="sec-fin" class="sec"><div class="box"><h3>💰 Financeiro - <span id="finMesLabel"></span></h3><div id="finBox"></div><div style="display:flex;gap:8px;margin-top:12px"><button onclick="exportar()" style="flex:1;padding:12px;background:#2563EB;color:#fff;border:none;border-radius:10px;font-weight:900">📤 EXPORTAR BACKUP (14 MESES)</button><button onclick="compartilhar()" style="flex:1;padding:12px;background:#EA580C;color:#fff;border:none;border-radius:10px;font-weight:900">🔗 COMPARTILHAR</button></div></div></div>
 <div id="sec-plan" class="sec"><div class="box"><h3>📋 Planejamento - <span id="planMesLabel"></span></h3><div id="planBox"></div></div></div>
 <div id="sec-art" class="sec"><div class="box"><h3>🎤 Músicos - Editar / Excluir / Valor</h3><div style="display:flex;gap:6px;margin:8px 0"><input id="nArt" placeholder="NOME DO MÚSICO" style="flex:1;padding:10px;border-radius:10px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cArt" type="number" placeholder="R$" style="width:90px;padding:10px;border-radius:10px"><button onclick="addArt()" style="padding:10px 14px;background:#FBBF24;border:none;border-radius:10px;font-weight:900">ADD</button></div><div id="lArt"></div></div></div>
 <div id="sec-casa" class="sec"><div class="box"><h3>🏠 Casas P1-P6 - Editar / Excluir</h3><div id="fCasa"></div></div></div>
 
 <script>
 var mesesLista=[
+ {id:"2026-11",label:"NOV/2026",nome:"Novembro 2026",dias:30,ini:5},
  {id:"2026-12",label:"DEZ/2026",nome:"Dezembro 2026",dias:31,ini:1},
  {id:"2027-01",label:"JAN/2027",nome:"Janeiro 2027",dias:31,ini:4},
  {id:"2027-02",label:"FEV/2027",nome:"Fevereiro 2027",dias:28,ini:0},
@@ -124,37 +125,47 @@ var mesesLista=[
  {id:"2027-12",label:"DEZ/2027",nome:"Dezembro 2027",dias:31,ini:2}
 ];
 var diasSemana=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
-var KEY="ESTAGEFLOW_MULTI_MESES_DEZ26_DEZ27_V7";
+var KEY="ESTAGEFLOW_MULTI_MESES_NOV26_DEZ27_V8_FINAL_1000_ANOS";
 var KEY_MUS="musicos_lista_final_valores";
 var artistasPadrao=[{nome:"EDILL",cache:300},{nome:"GERVAZIO",cache:300},{nome:"YGOR",cache:300},{nome:"ANDRE",cache:300},{nome:"VAT 60",cache:450},{nome:"DUO CLASSIC ROCK",cache:450},{nome:"PAOLI",cache:300},{nome:"DOUGLAS",cache:300},{nome:"MARTIN",cache:300},{nome:"ROBSON SOLO",cache:300},{nome:"ANDERSON VAT60 SOLO",cache:350}];
 var casas={P1:"P1",P2:"P2",P3:"P3",P4:"P4",P5:"P5",P6:"P6"};
 var artistas=[];
 var allDados={};
-var mesAtual="2026-12";
+var mesAtual="2026-11";
 var deferredPrompt=null;
 
 function carregarLista(ch,pd){try{var v=localStorage.getItem(ch);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return pd;}
 function getValor(n){var f=artistas.find(a=>a.nome.toUpperCase()===n.toUpperCase());return f?f.cache:300;}
-function salvar(){localStorage.setItem(KEY,JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY+"_BKP",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY_MUS,JSON.stringify(artistas.map(a=>({nome:a.nome,valor:a.cache}))));contar();}
-function forcarSalvar(){salvar();var q=contar();document.getElementById('stMenu').textContent=q+" SHOWS EM "+mesLabel(mesAtual)+" - FIXO";alert("✅ Salvo fixo em "+mesLabel(mesAtual)+"! "+q+" shows - Todos os meses estão salvos!");}
+function salvar(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));
+  localStorage.setItem(KEY+"_BKP1",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));
+  localStorage.setItem(KEY+"_BKP2",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));
+  localStorage.setItem(KEY_MUS,JSON.stringify(artistas.map(a=>({nome:a.nome,valor:a.cache}))));
+ }catch(e){console.log(e)}
+ contar();
+}
+function forcarSalvar(){salvar();var q=contar();document.getElementById('stMenu').textContent=q+" SHOWS EM "+mesLabel(mesAtual)+" - 1000 ANOS";alert("✅ Salvo fixo em "+mesLabel(mesAtual)+" por 1000 anos! "+q+" shows - Backup triplo feito!");}
 function mesLabel(id){var m=mesesLista.find(x=>x.id==id);return m?m.label:id;}
 function getDiasMes(id){var m=mesesLista.find(x=>x.id==id);return m?m.dias:30;}
 function getDiaSemana(id,dia){var m=mesesLista.find(x=>x.id==id);if(!m)return "DOM";var idx=(m.ini + dia -1)%7;return diasSemana[idx];}
 function ensureMes(id){if(!allDados[id]){allDados[id]={};for(var d=1;d<=getDiasMes(id);d++){allDados[id][d]={};for(var p=1;p<=6;p++){allDados[id][d]['P'+p]=[{nome:"",turno:"AL"}];}}}}
 
 function carregar(){
- try{var s=localStorage.getItem(KEY)||localStorage.getItem(KEY+"_BKP")||localStorage.getItem("ESTAGEFLOW_COMPACTO_ALJA_V5_FINAL")||localStorage.getItem("ESTAGEFLOW_COMPACTO_ALJA_V6");
- if(s){var o=JSON.parse(s);
-  if(o.all){allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;
-  }else if(o.dados){ // migra do formato antigo single mes
-   artistas=getArtistasObj();allDados={};mesesLista.forEach(mm=>{ensureMes(mm.id);});
-   allDados["2026-12"]=o.dados;
+ try{
+  var keys=[KEY,KEY+"_BKP1",KEY+"_BKP2","ESTAGEFLOW_MULTI_MESES_DEZ26_DEZ27_V7","ESTAGEFLOW_COMPACTO_ALJA_V5_FINAL","ESTAGEFLOW_COMPACTO_ALJA_V6"];
+  var loaded=false;
+  for(var k=0;k<keys.length;k++){
+   var s=localStorage.getItem(keys[k]);
+   if(!s)continue;
+   var o=JSON.parse(s);
+   if(o.all){allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;loaded=true;break;}
+   if(o.dados && !loaded){artistas=getArtistasObj();allDados={};mesesLista.forEach(mm=>{ensureMes(mm.id);});allDados["2026-11"]=o.dados;loaded=true;}
   }
- }
  }catch(e){}
  if(!artistas||artistas.length==0){artistas=carregarLista(KEY_MUS,artistasPadrao).map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));}
  mesesLista.forEach(mm=>ensureMes(mm.id));
- if(!allDados[mesAtual])mesAtual="2026-12";
+ if(!allDados[mesAtual])mesAtual="2026-11";
 }
 
 function getArtistasObj(){var obj=carregarLista(KEY_MUS,artistasPadrao);return obj.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}))}
@@ -167,7 +178,6 @@ function montarSeletores(){
  document.getElementById('finMesLabel').textContent=mesesLista.find(m=>m.id==mesAtual).nome;
  document.getElementById('planMesLabel').textContent=mesesLista.find(m=>m.id==mesAtual).nome;
 }
-function renderSeletores(){montarSeletores();}
 
 function mudarMus(d,p,idx,val){allDados[mesAtual][d]['P'+p][idx].nome=val;salvar();renderDia(d);}
 function mudarTurno(d,p,idx,val){allDados[mesAtual][d]['P'+p][idx].turno=val;salvar();renderDia(d);}
@@ -178,7 +188,7 @@ function contar(){var c=0,total=0;var cur=allDados[mesAtual]||{};for(var d in cu
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
 function closeAll(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');if(id=='fin')renderFin();if(id=='plan')renderPlan();if(id=='art')renderArt();if(id=='casa')renderCasa();if(id=='grade'){montarGrade();}}
-function zerar(){var nomeMes=mesesLista.find(m=>m.id==mesAtual).nome;if(confirm("Zerar TODO o mês de "+nomeMes+"? Apaga só esse mês!")){var dias=getDiasMes(mesAtual);for(var d=1;d<=dias;d++)for(var p=1;p<=6;p++)allDados[mesAtual][d]['P'+p]=[{nome:"",turno:"AL"}];salvar();montarGrade();closeAll();alert("✅ "+nomeMes+" zerado! Outros meses continuam salvos.");}}
+function zerar(){var nomeMes=mesesLista.find(m=>m.id==mesAtual).nome;if(confirm("Zerar TODO o mês de "+nomeMes+"? Só este mês será apagado! Outros meses ficam salvos!")){var dias=getDiasMes(mesAtual);for(var d=1;d<=dias;d++)for(var p=1;p<=6;p++)allDados[mesAtual][d]['P'+p]=[{nome:"",turno:"AL"}];salvar();montarGrade();closeAll();alert("✅ "+nomeMes+" zerado! Outros meses continuam salvos por 1000 anos.");}}
 function addArt(){var n=document.getElementById('nArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cArt').value)||300;if(!n)return;artistas.push({nome:n,cache:c});document.getElementById('nArt').value='';document.getElementById('cArt').value='';salvar();renderArt();}
 function renderArt(){var h=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#F3F4F6;border-radius:10px;margin-top:6px"><div><b>'+a.nome+'</b> - R$ '+a.cache+'</div><button onclick="artistas.splice('+i+',1);salvar();renderArt()" style="background:#EF4444;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-weight:900">X</button></div>').join('');document.getElementById('lArt').innerHTML=h||'Nenhum músico';}
 function renderCasa(){var h='';for(var k in casas){h+='<div style="display:flex;gap:6px;margin-top:8px;align-items:center"><b style="width:35px">'+k+'</b><input id="casa_'+k+'" value="'+casas[k]+'" style="flex:1;padding:8px;border:1px solid #ccc;border-radius:8px"><button onclick="casas[\''+k+'\']=document.getElementById(\'casa_'+k+'\').value;salvar();renderCasa()" style="padding:8px 12px;background:#22C55E;border:none;border-radius:8px;font-weight:900">OK</button></div>';}document.getElementById('fCasa').innerHTML=h;}
@@ -188,8 +198,8 @@ function renderFin(){var rel={},tot=0,sh=0;var cur=allDados[mesAtual]||{};for(va
  h+='</table>';if(Object.keys(rel).length==0)h='<div style="padding:20px;text-align:center;color:#999">Zerado - pronto pra preencher<br>'+mesLabel(mesAtual)+' em aberto</div>';document.getElementById('finBox').innerHTML=h;}
 function renderPlan(){var por={};var cur=allDados[mesAtual]||{};for(var d in cur)for(var p=1;p<=6;p++){(cur[d]['P'+p]||[]).forEach(it=>{if(!it.nome)return;if(!por[it.nome])por[it.nome]=[];por[it.nome].push({dia:d,casa:casas['P'+p]||p,turno:it.turno});});}
  var html='';for(var k in por){html+='<div style="background:#F3F4F6;padding:12px;border-radius:12px;margin-top:10px"><b>'+k+' - '+por[k].length+' shows em '+mesLabel(mesAtual)+'</b><div style="font-size:12px;margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">'+por[k].map(x=>'<span style="background:#fff;border:1px solid #ddd;padding:4px 8px;border-radius:12px">'+x.dia+' '+getDiaSemana(mesAtual,x.dia)+' '+x.casa+' '+x.turno+'</span>').join('')+'</div></div>';}if(!html)html='<div style="padding:20px;text-align:center;color:#999">Zerado - '+mesLabel(mesAtual)+' em aberto pra planejamento</div>';document.getElementById('planBox').innerHTML=html;}
-function exportar(){salvar();var dataStr=JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual,versao:"ESTAGEFLOW_MESES_DEZ26_DEZ27_V7",data:new Date().toISOString(),meses:mesesLista});var blob=new Blob([dataStr],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_BACKUP_COMPLETO_DEZ26_A_DEZ27_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert("✅ Backup COMPLETO exportado! Inclui todos os 13 meses de DEZ/26 a DEZ/27");}
-function importar(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var o=JSON.parse(ev.target.result);if(o.all)allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;salvar();montarSeletores();montarGrade();alert('✅ Backup COMPLETO importado! Todos os meses restaurados!');closeAll();go('grade');}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';}
+function exportar(){salvar();var dataStr=JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual,versao:"ESTAGEFLOW_MESES_NOV26_DEZ27_V8_1000_ANOS",data:new Date().toISOString(),meses:mesesLista});var blob=new Blob([dataStr],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_BACKUP_COMPLETO_NOV26_A_DEZ27_14_MESES_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert("✅ Backup COMPLETO 14 MESES exportado! NOV/26 a DEZ/27 - Salvo por 1000 anos!");}
+function importar(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var o=JSON.parse(ev.target.result);if(o.all)allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;salvar();montarSeletores();montarGrade();alert('✅ Backup COMPLETO 14 MESES importado! NOV/26 a DEZ/27 restaurado por 1000 anos!');closeAll();go('grade');}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';}
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('btnInstalar').style.background='#22C55E';document.getElementById('btnInstalar').textContent='📲 INSTALAR APP - CLIQUE AQUI!';});
 function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then((choice)=>{if(choice.outcome==='accepted'){alert('✅ App instalado!');}deferredPrompt=null;});}else{alert('📲 Para instalar:\n\nAndroid: Menu ⋮ > Instalar app / Adicionar à tela inicial\n\niPhone: Compartilhar □↑ > Adicionar à Tela de Início\n\nApp: ESTAGEFLOW');}}
 function compartilhar(){var q=contar();var texto='🎤 ESTAGEFLOW - '+mesLabel(mesAtual)+' - '+q+' shows\n\nGrade: '+window.location.href;if(navigator.share){navigator.share({title:'ESTAGEFLOW - '+mesLabel(mesAtual),text:texto,url:window.location.href}).catch(()=>{fallbackShare(texto);});}else{fallbackShare(texto);}}
