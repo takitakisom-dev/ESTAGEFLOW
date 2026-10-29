@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW COMPACTO AL JA - 1 FOLHA</title>
+<title>ESTAGEFLOW COMPACTO AL JA + MENU</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{background:#F2F4F7}
@@ -32,8 +32,18 @@ body{background:#F2F4F7}
 .btnMais.add{background:#111;color:#fff}
 .btnMais.del{background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA}
 .printTxt,.printTurno{display:none}
+/* MENU */
+.side{position:fixed;left:-100%;top:0;bottom:0;width:86%;max-width:340px;background:#fff;z-index:60;transition:.28s;padding:16px;overflow:auto;box-shadow:4px 0 20px rgba(0,0,0,.2)}
+.side.open{left:0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:50}
+.overlay.open{display:block}
+.menu-item{padding:13px 10px;border-bottom:1px solid #eee;font-weight:800;font-size:13px;cursor:pointer;border-radius:8px;margin-bottom:2px}
+.menu-item:hover{background:#f5f5f5}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:70;padding:14px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:14px;padding:14px;width:100%;max-width:420px;max-height:85vh;overflow:auto}
 @media print{
-.top{display:none!important}
+.top,.side,.overlay,.btnMais{display:none!important}
 body{background:#fff!important}
 .grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;padding:2px!important}
 .card{border:0.6px solid #000!important;padding:4px!important;border-radius:5px!important;break-inside:avoid;box-shadow:none!important}
@@ -53,14 +63,30 @@ body{background:#fff!important}
 </style>
 </head>
 <body>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<div class="side" id="side">
+<div style="font-weight:900;font-size:18px;margin-bottom:12px">☰ ESTAGEFLOW</div>
+<div class="menu-item" onclick="closeAll()">🏠 INÍCIO - GRADE</div>
+<div class="menu-item" style="background:#FFF9C4" onclick="abrirRelatorio()">🎤 RELATÓRIO POR MÚSICO</div>
+<div class="menu-item" style="background:#E0F2FE" onclick="abrirFin()">💰 FINANCEIRO</div>
+<div class="menu-item" style="background:#FEE2E2" onclick="limparTudo()">🧹 LIMPAR MÊS</div>
+<div class="menu-item" onclick="closeAll()" style="color:#B91C1C">✕ FECHAR MENU</div>
+<div style="margin-top:20px;font-size:10px;opacity:.5">COMPACTO AL/JA • 1 FOLHA<br>Dados salvos automaticamente</div>
+</div>
+
 <div class="top">
-<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6">COMPACTO EXTRA + AL/JA • 1 FOLHA</span></b>
+<span style="cursor:pointer;background:#222;padding:6px 12px;border-radius:10px;font-weight:900" onclick="openMenu()">☰</span>
+<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6">COMPACTO AL/JA • 1 FOLHA</span></b>
 <span class="pill z" id="cnt">0 FIXOS</span>
 <span class="pill g" id="totalFin">R$ 0</span>
-<button class="btnPrint" onclick="window.print()">🖨️ IMPRIMIR 1 FOLHA</button>
+<button class="btnPrint" onclick="window.print()">🖨️ IMPRIMIR</button>
 </div>
 
 <div class="grid" id="grade"></div>
+
+<div class="modal" id="modalMus"><div class="modal-box"><h3>🎤 RELATÓRIO POR MÚSICO</h3><div id="conteudoMus" style="margin:12px 0"></div><button onclick="closeAll()" style="width:100%;padding:10px;background:#eee;border:0;border-radius:10px;font-weight:800">FECHAR</button></div></div>
+<div class="modal" id="modalFin"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin" style="margin:12px 0"></div><button onclick="closeAll()" style="width:100%;padding:10px;background:#eee;border:0;border-radius:10px;font-weight:800">FECHAR</button></div></div>
 
 <script>
 var dias={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
@@ -72,43 +98,43 @@ function carregarLista(ch,pd){try{var v=localStorage.getItem(ch);if(v){var a=JSO
 var musicosObj=carregarLista(KEY_MUS,musicosPadrao);
 var musicosLista=[...new Set(musicosObj.map(m=>m.nome||m))].sort();
 var dados={};
-
 function getValor(n){var f=musicosObj.find(m=> (m.nome||m).toUpperCase()===n.toUpperCase());return f?(f.valor||300):300;}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));contar();}
 function carregar(){
  var s=localStorage.getItem(KEY);
  if(s){try{dados=JSON.parse(s);return;}catch(e){}}
- // inicializa vazio
  for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++){dados[d]['P'+p]=[{nome:"",turno:"AL"}];}}
- // tenta migrar do antigo COMPACTO_EXTRA
- try{
-  var old=localStorage.getItem("ESTAGEFLOW_COMPACTO_EXTRA_FINAL_V4");
-  if(old){var o=JSON.parse(old);for(var d in o){if(dados[d])for(var p in o[d]){if(dados[d][p]){dados[d][p]=o[d][p].map(x=>({nome:x.nome||"",turno:x.turno||"AL"}));}}}}
- }catch(e){}
+ try{var old=localStorage.getItem("ESTAGEFLOW_COMPACTO_EXTRA_FINAL_V4");if(old){var o=JSON.parse(old);for(var d in o){if(dados[d])for(var p in o[d]){if(dados[d][p]){dados[d][p]=o[d][p].map(x=>({nome:x.nome||"",turno:x.turno||"AL"}));}}}}}catch(e){}
 }
 function mudarMus(d,p,idx,val){dados[d]['P'+p][idx].nome=val;salvar();renderDia(d);}
 function mudarTurno(d,p,idx,val){dados[d]['P'+p][idx].turno=val;salvar();renderDia(d);}
 function addExtra(d,p){var base=dados[d]['P'+p][0]?.turno=="AL"?"JA":"AL";dados[d]['P'+p].push({nome:"",turno:base});salvar();renderDia(d);}
 function delExtra(d,p,idx){dados[d]['P'+p].splice(idx,1);if(dados[d]['P'+p].length==0)dados[d]['P'+p].push({nome:"",turno:"AL"});salvar();renderDia(d);}
 function contar(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){c++;total+=getValor(it.nome);}})}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total;}
-
+function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
+function closeAll(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
+function abrirRelatorio(){
+ var por={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){var n=it.nome.toUpperCase();if(!por[n])por[n]=[];por[n].push({dia:d,p:'P'+p,t:it.turno});}})}
+ var html="";Object.keys(por).sort().forEach(n=>{html+='<div style="background:#111;color:#fff;padding:6px 10px;border-radius:8px;margin-top:10px;display:flex;justify-content:space-between"><span>🎤 '+n+'</span><span>'+por[n].length+'x</span></div><div style="padding:6px;display:flex;flex-wrap:wrap;gap:4px">'+por[n].map(x=>'<span style="background:#eee;border-radius:10px;padding:3px 7px;font-size:10px">'+x.dia+' '+dias[x.dia]+' '+x.p+' '+x.t+'</span>').join('')+'</div>'});
+ document.getElementById('conteudoMus').innerHTML=html||"Nenhuma escalação";document.getElementById('modalMus').classList.add('open');document.getElementById('overlay').classList.add('open');
+}
+function abrirFin(){
+ var por={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){var v=getValor(it.nome);total+=v;var n=it.nome.toUpperCase();por[n]=(por[n]||{q:0,v:0});por[n].q++;por[n].v+=v;}})}
+ var html="";for(var n in por){html+='<div style="display:flex;justify-content:space-between;background:#f8f8f8;padding:8px;border-radius:8px;margin:4px 0"><b>'+n+'</b><span>'+por[n].q+'x = R$'+por[n].v+'</span></div>'}
+ document.getElementById('conteudoFin').innerHTML=(html||"Vazio")+'<div style="background:#111;color:#fff;padding:12px;border-radius:10px;text-align:center;margin-top:10px;font-weight:900">TOTAL R$ '+total+'</div>';
+ document.getElementById('modalFin').classList.add('open');document.getElementById('overlay').classList.add('open');
+}
+function limparTudo(){if(confirm("Limpar TODO o mês?")){localStorage.removeItem(KEY);location.reload();}}
 function renderDia(d){
- var cont=document.getElementById('card_'+d);
- if(!cont) return;
+ var cont=document.getElementById('card_'+d);if(!cont)return;
  var html='<div class="diaTop"><div class="diaLeft">📅 '+d+' '+dias[d]+'</div><div style="font-size:9px;background:#EFF6FF;color:#3B82F6;padding:3px 7px;border-radius:10px">'+(function(){var t=0;for(var p=1;p<=6;p++)t+=(dados[d]['P'+p]||[]).filter(x=>x.nome).length;return t;})()+' esc.</div></div>';
  for(var p=1;p<=6;p++){
   var lista=dados[d]['P'+p]||[{nome:"",turno:"AL"}];
   lista.forEach((item,idx)=>{
    var opts=musicosLista.map(m=>'<option '+(m==item.nome?'selected':'')+'>'+m+'</option>').join('');
-   var isExtra=idx>0;
-   var turnoCls=item.turno=="JA"?"ja":item.turno=="AL+JA"?"both":"al";
-   html+='<div class="linhaCasa '+(item.nome?'preenchida':'')+(isExtra?' extra':'')+'">';
-   html+='<b>'+(isExtra?'↳':'')+'P'+p+'</b>';
-   html+='<select class="selMus" onchange="mudarMus('+d+','+p+','+idx+',this.value)"><option value="">--</option>'+opts+'</select>';
-   html+='<select class="selTurno '+turnoCls+'" onchange="mudarTurno('+d+','+p+','+idx+',this.value)"><option '+(item.turno=="AL"?"selected":"")+'>AL</option><option '+(item.turno=="JA"?"selected":"")+'>JA</option><option '+(item.turno=="AL+JA"?"selected":"")+'>AL+JA</option></select>';
-   html+='<span class="printTxt">'+(item.nome||'--')+'</span><span class="printTurno '+turnoCls+'">'+item.turno+'</span>';
-   if(!isExtra) html+='<button class="btnMais add" onclick="addExtra('+d+','+p+')" title="Add extra">+</button>';
-   else html+='<button class="btnMais del" onclick="delExtra('+d+','+p+','+idx+')" title="Remover">x</button>';
+   var isExtra=idx>0;var turnoCls=item.turno=="JA"?"ja":item.turno=="AL+JA"?"both":"al";
+   html+='<div class="linhaCasa '+(item.nome?'preenchida':'')+(isExtra?' extra':'')+'"><b>'+(isExtra?'↳':'')+'P'+p+'</b><select class="selMus" onchange="mudarMus('+d+','+p+','+idx+',this.value)"><option value="">--</option>'+opts+'</select><select class="selTurno '+turnoCls+'" onchange="mudarTurno('+d+','+p+','+idx+',this.value)"><option '+(item.turno=="AL"?"selected":"")+'>AL</option><option '+(item.turno=="JA"?"selected":"")+'>JA</option><option '+(item.turno=="AL+JA"?"selected":"")+'>AL+JA</option></select><span class="printTxt">'+(item.nome||'--')+'</span><span class="printTurno '+turnoCls+'">'+item.turno+'</span>';
+   if(!isExtra)html+='<button class="btnMais add" onclick="addExtra('+d+','+p+')">+</button>';else html+='<button class="btnMais del" onclick="delExtra('+d+','+p+','+idx+')">x</button>';
    html+='</div>';
   });
  }
