@@ -3,62 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW COMPACTO EXTRA</title>
+<title>ESTAGEFLOW COMPACTO AL JA - 1 FOLHA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{background:#F2F4F7}
-.top{background:#0F1115;color:#fff;padding:8px 12px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:20}
-.pill{font-size:10px;font-weight:900;padding:6px 12px;border-radius:20px}.z{background:#FDE68A;color:#000}.g{background:#BBF7D0;color:#000}
-.btnPrint{margin-left:auto;background:#fff;color:#000;border:0;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:900;cursor:pointer}
+.top{background:#0F1115;color:#fff;padding:10px 14px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:20}
+.pill{font-size:11px;font-weight:900;padding:6px 12px;border-radius:20px}.z{background:#FDE68A;color:#000}.g{background:#BBF7D0;color:#000}
+.btnPrint{margin-left:auto;background:#fff;color:#000;border:0;border-radius:20px;padding:7px 16px;font-size:11px;font-weight:900;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr;gap:8px;padding:8px}
-@media(min-width:500px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1400px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1500px){.grid{grid-template-columns:repeat(4,1fr)}}
 .card{background:#fff;border-radius:14px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #E5E7EB}
 .diaTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:2px solid #111;padding-bottom:6px}
-.diaLeft{font-weight:900;font-size:14px}
-.linhaCasa{display:flex;align-items:center;gap:4px;margin-bottom:4px}
-.linhaCasa b{width:32px;font-size:11px;flex-shrink:0}
-.linhaCasa select{flex:1;height:30px;border:1.5px solid #E5E7EB;border-radius:10px;padding:0 8px;font-size:11px;font-weight:700;background:#fff}
-.linhaCasa.preenchida select{background:#DCFCE7!important;border-color:#22C55E!important;color:#166534}
-.linhaCasa.extra{margin-left:32px;border-left:3px solid #FB7185;padding-left:6px}
-.linhaCasa.extra b{color:#E11D48;font-size:9px}
-.btnMais{width:24px;height:24px;border-radius:8px;border:0;font-weight:900;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.diaLeft{font-weight:900;font-size:13px}
+.linhaCasa{display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.linhaCasa b{width:28px;font-size:10px;flex-shrink:0;color:#555}
+.linhaCasa select{height:32px;border:1.5px solid #E5E7EB;border-radius:10px;padding:0 6px;font-size:11px;font-weight:700;background:#fff;cursor:pointer}
+.selMus{flex:1;min-width:0}
+.selTurno{width:68px!important;font-size:9px!important;font-weight:900!important;text-align:center;padding:0 2px!important}
+.selTurno.al{background:#FEF3C7!important;border-color:#F59E0B!important;color:#92400E!important}
+.selTurno.ja{background:#DBEAFE!important;border-color:#3B82F6!important;color:#1E40AF!important}
+.selTurno.both{background:#E0E7FF!important;border-color:#6366F1!important;color:#4338CA!important}
+.linhaCasa.preenchida .selMus{background:#DCFCE7!important;border-color:#22C55E!important;color:#166534}
+.linhaCasa.extra{margin-left:28px;border-left:3px solid #FB7185;padding-left:6px}
+.linhaCasa.extra b{color:#E11D48;font-size:8px}
+.btnMais{width:24px;height:24px;border-radius:8px;border:0;font-weight:900;font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .btnMais.add{background:#111;color:#fff}
 .btnMais.del{background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA}
-.printTxt{display:none}
-.side{position:fixed;left:-100%;top:0;bottom:0;width:84%;max-width:320px;background:#fff;z-index:50;transition:.25s;padding:14px;overflow:auto}
-.side.open{left:0}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:30}
-.overlay.open{display:block}
-.menu-item{padding:12px 0;border-bottom:1px solid #eee;font-weight:700;font-size:13px;cursor:pointer}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:60;padding:14px}
-.modal.open{display:flex}
-.modal-box{background:#fff;border-radius:14px;padding:14px;width:100%;max-width:400px}
-.modal-box button{width:100%;padding:10px;border:0;border-radius:10px;font-weight:800;margin-top:6px}
+.printTxt,.printTurno{display:none}
 @media print{
-.top,.side,.overlay,.btnMais{display:none!important}
-.grid{grid-template-columns:repeat(4,1fr)!important;gap:4px!important;padding:2px!important}
-.card{border:0.5px solid #000!important;padding:6px!important;border-radius:0!important;break-inside:avoid}
+.top{display:none!important}
+body{background:#fff!important}
+.grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;padding:2px!important}
+.card{border:0.6px solid #000!important;padding:4px!important;border-radius:5px!important;break-inside:avoid;box-shadow:none!important}
+.diaTop{margin-bottom:2px!important;padding-bottom:2px!important}
+.diaLeft{font-size:9px!important}
+.linhaCasa{margin-bottom:1px!important;gap:2px!important}
+.linhaCasa b{font-size:7px!important;width:18px!important}
 .linhaCasa select{display:none!important}
-.printTxt{display:inline!important;font-size:8px!important;font-weight:700}
-@page{size:A4 landscape;margin:4mm}
+.printTxt{display:inline!important;font-size:7px!important;font-weight:700;line-height:1}
+.printTurno{display:inline!important;font-size:5.5px!important;font-weight:900;padding:1px 3px;border-radius:4px;margin-left:2px;border:0.5px solid}
+.printTurno.al{background:#FEF3C7}
+.printTurno.ja{background:#DBEAFE}
+.printTurno.both{background:#E0E7FF}
+.btnMais{display:none!important}
+@page{size:A4 landscape;margin:3mm}
 }
 </style>
 </head>
 <body>
-<div class="overlay" id="overlay" onclick="closeAll()"></div>
-<div class="side" id="side">
-<div style="font-weight:900;font-size:16px;margin-bottom:10px">☰ ESTAGEFLOW</div>
-<div class="menu-item" onclick="closeAll()">🏠 INICIO</div>
-<div class="menu-item" style="background:#FFF9C4" onclick="abrirRelatorio()">🎤 RELATÓRIO POR MÚSICO</div>
-<div class="menu-item" onclick="abrirFin()">💰 FINANCEIRO</div>
-<div class="menu-item" onclick="closeAll()" style="color:red">🚪 FECHAR</div>
-</div>
-
 <div class="top">
-<span style="cursor:pointer;background:#222;padding:4px 10px;border-radius:8px" onclick="openMenu()">☰</span>
-<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6">COMPACTO + EXTRA</span></b>
+<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6">COMPACTO EXTRA + AL/JA • 1 FOLHA</span></b>
 <span class="pill z" id="cnt">0 FIXOS</span>
 <span class="pill g" id="totalFin">R$ 0</span>
 <button class="btnPrint" onclick="window.print()">🖨️ IMPRIMIR 1 FOLHA</button>
@@ -66,60 +62,57 @@ body{background:#F2F4F7}
 
 <div class="grid" id="grade"></div>
 
-<div class="modal" id="modalMus"><div class="modal-box"><h3>🎤 POR MÚSICO</h3><div id="conteudoMus" style="max-height:300px;overflow:auto;margin:10px 0"></div><button onclick="closeAll()" style="background:#eee">FECHAR</button></div></div>
-<div class="modal" id="modalFin"><div class="modal-box"><h3>💰 FINANCEIRO</h3><div id="conteudoFin" style="max-height:300px;overflow:auto;margin:10px 0"></div><button onclick="closeAll()" style="background:#eee">FECHAR</button></div></div>
-
 <script>
 var dias={1:"DOM",2:"SEG",3:"TER",4:"QUA",5:"QUI",6:"SEX",7:"SAB",8:"DOM",9:"SEG",10:"TER",11:"QUA",12:"QUI",13:"SEX",14:"SAB",15:"DOM",16:"SEG",17:"TER",18:"QUA",19:"QUI",20:"SEX",21:"SAB",22:"DOM",23:"SEG",24:"TER",25:"QUA",26:"QUI",27:"SEX",28:"SAB",29:"DOM",30:"SEG"};
-var KEY="ESTAGEFLOW_COMPACTO_EXTRA_FINAL_V4";
+var KEY="ESTAGEFLOW_COMPACTO_ALJA_V5_FINAL";
 var KEY_MUS="musicos_lista_final_valores";
-var musicosPadrao=[{nome:"YGOR",valor:300},{nome:"EDILL",valor:300},{nome:"ANDRE",valor:300},{nome:"VAT 60",valor:450},{nome:"DUO CLASSIC ROCK",valor:450},{nome:"PAOLI",valor:300},{nome:"DOUGLAS",valor:300},{nome:"MARTIN",valor:300},{nome:"ROBSON SOLO",valor:300},{nome:"YGOR",valor:300},{nome:"ANDERSON VAT60 SOLO",valor:350},{nome:"VAT 60 ACUSTICO",valor:400}];
+var musicosPadrao=[{nome:"EDILL",valor:300},{nome:"GERVAZIO",valor:300},{nome:"YGOR",valor:300},{nome:"ANDRE",valor:300},{nome:"VAT 60",valor:450},{nome:"DUO CLASSIC ROCK",valor:450},{nome:"PAOLI",valor:300},{nome:"DOUGLAS",valor:300},{nome:"MARTIN",valor:300},{nome:"ROBSON SOLO",valor:300},{nome:"ANDERSON VAT60 SOLO",valor:350}];
+
 function carregarLista(ch,pd){try{var v=localStorage.getItem(ch);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return pd;}
 var musicosObj=carregarLista(KEY_MUS,musicosPadrao);
-var musicosLista=[...new Set(musicosObj.map(m=>m.nome||m))];
+var musicosLista=[...new Set(musicosObj.map(m=>m.nome||m))].sort();
 var dados={};
-function vazio(){for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++){dados[d]['P'+p]=[{nome:""}];}}}
+
 function getValor(n){var f=musicosObj.find(m=> (m.nome||m).toUpperCase()===n.toUpperCase());return f?(f.valor||300):300;}
 function salvar(){localStorage.setItem(KEY,JSON.stringify(dados));contar();}
 function carregar(){
  var s=localStorage.getItem(KEY);
  if(s){try{dados=JSON.parse(s);return;}catch(e){}}
- vazio();
+ // inicializa vazio
+ for(var d=1;d<=30;d++){dados[d]={};for(var p=1;p<=6;p++){dados[d]['P'+p]=[{nome:"",turno:"AL"}];}}
+ // tenta migrar do antigo COMPACTO_EXTRA
+ try{
+  var old=localStorage.getItem("ESTAGEFLOW_COMPACTO_EXTRA_FINAL_V4");
+  if(old){var o=JSON.parse(old);for(var d in o){if(dados[d])for(var p in o[d]){if(dados[d][p]){dados[d][p]=o[d][p].map(x=>({nome:x.nome||"",turno:x.turno||"AL"}));}}}}
+ }catch(e){}
 }
-function mudar(d,p,idx,val){dados[d]['P'+p][idx].nome=val;salvar();renderDia(d);}
-function addExtra(d,p){dados[d]['P'+p].push({nome:""});salvar();renderDia(d);}
-function delExtra(d,p,idx){dados[d]['P'+p].splice(idx,1);if(dados[d]['P'+p].length==0)dados[d]['P'+p].push({nome:""});salvar();renderDia(d);}
-function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('open')}
-function closeAll(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
+function mudarMus(d,p,idx,val){dados[d]['P'+p][idx].nome=val;salvar();renderDia(d);}
+function mudarTurno(d,p,idx,val){dados[d]['P'+p][idx].turno=val;salvar();renderDia(d);}
+function addExtra(d,p){var base=dados[d]['P'+p][0]?.turno=="AL"?"JA":"AL";dados[d]['P'+p].push({nome:"",turno:base});salvar();renderDia(d);}
+function delExtra(d,p,idx){dados[d]['P'+p].splice(idx,1);if(dados[d]['P'+p].length==0)dados[d]['P'+p].push({nome:"",turno:"AL"});salvar();renderDia(d);}
 function contar(){var c=0,total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){c++;total+=getValor(it.nome);}})}document.getElementById('cnt').textContent=c+" FIXOS";document.getElementById('totalFin').textContent="R$ "+total;}
+
 function renderDia(d){
  var cont=document.getElementById('card_'+d);
  if(!cont) return;
- var html='<div class="diaTop"><div class="diaLeft">📅 '+d+' '+dias[d]+'</div><div style="font-size:9px;background:#EFF6FF;color:#3B82F6;padding:4px 8px;border-radius:10px">'+(function(){var t=0;for(var p=1;p<=6;p++)t+=(dados[d]['P'+p]||[]).filter(x=>x.nome).length;return t;})()+' escalações</div></div>';
+ var html='<div class="diaTop"><div class="diaLeft">📅 '+d+' '+dias[d]+'</div><div style="font-size:9px;background:#EFF6FF;color:#3B82F6;padding:3px 7px;border-radius:10px">'+(function(){var t=0;for(var p=1;p<=6;p++)t+=(dados[d]['P'+p]||[]).filter(x=>x.nome).length;return t;})()+' esc.</div></div>';
  for(var p=1;p<=6;p++){
-  var lista=dados[d]['P'+p]||[{nome:""}];
+  var lista=dados[d]['P'+p]||[{nome:"",turno:"AL"}];
   lista.forEach((item,idx)=>{
    var opts=musicosLista.map(m=>'<option '+(m==item.nome?'selected':'')+'>'+m+'</option>').join('');
    var isExtra=idx>0;
-   html+='<div class="linhaCasa '+(item.nome?'preenchida':'')+(isExtra?' extra':'')+'"><b>'+(isExtra?'↳ P'+p+' (2º)':'P'+p)+' 📍</b><select onchange="mudar('+d+','+p+','+idx+',this.value)"><option value="">--</option>'+opts+'</select><span class="printTxt">'+(item.nome||'---')+'</span>';
-   if(!isExtra){html+='<button class="btnMais add" onclick="addExtra('+d+','+p+')" title="Adicionar">+</button>';}
-   else {html+='<button class="btnMais del" onclick="delExtra('+d+','+p+','+idx+')">x</button>';}
+   var turnoCls=item.turno=="JA"?"ja":item.turno=="AL+JA"?"both":"al";
+   html+='<div class="linhaCasa '+(item.nome?'preenchida':'')+(isExtra?' extra':'')+'">';
+   html+='<b>'+(isExtra?'↳':'')+'P'+p+'</b>';
+   html+='<select class="selMus" onchange="mudarMus('+d+','+p+','+idx+',this.value)"><option value="">--</option>'+opts+'</select>';
+   html+='<select class="selTurno '+turnoCls+'" onchange="mudarTurno('+d+','+p+','+idx+',this.value)"><option '+(item.turno=="AL"?"selected":"")+'>AL</option><option '+(item.turno=="JA"?"selected":"")+'>JA</option><option '+(item.turno=="AL+JA"?"selected":"")+'>AL+JA</option></select>';
+   html+='<span class="printTxt">'+(item.nome||'--')+'</span><span class="printTurno '+turnoCls+'">'+item.turno+'</span>';
+   if(!isExtra) html+='<button class="btnMais add" onclick="addExtra('+d+','+p+')" title="Add extra">+</button>';
+   else html+='<button class="btnMais del" onclick="delExtra('+d+','+p+','+idx+')" title="Remover">x</button>';
    html+='</div>';
   });
  }
  cont.innerHTML=html;
- contar();
-}
-function abrirRelatorio(){
- var por={};for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){var n=it.nome.toUpperCase();if(!por[n])por[n]=[];por[n].push({dia:d,p:'P'+p});}})}
- var html="";Object.keys(por).sort().forEach(n=>{html+='<div style="background:#111;color:#fff;padding:6px 10px;border-radius:8px;margin-top:8px;display:flex;justify-content:space-between"><span>🎤 '+n+'</span><span>'+por[n].length+'x</span></div><div style="padding:4px">'+por[n].map(x=>'<span style="background:#eee;border-radius:10px;padding:2px 6px;font-size:10px;margin:2px;display:inline-block">'+x.dia+' '+dias[x.dia]+' '+x.p+'</span>').join('')+'</div>'});
- document.getElementById('conteudoMus').innerHTML=html||"Vazio";document.getElementById('modalMus').classList.add('open');document.getElementById('overlay').classList.add('open');
-}
-function abrirFin(){
- var por={};var total=0;for(var d=1;d<=30;d++)for(var p=1;p<=6;p++){(dados[d]['P'+p]||[]).forEach(it=>{if(it.nome){var v=getValor(it.nome);total+=v;var n=it.nome.toUpperCase();por[n]=(por[n]||{q:0,v:0});por[n].q++;por[n].v+=v;}})}
- var html="";for(var n in por){html+='<div style="display:flex;justify-content:space-between;background:#f8f8f8;padding:8px;border-radius:8px;margin:4px 0"><b>'+n+'</b><span>'+por[n].q+'x = R$'+por[n].v+'</span></div>'}
- document.getElementById('conteudoFin').innerHTML=(html||"Vazio")+'<div style="background:#111;color:#fff;padding:10px;border-radius:10px;text-align:center;margin-top:10px">TOTAL R$ '+total+'</div>';
- document.getElementById('modalFin').classList.add('open');document.getElementById('overlay').classList.add('open');
 }
 carregar();
 var grade=document.getElementById('grade');
