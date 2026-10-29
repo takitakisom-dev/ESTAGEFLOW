@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESTAGEFLOW MENU TOTAL - NOV26 A DEZ27 - CORRIGIDO</title>
+<title>ESTAGEFLOW V11 - FINANCEIRO DIÁRIO SEMANAL MENSAL ANUAL</title>
 <meta name="theme-color" content="#0F1115">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
@@ -57,48 +57,99 @@ body{background:#F2F4F7}
 .mesBar{background:#fff;padding:8px 12px;display:flex;gap:8px;align-items:center;border-bottom:1px solid #E5E7EB;overflow:auto}
 .mesBar button{padding:6px 12px;border-radius:20px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
 .mesBar button.ativo{background:#111;color:#fff;border-color:#111}
-@media print{.top,.side,.overlay,.btnMais,.tabs,.mesBar{display:none!important}.grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;padding:2px!important}.card{border:0.6px solid #000!important;padding:4px!important;border-radius:5px!important;box-shadow:none!important}.linhaCasa select{display:none!important}.printTxt{display:inline!important;font-size:7px!important;font-weight:700}.printTurno{display:inline!important;font-size:5.5px!important;font-weight:900;padding:1px 3px;border-radius:4px;margin-left:2px;border:0.5px solid}@page{size:A4 landscape;margin:3mm}}
+.finTabs{display:flex;gap:6px;margin:12px 0;flex-wrap:wrap}
+.finTabs button{padding:10px 16px;border-radius:10px;border:1.5px solid #E5E7EB;background:#fff;font-weight:900;font-size:12px;cursor:pointer}
+.finTabs button.ativo{background:#111;color:#fff;border-color:#111}
+.planFilter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.planFilter select{padding:10px 14px;border-radius:10px;border:1.5px solid #111;font-weight:900;font-size:13px;background:#fff;flex:1;min-width:200px}
+.planCard{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:12px;margin-top:12px}
+.planHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.planTable{width:100%;border-collapse:collapse;font-size:12px}
+.planTable th{background:#0F1115;color:#fff;padding:8px 6px;text-align:left;font-size:10px}
+.planTable td{padding:8px 6px;border-bottom:1px solid #E5E7EB}
+.planTotal{background:#111;color:#fff;padding:12px;border-radius:12px;display:flex;justify-content:space-between;margin-top:12px;font-weight:900}
+@media print{.top,.side,.overlay,.btnMais,.tabs,.mesBar,.planFilter,.finTabs{display:none!important}.grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;padding:2px!important}.card{border:0.6px solid #000!important;padding:4px!important;border-radius:5px!important;box-shadow:none!important}.linhaCasa select{display:none!important}.printTxt{display:inline!important;font-size:7px!important;font-weight:700}.printTurno{display:inline!important;font-size:5.5px!important;font-weight:900;padding:1px 3px;border-radius:4px;margin-left:2px;border:0.5px solid}@page{size:A4 landscape;margin:3mm}}
 </style>
 </head>
 <body>
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
 <div class="side" id="side">
 <h2>☰ ESTAGEFLOW</h2>
-<div class="sub">NOV/26 A DEZ/27 • CALENDÁRIO CORRIGIDO • 1000 ANOS</div>
-<div style="background:#22C55E;color:#000;padding:8px;border-radius:8px;font-weight:900;text-align:center;margin-bottom:10px;font-size:11px" id="stMenu">✅ CALENDÁRIO CORRIGIDO - DOMINGO 01/11/26</div>
+<div class="sub">V11 - FINANCEIRO DIÁRIO SEMANAL MENSAL ANUAL + FILTRO MÚSICO</div>
+<div style="background:#22C55E;color:#000;padding:8px;border-radius:8px;font-weight:900;text-align:center;margin-bottom:10px;font-size:11px" id="stMenu">✅ V11 - FINANCEIRO TOTAL</div>
 <div style="background:#0F172A;border-radius:12px;padding:10px;margin-bottom:12px;border:1px solid #1E293B">
 <div style="font-size:10px;font-weight:900;color:#94A3B8;margin-bottom:6px">📅 14 MESES - CALENDÁRIO REAL CORRIGIDO</div>
 <div id="listaMesesMenu" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
 </div>
 <button class="dark" onclick="go('grade');closeAll()">📅 GRADE COMPACTA AL/JA</button>
-<button class="dark" style="background:#FFF9C4;color:#000" onclick="go('fin');closeAll()">💰 FINANCEIRO</button>
-<button class="dark" style="background:#FFF9C4;color:#000" onclick="go('plan');closeAll()">📋 PLANEJAMENTO</button>
+<button class="dark" style="background:#FFF9C4;color:#000;border:2px solid #FBBF24" onclick="go('plan');closeAll()">📋 CRONOGRAMA COMPLETO</button>
+<button class="dark" style="background:#BBF7D0;color:#000;border:2px solid #22C55E" onclick="go('fin');closeAll()">💰 FINANCEIRO DIÁRIO/SEMANAL/MENSAL/ANUAL + FILTRO</button>
 <button class="dark" onclick="go('art');closeAll()">🎤 MÚSICOS</button>
 <button class="dark" onclick="go('casa');closeAll()">🏠 CASAS P1-P6</button>
-<button class="yellow" onclick="window.print()">🖨️ IMPRIMIR - 1 FOLHA</button>
+<button class="yellow" onclick="window.print()">🖨️ IMPRIMIR</button>
 <button class="green" onclick="forcarSalvar()">💾 SALVAR FIXO - 1000 ANOS</button>
 <button class="blue" onclick="exportar()">📤 EXPORTAR BACKUP (14 MESES)</button>
 <button class="blue" onclick="document.getElementById('fileIn').click()">📥 IMPORTAR BACKUP</button>
 <input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<button class="purple" id="btnInstalar" onclick="instalarApp()">📲 INSTALAR APP</button>
+<button class="purple" onclick="instalarApp()">📲 INSTALAR APP</button>
 <button class="orange" onclick="compartilhar()">🔗 COMPARTILHAR</button>
 <button class="red" onclick="zerar()">🧹 ZERAR MÊS ATUAL</button>
 <button class="white" onclick="closeAll()">✕ FECHAR</button>
 </div>
 <div class="top">
 <span style="cursor:pointer;background:#222;padding:6px 12px;border-radius:10px;font-weight:900" onclick="openMenu()">☰</span>
-<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6" id="subTop">NOV/26 A DEZ/27 - CORRIGIDO</span></b>
+<b style="line-height:1">ESTAGEFLOW<br><span style="font-size:9px;font-weight:400;opacity:.6" id="subTop">V11 FINANCEIRO TOTAL</span></b>
 <select id="selMesTop" class="selMes" onchange="trocarMes(this.value)"></select>
 <span class="pill z" id="cnt">0 FIXOS</span>
 <span class="pill g" id="totalFin">R$ 0</span>
 <button class="btnPrint" onclick="window.print()">🖨️ 1 FOLHA</button>
 </div>
 <div class="mesBar" id="mesBar"></div>
-<div id="sec-grade" class="sec show"><div class="tabs"><button class="active">Grade</button><button class="inactive" onclick="go('fin')">Financeiro</button><button class="inactive" onclick="go('plan')">Planejamento</button></div><div class="grid" id="grade"></div></div>
-<div id="sec-fin" class="sec"><div class="box"><h3>💰 Financeiro - <span id="finMesLabel"></span></h3><div id="finBox"></div></div></div>
-<div id="sec-plan" class="sec"><div class="box"><h3>📋 Planejamento - <span id="planMesLabel"></span></h3><div id="planBox"></div></div></div>
+
+<div id="sec-grade" class="sec show"><div class="tabs"><button class="active">Grade</button><button class="inactive" onclick="go('plan')" style="background:#FEF3C7;font-weight:900">📋 CRONOGRAMA</button><button class="inactive" onclick="go('fin')" style="background:#DCFCE7;font-weight:900">💰 FINANCEIRO TOTAL</button></div><div class="grid" id="grade"></div></div>
+
+<div id="sec-plan" class="sec">
+<div class="box">
+<h3>📋 CRONOGRAMA / PLANEJAMENTO - <span id="planMesLabel"></span></h3>
+<div class="planFilter">
+<select id="filtroMusico" onchange="renderPlan()"><option value="TODOS">👥 TODOS</option></select>
+<button onclick="window.print()" style="padding:10px 16px;background:#111;color:#fff;border:none;border-radius:10px;font-weight:900">🖨️ IMPRIMIR</button>
+</div>
+<div id="planBox"></div>
+</div>
+</div>
+
+<div id="sec-fin" class="sec">
+<div class="box">
+<h3>💰 FINANCEIRO TOTAL - <span id="finMesLabel"></span></h3>
+<p style="font-size:11px;color:#6B7280;margin-top:4px">Agora com valores Diário, Semanal, Mensal e Anual + filtro por músico completo!</p>
+
+<div class="planFilter">
+<select id="filtroFinMusico" onchange="renderFin()"><option value="TODOS">👥 TODOS OS MÚSICOS</option></select>
+<select id="filtroFinTipo" onchange="renderFin()">
+<option value="DIARIO">📅 DIÁRIO - POR DIA</option>
+<option value="SEMANAL">📆 SEMANAL - POR SEMANA</option>
+<option value="MENSAL">📊 MENSAL - MÊS ATUAL</option>
+<option value="ANUAL">📈 ANUAL - 14 MESES (NOV26 A DEZ27)</option>
+<option value="POR_MUSICO">🎤 POR MÚSICO - RESUMO</option>
+</select>
+</div>
+
+<div class="finTabs">
+<button id="tabDIARIO" onclick="setFinTipo('DIARIO')" class="ativo">📅 DIÁRIO</button>
+<button id="tabSEMANAL" onclick="setFinTipo('SEMANAL')">📆 SEMANAL</button>
+<button id="tabMENSAL" onclick="setFinTipo('MENSAL')">📊 MENSAL</button>
+<button id="tabANUAL" onclick="setFinTipo('ANUAL')">📈 ANUAL</button>
+<button id="tabPOR_MUSICO" onclick="setFinTipo('POR_MUSICO')">🎤 POR MÚSICO</button>
+</div>
+
+<div id="finBox"></div>
+</div>
+</div>
+
 <div id="sec-art" class="sec"><div class="box"><h3>🎤 Músicos</h3><div style="display:flex;gap:6px;margin:8px 0"><input id="nArt" placeholder="NOME" style="flex:1;padding:10px;border-radius:10px;border:1px solid #ccc;font-weight:800;text-transform:uppercase"><input id="cArt" type="number" placeholder="R$" style="width:90px;padding:10px;border-radius:10px"><button onclick="addArt()" style="padding:10px 14px;background:#FBBF24;border:none;border-radius:10px;font-weight:900">ADD</button></div><div id="lArt"></div></div></div>
 <div id="sec-casa" class="sec"><div class="box"><h3>🏠 Casas P1-P6</h3><div id="fCasa"></div></div></div>
+
 <script>
 var mesesLista=[
  {id:"2026-11",label:"NOV/2026",nome:"Novembro 2026",dias:30,ini:0},
@@ -117,22 +168,22 @@ var mesesLista=[
  {id:"2027-12",label:"DEZ/2027",nome:"Dezembro 2027",dias:31,ini:3}
 ];
 var diasSemana=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
-var KEY="ESTAGEFLOW_MULTI_MESES_NOV26_DEZ27_V9_CORRIGIDO_DOMINGO";
+var KEY="ESTAGEFLOW_V11_FINANCEIRO_TOTAL_DIARIO_SEMANAL_MENSAL_ANUAL";
 var KEY_MUS="musicos_lista_final_valores";
 var artistasPadrao=[{nome:"EDILL",cache:300},{nome:"GERVAZIO",cache:300},{nome:"YGOR",cache:300},{nome:"ANDRE",cache:300},{nome:"VAT 60",cache:450},{nome:"DUO CLASSIC ROCK",cache:450},{nome:"PAOLI",cache:300},{nome:"DOUGLAS",cache:300},{nome:"MARTIN",cache:300},{nome:"ROBSON SOLO",cache:300},{nome:"ANDERSON VAT60 SOLO",cache:350}];
 var casas={P1:"P1",P2:"P2",P3:"P3",P4:"P4",P5:"P5",P6:"P6"};
-var artistas=[];var allDados={};var mesAtual="2026-11";var deferredPrompt=null;
+var artistas=[];var allDados={};var mesAtual="2026-11";var finTipo="DIARIO";var deferredPrompt=null;
 function carregarLista(ch,pd){try{var v=localStorage.getItem(ch);if(v){var a=JSON.parse(v);if(Array.isArray(a)&&a.length>0)return a;}}catch(e){}return pd;}
 function getValor(n){var f=artistas.find(a=>a.nome.toUpperCase()===n.toUpperCase());return f?f.cache:300;}
-function salvar(){try{localStorage.setItem(KEY,JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY+"_BKP1",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY+"_BKP2",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY_MUS,JSON.stringify(artistas.map(a=>({nome:a.nome,valor:a.cache}))));}catch(e){}contar();}
-function forcarSalvar(){salvar();var q=contar();document.getElementById('stMenu').textContent=q+" SHOWS EM "+mesLabel(mesAtual)+" - CORRIGIDO";alert("✅ Salvo! "+q+" shows em "+mesLabel(mesAtual)+" - Calendário corrigido!");}
+function salvar(){try{localStorage.setItem(KEY,JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY+"_BKP1",JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual}));localStorage.setItem(KEY_MUS,JSON.stringify(artistas.map(a=>({nome:a.nome,valor:a.cache}))));}catch(e){}contar();}
+function forcarSalvar(){salvar();var q=contar();alert("✅ Salvo! "+q+" shows em "+mesLabel(mesAtual));}
 function mesLabel(id){var m=mesesLista.find(x=>x.id==id);return m?m.label:id;}
 function getDiasMes(id){var m=mesesLista.find(x=>x.id==id);return m?m.dias:30;}
 function getDiaSemana(id,dia){var m=mesesLista.find(x=>x.id==id);if(!m)return "DOM";var idx=(m.ini + dia -1)%7;return diasSemana[idx];}
 function ensureMes(id){if(!allDados[id]){allDados[id]={};for(var d=1;d<=getDiasMes(id);d++){allDados[id][d]={};for(var p=1;p<=6;p++){allDados[id][d]['P'+p]=[{nome:"",turno:"AL"}];}}}}
 function carregar(){
  try{
-  var keys=[KEY,"ESTAGEFLOW_MULTI_MESES_NOV26_DEZ27_V8_FINAL_1000_ANOS","ESTAGEFLOW_MULTI_MESES_DEZ26_DEZ27_V7","ESTAGEFLOW_COMPACTO_ALJA_V5_FINAL"];
+  var keys=[KEY,"ESTAGEFLOW_V10_CRONOGRAMA_COMPLETO_VOLTOU","ESTAGEFLOW_MULTI_MESES_NOV26_DEZ27_V9_CORRIGIDO_DOMINGO"];
   for(var k=0;k<keys.length;k++){
    var s=localStorage.getItem(keys[k]);if(!s)continue;var o=JSON.parse(s);
    if(o.all){allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;break;}
@@ -141,15 +192,24 @@ function carregar(){
  if(!artistas||artistas.length==0){artistas=carregarLista(KEY_MUS,artistasPadrao).map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));}
  mesesLista.forEach(mm=>ensureMes(mm.id));if(!allDados[mesAtual])mesAtual="2026-11";
 }
-function trocarMes(id){mesAtual=id;salvar();montarGrade();renderSeletores();contar();}
+function trocarMes(id){mesAtual=id;salvar();montarGrade();renderSeletores();contar();renderFin();renderPlan();}
 function montarSeletores(){
- var selTop=document.getElementById('selMesTop');selTop.innerHTML=mesesLista.map(m=>'<option value="'+m.id+'" '+(m.id==mesAtual?'selected':'')+'>'+m.nome+' ('+m.dias+' dias) - 01='+diasSemana[m.ini]+'</option>').join('');
- var bar=document.getElementById('mesBar');bar.innerHTML=mesesLista.map(m=>'<button class="'+(m.id==mesAtual?'ativo':'')+'" onclick="trocarMes(\''+m.id+'\')">'+m.label+' ('+diasSemana[m.ini]+')</button>').join('');
- var menu=document.getElementById('listaMesesMenu');menu.innerHTML=mesesLista.map(m=>'<button class="mesBtn '+(m.id==mesAtual?'ativo':'')+'" onclick="trocarMes(\''+m.id+'\');closeAll();go(\'grade\')">'+m.label+'<br><small>'+diasSemana[m.ini]+'</small></button>').join('');
- document.getElementById('subTop').textContent=mesesLista.find(m=>m.id==mesAtual).nome+" - 01/"+diasSemana[mesesLista.find(m=>m.id==mesAtual).ini];
+ var selTop=document.getElementById('selMesTop');selTop.innerHTML=mesesLista.map(m=>'<option value="'+m.id+'" '+(m.id==mesAtual?'selected':'')+'>'+m.nome+' ('+m.dias+' dias)</option>').join('');
+ var bar=document.getElementById('mesBar');bar.innerHTML=mesesLista.map(m=>'<button class="'+(m.id==mesAtual?'ativo':'')+'" onclick="trocarMes(\''+m.id+'\')">'+m.label+'</button>').join('');
+ var menu=document.getElementById('listaMesesMenu');menu.innerHTML=mesesLista.map(m=>'<button class="mesBtn '+(m.id==mesAtual?'ativo':'')+'" onclick="trocarMes(\''+m.id+'\');closeAll();go(\'grade\')">'+m.label+'</button>').join('');
+ document.getElementById('subTop').textContent=mesesLista.find(m=>m.id==mesAtual).nome;
  document.getElementById('finMesLabel').textContent=mesesLista.find(m=>m.id==mesAtual).nome;
  document.getElementById('planMesLabel').textContent=mesesLista.find(m=>m.id==mesAtual).nome;
+ var filtro=document.getElementById('filtroMusico');
+ var filtroFin=document.getElementById('filtroFinMusico');
+ var atual=filtro?.value; var atualFin=filtroFin?.value;
+ var opts='<option value="TODOS">👥 TODOS OS MÚSICOS</option>'+artistas.map(a=>'<option value="'+a.nome+'">'+a.nome+' - R$ '+a.cache+'</option>').join('');
+ if(filtro) filtro.innerHTML=opts;
+ if(filtroFin) filtroFin.innerHTML=opts;
+ if(filtro && atual) filtro.value=atual;
+ if(filtroFin && atualFin) filtroFin.value=atualFin;
 }
+function setFinTipo(t){finTipo=t;document.getElementById('filtroFinTipo').value=t;document.querySelectorAll('.finTabs button').forEach(b=>b.classList.remove('ativo'));var btn=document.getElementById('tab'+t);if(btn)btn.classList.add('ativo');renderFin();}
 function mudarMus(d,p,idx,val){allDados[mesAtual][d]['P'+p][idx].nome=val;salvar();renderDia(d);}
 function mudarTurno(d,p,idx,val){allDados[mesAtual][d]['P'+p][idx].turno=val;salvar();renderDia(d);}
 function addExtra(d,p){var base=allDados[mesAtual][d]['P'+p][0]?.turno=="AL"?"JA":"AL";allDados[mesAtual][d]['P'+p].push({nome:"",turno:base});salvar();renderDia(d);}
@@ -159,17 +219,184 @@ function openMenu(){document.getElementById('side').classList.add('open');docume
 function closeAll(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');if(id=='fin')renderFin();if(id=='plan')renderPlan();if(id=='art')renderArt();if(id=='casa')renderCasa();if(id=='grade'){montarGrade();}}
 function zerar(){var nomeMes=mesesLista.find(m=>m.id==mesAtual).nome;if(confirm("Zerar "+nomeMes+"?")){var dias=getDiasMes(mesAtual);for(var d=1;d<=dias;d++)for(var p=1;p<=6;p++)allDados[mesAtual][d]['P'+p]=[{nome:"",turno:"AL"}];salvar();montarGrade();closeAll();}}
-function addArt(){var n=document.getElementById('nArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cArt').value)||300;if(!n)return;artistas.push({nome:n,cache:c});document.getElementById('nArt').value='';document.getElementById('cArt').value='';salvar();renderArt();}
-function renderArt(){var h=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#F3F4F6;border-radius:10px;margin-top:6px"><div><b>'+a.nome+'</b> - R$ '+a.cache+'</div><button onclick="artistas.splice('+i+',1);salvar();renderArt()" style="background:#EF4444;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-weight:900">X</button></div>').join('');document.getElementById('lArt').innerHTML=h||'Nenhum músico';}
+function addArt(){var n=document.getElementById('nArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cArt').value)||300;if(!n)return;artistas.push({nome:n,cache:c});document.getElementById('nArt').value='';document.getElementById('cArt').value='';salvar();montarSeletores();renderArt();}
+function renderArt(){var h=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#F3F4F6;border-radius:10px;margin-top:6px"><div><b>'+a.nome+'</b> - R$ '+a.cache+'</div><button onclick="artistas.splice('+i+',1);salvar();montarSeletores();renderArt()" style="background:#EF4444;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-weight:900">X</button></div>').join('');document.getElementById('lArt').innerHTML=h||'Nenhum músico';}
 function renderCasa(){var h='';for(var k in casas){h+='<div style="display:flex;gap:6px;margin-top:8px;align-items:center"><b style="width:35px">'+k+'</b><input id="casa_'+k+'" value="'+casas[k]+'" style="flex:1;padding:8px;border:1px solid #ccc;border-radius:8px"><button onclick="casas[\''+k+'\']=document.getElementById(\'casa_'+k+'\').value;salvar();renderCasa()" style="padding:8px 12px;background:#22C55E;border:none;border-radius:8px;font-weight:900">OK</button></div>';}document.getElementById('fCasa').innerHTML=h;}
-function renderFin(){var rel={},tot=0,sh=0;var cur=allDados[mesAtual]||{};for(var d in cur)for(var p=1;p<=6;p++){(cur[d]['P'+p]||[]).forEach(it=>{if(!it.nome)return;var q=it.turno=='AL+JA'?2:1;if(!rel[it.nome])rel[it.nome]={s:0,t:0};rel[it.nome].s+=q;var c=getValor(it.nome)*q;rel[it.nome].t+=c;tot+=c;sh+=q;});}
- var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0"><div style="background:#111;color:#fff;padding:12px;border-radius:12px;text-align:center">SHOWS<br><b style="font-size:20px">'+sh+'</b><br><small>'+mesLabel(mesAtual)+'</small></div><div style="background:#FBBF24;padding:12px;border-radius:12px;text-align:center">TOTAL<br><b style="font-size:20px">R$ '+tot+'</b><br><small>'+mesLabel(mesAtual)+'</small></div></div><table style="width:100%;font-size:13px;border-collapse:collapse"><tr><th style="background:#111;color:#fff;padding:10px;text-align:left">Músico</th><th style="background:#111;color:#fff;padding:10px">Shows</th><th style="background:#111;color:#fff;padding:10px">R$</th></tr>';
- for(var k in rel)h+='<tr><td style="padding:10px;border-bottom:1px solid #eee"><b>'+k+'</b></td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee">'+rel[k].s+'</td><td style="text-align:right;padding:10px;border-bottom:1px solid #eee;color:green;font-weight:900">R$ '+rel[k].t+'</td></tr>';
- h+='</table>';if(Object.keys(rel).length==0)h='<div style="padding:20px;text-align:center;color:#999">Zerado - '+mesLabel(mesAtual)+' em aberto</div>';document.getElementById('finBox').innerHTML=h;}
-function renderPlan(){var por={};var cur=allDados[mesAtual]||{};for(var d in cur)for(var p=1;p<=6;p++){(cur[d]['P'+p]||[]).forEach(it=>{if(!it.nome)return;if(!por[it.nome])por[it.nome]=[];por[it.nome].push({dia:d,casa:casas['P'+p]||p,turno:it.turno});});}
- var html='';for(var k in por){html+='<div style="background:#F3F4F6;padding:12px;border-radius:12px;margin-top:10px"><b>'+k+' - '+por[k].length+' shows em '+mesLabel(mesAtual)+'</b><div style="font-size:12px;margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">'+por[k].map(x=>'<span style="background:#fff;border:1px solid #ddd;padding:4px 8px;border-radius:12px">'+x.dia+' '+getDiaSemana(mesAtual,x.dia)+' '+x.casa+' '+x.turno+'</span>').join('')+'</div></div>';}if(!html)html='<div style="padding:20px;text-align:center;color:#999">Zerado - '+mesLabel(mesAtual)+' em aberto</div>';document.getElementById('planBox').innerHTML=html;}
-function exportar(){salvar();var dataStr=JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual,versao:"ESTAGEFLOW_V9_CORRIGIDO_CALENDARIO_REAL",data:new Date().toISOString(),meses:mesesLista});var blob=new Blob([dataStr],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_BACKUP_CORRIGIDO_NOV26_A_DEZ27_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert("✅ Backup CORRIGIDO exportado! Calendário real validado!");}
-function importar(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var o=JSON.parse(ev.target.result);if(o.all)allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;salvar();montarSeletores();montarGrade();alert('✅ Backup importado! Calendário corrigido aplicado!');closeAll();go('grade');}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';}
+
+function renderPlan(){
+ var filtro=document.getElementById('filtroMusico')?.value || "TODOS";
+ var cur=allDados[mesAtual]||{};
+ var lista=[];
+ for(var d in cur){for(var p=1;p<=6;p++){(cur[d]['P'+p]||[]).forEach(it=>{if(!it.nome) return;if(filtro!=="TODOS" && it.nome!==filtro) return;lista.push({dia:parseInt(d),sem:getDiaSemana(mesAtual,parseInt(d)),casa:casas['P'+p]||('P'+p),turno:it.turno,musico:it.nome,valor:getValor(it.nome)*(it.turno=='AL+JA'?2:1),turnos:it.turno=='AL+JA'?2:1});});}}
+ lista.sort((a,b)=>a.dia-b.dia);
+ var html='';
+ if(filtro==="TODOS"){
+  var porMusico={};lista.forEach(item=>{if(!porMusico[item.musico]) porMusico[item.musico]=[];porMusico[item.musico].push(item);});
+  if(Object.keys(porMusico).length===0){html='<div style="padding:30px;text-align:center;color:#999;background:#F8FAFC;border-radius:12px">Nenhum show em '+mesLabel(mesAtual)+'</div>';}
+  else {for(var musico in porMusico){var shows=porMusico[musico];var totalShows=shows.reduce((s,x)=>s+x.turnos,0);var totalValor=shows.reduce((s,x)=>s+x.valor,0);html+='<div class="planCard"><div class="planHeader"><div><b>🎤 '+musico+'</b><br><small>'+totalShows+' shows • R$ '+totalValor+'</small></div><div style="background:#111;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:900">R$ '+totalValor+'</div></div><table class="planTable"><tr><th>DIA</th><th>SEMANA</th><th>CASA</th><th>TURNO</th><th>VALOR</th></tr>';shows.forEach(s=>{html+='<tr><td><b>'+s.dia+'</b></td><td>'+s.sem+'</td><td><b>'+s.casa+'</b></td><td><span style="background:'+(s.turno=='AL'?'#FEF3C7':s.turno=='JA'?'#DBEAFE':'#E0E7FF')+';padding:3px 8px;border-radius:10px;font-size:10px;font-weight:900">'+s.turno+'</span></td><td style="font-weight:900;color:#16A34A">R$ '+s.valor+'</td></tr>';});html+='</table><div class="planTotal"><span>'+totalShows+' SHOWS - '+musico+'</span><span>R$ '+totalValor+'</span></div></div>';}}
+ } else {
+  if(lista.length===0){html='<div style="padding:30px;text-align:center;color:#999">Nenhum show do '+filtro+' em '+mesLabel(mesAtual)+'</div>';}
+  else {var totalShows=lista.reduce((s,x)=>s+x.turnos,0);var totalValor=lista.reduce((s,x)=>s+x.valor,0);html+='<div class="planCard" style="border:2px solid #111"><div class="planHeader"><div><b style="font-size:18px">🎤 '+filtro+' - CRONOGRAMA</b><br><small>'+mesLabel(mesAtual)+' • '+totalShows+' shows</small></div><div style="background:#FBBF24;color:#000;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:900">R$ '+totalValor+'</div></div><table class="planTable"><tr><th>DIA</th><th>SEMANA</th><th>CASA</th><th>TURNO</th><th>VALOR</th></tr>';lista.forEach(s=>{html+='<tr><td><b style="font-size:14px">'+s.dia+'</b></td><td><b>'+s.sem+'</b></td><td><b>'+s.casa+'</b></td><td><span style="background:'+(s.turno=='AL'?'#FEF3C7':s.turno=='JA'?'#DBEAFE':'#E0E7FF')+';padding:4px 10px;border-radius:10px;font-size:11px;font-weight:900">'+s.turno+'</span></td><td style="font-weight:900;color:#16A34A;font-size:13px">R$ '+s.valor+'</td></tr>';});html+='</table><div class="planTotal"><span>📅 '+filtro+' - '+totalShows+' SHOWS</span><span>💰 R$ '+totalValor+'</span></div></div>';}
+ }
+ document.getElementById('planBox').innerHTML=html;
+}
+
+// FINANCEIRO TOTAL - DIÁRIO, SEMANAL, MENSAL, ANUAL COM FILTRO MÚSICO
+function renderFin(){
+ var filtroMusico=document.getElementById('filtroFinMusico')?.value || "TODOS";
+ finTipo=document.getElementById('filtroFinTipo')?.value || finTipo;
+ document.querySelectorAll('.finTabs button').forEach(b=>b.classList.remove('ativo'));
+ var btn=document.getElementById('tab'+finTipo); if(btn) btn.classList.add('ativo');
+
+ var html='';
+ var cur=allDados[mesAtual]||{};
+
+ if(finTipo==='DIARIO'){
+  // Diário do mês atual
+  var porDia={};
+  for(var d=1;d<=getDiasMes(mesAtual);d++) porDia[d]={shows:0,valor:0,detalhes:[]};
+  for(var d in cur){
+   for(var p=1;p<=6;p++){
+    (cur[d]['P'+p]||[]).forEach(it=>{
+     if(!it.nome) return;
+     if(filtroMusico!=="TODOS" && it.nome!==filtroMusico) return;
+     var v=getValor(it.nome)*(it.turno=='AL+JA'?2:1);
+     var s=it.turno=='AL+JA'?2:1;
+     porDia[d].shows+=s; porDia[d].valor+=v;
+     porDia[d].detalhes.push(it.nome+' ('+casas['P'+p]+' '+it.turno+')');
+    });
+   }
+  }
+  var totalMes=0,totalShowsMes=0;
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center"><small>DIAS COM SHOW</small><br><b style="font-size:20px">'+Object.values(porDia).filter(x=>x.shows>0).length+'</b></div><div style="background:#FBBF24;padding:14px;border-radius:12px;text-align:center"><small>TOTAL '+mesLabel(mesAtual)+'</small><br><b style="font-size:20px" id="totalDiarioLabel">R$ 0</b></div></div>';
+  html+='<table class="planTable"><tr><th>DIA</th><th>SEMANA</th><th>SHOWS</th><th>DETALHES</th><th>VALOR DIA</th></tr>';
+  for(var d=1;d<=getDiasMes(mesAtual);d++){
+   var info=porDia[d];
+   totalMes+=info.valor; totalShowsMes+=info.shows;
+   if(info.shows===0 && filtroMusico==="TODOS") continue; // esconde dias zerados se todos
+   if(filtroMusico!=="TODOS" && info.shows===0) continue;
+   html+='<tr><td><b>'+d+'</b></td><td>'+getDiaSemana(mesAtual,d)+'</td><td style="text-align:center"><b>'+info.shows+'</b></td><td style="font-size:10px">'+info.detalhes.join(', ')+'</td><td style="font-weight:900;color:#16A34A">R$ '+info.valor+'</td></tr>';
+  }
+  html+='</table><div class="planTotal"><span>📅 DIÁRIO - '+mesLabel(mesAtual)+' - '+totalShowsMes+' SHOWS'+(filtroMusico!=="TODOS"?' - '+filtroMusico:'')+'</span><span>R$ '+totalMes+'</span></div>';
+  if(totalShowsMes===0) html='<div style="padding:30px;text-align:center;color:#999;background:#F8FAFC;border-radius:12px">Nenhum show '+(filtroMusico!=="TODOS"? 'do '+filtroMusico+' ':'')+'em '+mesLabel(mesAtual)+'</div>';
+ }
+
+ else if(finTipo==='SEMANAL'){
+  var semanas={1:{ini:1,fim:7,shows:0,valor:0},2:{ini:8,fim:14,shows:0,valor:0},3:{ini:15,fim:21,shows:0,valor:0},4:{ini:22,fim:28,shows:0,valor:0},5:{ini:29,fim:31,shows:0,valor:0}};
+  for(var d in cur){
+   var dia=parseInt(d);
+   var semNum=dia<=7?1:dia<=14?2:dia<=21?3:dia<=28?4:5;
+   for(var p=1;p<=6;p++){
+    (cur[d]['P'+p]||[]).forEach(it=>{
+     if(!it.nome) return;
+     if(filtroMusico!=="TODOS" && it.nome!==filtroMusico) return;
+     semanas[semNum].valor+=getValor(it.nome)*(it.turno=='AL+JA'?2:1);
+     semanas[semNum].shows+=it.turno=='AL+JA'?2:1;
+    });
+   }
+  }
+  var totalMes=0,totalShows=0;
+  html+='<table class="planTable"><tr><th>SEMANA</th><th>DIAS</th><th>SHOWS</th><th>VALOR SEMANA</th></tr>';
+  for(var s=1;s<=5;s++){
+   var info=semanas[s];
+   if(getDiasMes(mesAtual)<info.ini) continue;
+   totalMes+=info.valor; totalShows+=info.shows;
+   var fimReal=Math.min(info.fim,getDiasMes(mesAtual));
+   html+='<tr><td><b>SEMANA '+s+'</b></td><td>Dia '+info.ini+' a '+fimReal+'</td><td style="text-align:center"><b>'+info.shows+'</b></td><td style="font-weight:900;color:#16A34A">R$ '+info.valor+'</td></tr>';
+  }
+  html+='</table><div class="planTotal"><span>📆 SEMANAL - '+mesLabel(mesAtual)+' - '+totalShows+' SHOWS'+(filtroMusico!=="TODOS"?' - '+filtroMusico:'')+'</span><span>R$ '+totalMes+'</span></div>';
+ }
+
+ else if(finTipo==='MENSAL'){
+  var tot=0,sh=0,rel={};
+  for(var d in cur){
+   for(var p=1;p<=6;p++){
+    (cur[d]['P'+p]||[]).forEach(it=>{
+     if(!it.nome) return;
+     if(filtroMusico!=="TODOS" && it.nome!==filtroMusico) return;
+     var q=it.turno=='AL+JA'?2:1;
+     var v=getValor(it.nome)*q;
+     tot+=v; sh+=q;
+     if(!rel[it.nome]) rel[it.nome]={s:0,v:0};
+     rel[it.nome].s+=q; rel[it.nome].v+=v;
+    });
+   }
+  }
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center"><small>SHOWS NO MÊS</small><br><b style="font-size:22px">'+sh+'</b><br><small>'+mesLabel(mesAtual)+'</small></div><div style="background:#FBBF24;padding:14px;border-radius:12px;text-align:center"><small>TOTAL MENSAL</small><br><b style="font-size:22px">R$ '+tot+'</b><br><small>'+mesLabel(mesAtual)+(filtroMusico!=="TODOS"?' - '+filtroMusico:'')+'</small></div></div>';
+  if(filtroMusico==="TODOS"){
+   html+='<table class="planTable"><tr><th>MÚSICO</th><th>SHOWS</th><th>VALOR MÊS</th></tr>';
+   for(var k in rel) html+='<tr><td><b>'+k+'</b></td><td style="text-align:center">'+rel[k].s+'</td><td style="font-weight:900;color:#16A34A">R$ '+rel[k].v+'</td></tr>';
+   html+='</table>';
+  } else {
+   html+='<div class="planCard" style="border:2px solid #22C55E;background:#F0FDF4"><b>🎤 '+filtroMusico+' em '+mesLabel(mesAtual)+':</b><br><span style="font-size:22px;font-weight:900;color:#15803D">'+sh+' shows • R$ '+tot+'</span></div>';
+  }
+  html+='<div class="planTotal"><span>📊 MENSAL - '+mesLabel(mesAtual)+'</span><span>R$ '+tot+'</span></div>';
+ }
+
+ else if(finTipo==='ANUAL'){
+  var porMes={}; var totalAnual=0,showsAnual=0; var porMusicoAnual={};
+  mesesLista.forEach(mm=>{
+   var curM=allDados[mm.id]||{};
+   var totM=0,shM=0;
+   for(var d in curM){
+    for(var p=1;p<=6;p++){
+     (curM[d]['P'+p]||[]).forEach(it=>{
+      if(!it.nome) return;
+      if(filtroMusico!=="TODOS" && it.nome!==filtroMusico) return;
+      var q=it.turno=='AL+JA'?2:1;
+      var v=getValor(it.nome)*q;
+      totM+=v; shM+=q; totalAnual+=v; showsAnual+=q;
+      if(!porMusicoAnual[it.nome]) porMusicoAnual[it.nome]={s:0,v:0};
+      porMusicoAnual[it.nome].s+=q; porMusicoAnual[it.nome].v+=v;
+     });
+    }
+   }
+   porMes[mm.id]={valor:totM,shows:shM};
+  });
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center"><small>SHOWS 14 MESES</small><br><b style="font-size:22px">'+showsAnual+'</b><br><small>NOV26 A DEZ27</small></div><div style="background:#7C3AED;color:#fff;padding:14px;border-radius:12px;text-align:center"><small>TOTAL ANUAL</small><br><b style="font-size:22px">R$ '+totalAnual+'</b><br><small>'+(filtroMusico!=="TODOS"?filtroMusico:'TODOS')+'</small></div></div>';
+  html+='<table class="planTable"><tr><th>MÊS</th><th>SHOWS</th><th>VALOR MÊS</th></tr>';
+  mesesLista.forEach(mm=>{
+   var info=porMes[mm.id];
+   if(info.shows===0 && filtroMusico==="TODOS") { /* mostra mesmo zerado pra anual */ }
+   html+='<tr style="'+(mm.id==mesAtual?'background:#FEF3C7;font-weight:900':'')+'"><td><b>'+mm.label+'</b> <small>'+mm.nome+'</small></td><td style="text-align:center">'+info.shows+'</td><td style="font-weight:900;color:#7C3AED">R$ '+info.valor+'</td></tr>';
+  });
+  html+='</table>';
+  if(filtroMusico==="TODOS"){
+   html+='<div style="margin-top:12px"><b>🎤 RESUMO ANUAL POR MÚSICO:</b></div><table class="planTable" style="margin-top:6px"><tr><th>MÚSICO</th><th>SHOWS ANUAL</th><th>VALOR ANUAL</th></tr>';
+   for(var k in porMusicoAnual) html+='<tr><td><b>'+k+'</b></td><td style="text-align:center">'+porMusicoAnual[k].s+'</td><td style="font-weight:900;color:#16A34A">R$ '+porMusicoAnual[k].v+'</td></tr>';
+   html+='</table>';
+  }
+  html+='<div class="planTotal"><span>📈 ANUAL - 14 MESES - '+showsAnual+' SHOWS</span><span>R$ '+totalAnual+'</span></div>';
+ }
+
+ else if(finTipo==='POR_MUSICO'){
+  var rel={},tot=0,sh=0;
+  for(var d in cur){
+   for(var p=1;p<=6;p++){
+    (cur[d]['P'+p]||[]).forEach(it=>{
+     if(!it.nome) return;
+     if(filtroMusico!=="TODOS" && it.nome!==filtroMusico) return;
+     var q=it.turno=='AL+JA'?2:1;
+     var v=getValor(it.nome)*q;
+     tot+=v; sh+=q;
+     if(!rel[it.nome]) rel[it.nome]={s:0,v:0,media:0};
+     rel[it.nome].s+=q; rel[it.nome].v+=v;
+    });
+   }
+  }
+  for(var k in rel) rel[k].media=Math.round(rel[k].v/rel[k].s);
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:#111;color:#fff;padding:14px;border-radius:12px;text-align:center"><small>SHOWS</small><br><b style="font-size:20px">'+sh+'</b></div><div style="background:#22C55E;color:#000;padding:14px;border-radius:12px;text-align:center"><small>TOTAL</small><br><b style="font-size:20px">R$ '+tot+'</b></div></div>';
+  html+='<table class="planTable"><tr><th>MÚSICO</th><th>SHOWS</th><th>MÉDIA/SHOW</th><th>TOTAL MÊS</th></tr>';
+  for(var k in rel) html+='<tr><td><b>'+k+'</b></td><td style="text-align:center">'+rel[k].s+'</td><td style="text-align:center">R$ '+rel[k].media+'</td><td style="font-weight:900;color:#16A34A">R$ '+rel[k].v+'</td></tr>';
+  html+='</table><div class="planTotal"><span>🎤 POR MÚSICO - '+mesLabel(mesAtual)+'</span><span>R$ '+tot+'</span></div>';
+  if(Object.keys(rel).length===0) html='<div style="padding:30px;text-align:center;color:#999">Nenhum show</div>';
+ }
+
+ document.getElementById('finBox').innerHTML=html;
+}
+
+function exportar(){salvar();var dataStr=JSON.stringify({all:allDados,artistas:artistas,casas:casas,mes:mesAtual,versao:"ESTAGEFLOW_V11_FINANCEIRO_TOTAL",data:new Date().toISOString(),meses:mesesLista});var blob=new Blob([dataStr],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_V11_FINANCEIRO_TOTAL_'+new Date().toISOString().slice(0,10)+'.json';a.click();alert("✅ Backup V11 Financeiro Total exportado!");}
+function importar(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var o=JSON.parse(ev.target.result);if(o.all)allDados=o.all;if(o.artistas)artistas=o.artistas.map(m=>({nome:(m.nome||m).toUpperCase(),cache:m.valor||m.cache||300}));if(o.casas)casas=o.casas;if(o.mes)mesAtual=o.mes;salvar();montarSeletores();montarGrade();alert('✅ Backup V11 importado!');closeAll();go('grade');}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';}
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;});
 function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();}else{alert('📲 Android: Menu ⋮ > Instalar app\niPhone: Compartilhar □↑ > Adicionar à Tela de Início');}}
 function compartilhar(){var q=contar();var texto='🎤 ESTAGEFLOW - '+mesLabel(mesAtual)+' - '+q+' shows';if(navigator.share){navigator.share({title:'ESTAGEFLOW',text:texto,url:window.location.href});}else{prompt('Link:',window.location.href);}}
@@ -198,7 +425,7 @@ function montarGrade(){
 carregar();
 montarSeletores();
 montarGrade();
-renderArt();renderCasa();
+renderArt();renderCasa();renderPlan();renderFin();
 setInterval(salvar,1000);
 </script>
 </body>
