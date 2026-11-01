@@ -1,188 +1,108 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ESTAGEFLOW V44 COMPLETO ORIGINAL + OUTUBRO + FILTRO</title>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RECUPERACAO ESTAGEFLOW - V45</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#F2F2F2}
-.top{background:#111;color:#fff;padding:10px 12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:99}
-.top .name{font-size:16px;font-weight:900;letter-spacing:.5px}
-.pills{margin-left:8px;display:flex;gap:5px}
-.pill{font-size:8px;font-weight:900;padding:4px 8px;border-radius:10px}
-.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}.f{background:#fff;color:#000;cursor:pointer}
-.menuBtn{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px 8px}
-.tabsMes{display:flex;background:#fff;padding:6px 12px;border-bottom:1px solid #E5E7EB;overflow:auto;gap:6px;white-space:nowrap}
-.tabsMes button{border:1px solid #E5E7EB;background:#fff;padding:8px 14px;font-size:11px;font-weight:800;border-radius:20px;white-space:nowrap}
-.tabsMes button.active{background:#111;color:#fff;border-color:#111}
-.tabs{display:flex;background:#fff;padding:6px 12px;border-bottom:1px solid #E5E7EB}
-.tabs button{border:none;background:transparent;padding:8px 14px;font-size:12px;font-weight:700;margin-right:8px;border-bottom:2px solid transparent}
-.tabs button.active{border-bottom:2px solid #111;color:#111}.tabs button.inactive{color:#9CA3AF}
-.infoBar{background:#111;color:#fff;padding:6px 12px;font-size:8px;font-weight:900;letter-spacing:.3px;text-align:center}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 6px 90px}
-.card{background:#fff;border-radius:10px;padding:8px;border:1px solid #E5E7EB;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-.dia{font-size:10px;font-weight:900;display:flex;justify-content:space-between;margin-bottom:5px;border-bottom:1px solid #F3F4F6;padding-bottom:3px}
-.dia span.badge{font-size:7px;background:#F3F4F6;padding:2px 6px;border-radius:8px;color:#6B7280}
-.linha{display:flex;align-items:center;gap:3px;margin-bottom:3px}
-.linha b{flex:0 0 18px;font-size:7px;font-weight:900}
-.linha select{border:1px solid #D1D5DB;border-radius:5px;padding:1px 2px;font-size:7px;background:#fff;font-weight:600;height:20px}
-.linha select.esc{flex:1}
-.linha select.al{flex:0 0 36px;text-align:center;font-weight:900;background:#F3F4F6}
-.drawer{position:fixed;top:0;right:-360px;width:340px;height:100%;background:#111;color:#fff;z-index:9999;transition:.25s;padding:14px;overflow:auto}
-.drawer.open{right:0}
-.drawer button{width:100%;padding:10px;margin-bottom:6px;border:none;border-radius:8px;text-align:left;background:#1F1F1F;color:#fff;font-size:10px;cursor:pointer}
-.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:9998}.fundo.show{display:block}
-.sec{display:none}.sec.show{display:block}
-.box{background:#fff;border-radius:10px;margin:8px;padding:12px;border:1px solid #E5E7EB}
-.finInput{width:100%;padding:10px;border:1px solid #D1D5DB;border-radius:8px;font-size:12px;font-weight:700;margin-top:6px;background:#fff}
-@media print{.top,.tabs,.tabsMes,.drawer,.fundo{display:none!important} .grid{grid-template-columns:repeat(6,1fr)!important} @page{size:A4 landscape;margin:4mm}}
+*{box-sizing:border-box;font-family:Arial}
+body{background:#111;color:#fff;padding:16px}
+.box{background:#1F1F1F;border:1px solid #333;border-radius:12px;padding:14px;margin:10px 0}
+.btn{width:100%;padding:14px;border:none;border-radius:10px;font-weight:900;margin:6px 0;cursor:pointer}
+.btn-green{background:#22C55E;color:#000}
+.btn-yellow{background:#FBBF24;color:#000}
+.btn-blue{background:#3B82F6;color:#fff}
+.btn-white{background:#fff;color:#000}
+input[type=file]{background:#000;color:#fff;padding:10px;border-radius:8px;width:100%}
+.small{font-size:10px;color:#9CA3AF;margin:4px 0}
+.log{background:#000;padding:10px;border-radius:8px;font-size:11px;white-space:pre-wrap;max-height:300px;overflow:auto;border:1px solid #333}
 </style>
 </head>
 <body>
-<div class="top"><span class="name">ESTAGEFLOW</span><div class="pills"><span class="pill z" id="topZ">ZERADO</span><span class="pill r">RELATORIO</span><span class="pill f" onclick="window.print()">1 FOLHA</span></div><button class="menuBtn" onclick="openMenu()">☰</button></div>
-<div class="fundo" id="fundo" onclick="closeMenu()"></div>
-<div class="drawer" id="drawer">
-<h3 style="font-size:14px;font-weight:900">ESTAGEFLOW</h3>
-<p style="font-size:8px;color:#9CA3AF;margin:4px 0 10px">V44 MENU COMPLETO ORIGINAL + OUTUBRO + FILTRO ANDRE - FIXO NAO APAGA</p>
-<div style="background:#22C55E;color:#000;padding:6px;border-radius:6px;font-weight:900;text-align:center;margin-bottom:10px;font-size:10px" id="stMenu">✅ V44 - MENU COMPLETO + OUTUBRO</div>
-<button onclick="go('grade');closeMenu()">📅 Grade P1-P6 ESCOLHA + AL</button>
-<button onclick="go('fin');closeMenu()">💰 Relatório Financeiro - Todos/Individual/Dia/Semana/Mês/Ano + Filtro Data</button>
-<button onclick="go('plan');closeMenu()">📋 Planejamento Mês por Músico - Todos</button>
-<button onclick="go('art');closeMenu()">🎤 Músicos - Editar / Excluir</button>
-<button onclick="go('casa');closeMenu()">🏠 Casas P1-P6 - Editar / Excluir</button>
-<button onclick="window.print()" style="background:#FBBF24;color:#000;text-align:center;font-weight:900">🖨️ 1 FOLHA - 30 DIAS EM 1 PÁGINA</button>
-<button onclick="forcarSalvar()" style="background:#22C55E;color:#000;text-align:center;font-weight:900">💾 Salvar Fixo - Não Apaga</button>
-<button onclick="exportar()" style="background:#3B82F6;text-align:center">📤 Exportar Backup</button>
-<button onclick="document.getElementById('fileIn').click()" style="background:#3B82F6;text-align:center">📥 Importar Backup - RECUPERAR 172</button>
-<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<button onclick="zerar()" style="background:#7F1D1D;text-align:center">🧹 Zerar Grade</button>
-<button onclick="closeMenu()" style="background:#fff;color:#000;text-align:center;font-weight:900">✖ FECHAR</button>
-<div style="font-size:7px;color:#6B7280;margin-top:12px;line-height:1.3">V44 - CHAVE FIXA: ESTAGEFLOW_V28_FIXO_FINAL_NUNCA_MUDA_ESTE_FINAL - AGORA COM OUT/2026 + FILTRO ANDRE 01/10 A 04/10 - MENU COMPLETO RESTAURADO - SE PERDEU, CLIQUE EM IMPORTAR E SELECIONE O BACKUP OU ELE RECUPERA AUTOMATICO DO _BKP</div>
+<h2 style="color:#FBBF24">♻️ RECUPERAÇÃO ESTAGEFLOW V45</h2>
+<p class="small">Essa página lê seu BKP e devolve os 172 shows. Não apaga nada.</p>
+<div class="box">
+<b>1️⃣ VER O QUE TEM SALVO NO SEU CELULAR AGORA</b>
+<button class="btn btn-yellow" onclick="verLocal()">🔍 VER LOCALSTORAGE AGORA</button>
+<div id="localInfo" class="log">Clique em VER LOCALSTORAGE...</div>
 </div>
-
-<div id="sec-grade" class="sec show">
-<div class="tabs"><button class="active">Grade</button><button class="inactive" onclick="go('fin')">Relatorio</button><button class="inactive" onclick="go('art')">Artistas</button></div>
-<div class="tabsMes" id="tabsMes"></div>
-<div class="infoBar" id="infoBar">V44 MENU COMPLETO + OUTUBRO - FIXO</div>
-<div class="grid" id="grade"></div>
+<div class="box">
+<b>2️⃣ CARREGAR SEU ARQUIVO DE BACKUP .JSON</b>
+<input type="file" id="fileBKP" accept=".json" onchange="lerBKP(event)">
+<div id="bkpInfo" class="log" style="margin-top:10px">Nenhum arquivo carregado ainda</div>
+<button class="btn btn-blue" id="btnRestaurar" onclick="restaurar()" style="display:none">✅ RESTAURAR ESSE BKP - TRAZER 172 DE VOLTA</button>
 </div>
-
-<div id="sec-fin" class="sec"><div class="box">
-<h3 style="font-size:14px">💰 Relatório Financeiro - <span id="titMes">Outubro 2026</span></h3>
-
-<div style="background:#FEF3C7;border:2px solid #FBBF24;border-radius:10px;padding:10px;margin:10px 0">
-<b style="font-size:11px">🎤 NOVO - FILTRAR POR MÚSICO E DATA - EX: ANDRÉ 01/10 A 04/10</b>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
-<div><label style="font-size:9px;font-weight:800">MÚSICO</label><select id="filtroMusico" class="finInput"></select></div>
-<div><label style="font-size:9px;font-weight:800">VISÃO</label><select class="finInput"><option>RESUMO</option></select></div>
+<div class="box">
+<b>3️⃣ DEPOIS DE RESTAURAR</b>
+<button class="btn btn-green" onclick="voltar()">📅 VOLTAR PRO ESTAGEFLOW - VER SE VOLTOU OS 172</button>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
-<div><label style="font-size:9px;font-weight:800">DATA INÍCIO</label><input id="dataIni" type="date" class="finInput" value="2026-10-01"></div>
-<div><label style="font-size:9px;font-weight:800">DATA FIM</label><input id="dataFim" type="date" class="finInput" value="2026-10-04"></div>
+<div class="box">
+<b>LOG</b>
+<div id="log" class="log"></div>
 </div>
-<button onclick="filtrarPorData()" style="width:100%;margin-top:8px;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;font-weight:900">🔍 FILTRAR - EX: ANDRÉ 01/10 A 04/10 VER VALOR</button>
-<button onclick="renderFin()" style="width:100%;margin-top:6px;padding:10px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:10px;font-weight:800">🔄 VER MÊS TODO</button>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
-<div style="background:#111;color:#fff;padding:12px;border-radius:12px;text-align:center"><div style="font-size:10px">SHOWS FILTRO</div><b style="font-size:22px" id="finShows">0</b><div style="font-size:9px" id="finPeriodo">OUT/2026</div></div>
-<div style="background:#22C55E;color:#000;padding:12px;border-radius:12px;text-align:center"><div style="font-size:10px">TOTAL FILTRO</div><b style="font-size:18px" id="finTotal">R$ 0</b><div style="font-size:9px" id="finDetalhe">Filtrado</div></div>
-</div>
-<div id="finListaData"></div>
-</div>
-
-<div id="fin"></div>
-</div></div>
-
-<div id="sec-plan" class="sec"><div class="box"><h3 style="font-size:11px">📋 Planejamento Mês por Músico</h3><div id="plan"></div></div></div>
-
-<div id="sec-art" class="sec"><div class="box"><h3 style="font-size:11px">🎤 Músicos - Editar / Excluir</h3><div style="display:flex;gap:4px"><input id="nArt" placeholder="NOME DO MÚSICO" style="flex:1;padding:6px;border-radius:5px;border:1px solid #ccc;font-weight:800;text-transform:uppercase;font-size:9px"><input id="cArt" type="number" placeholder="R$" style="width:60px;padding:6px;border-radius:5px;font-size:9px"><button onclick="addArt()" style="padding:6px 10px;background:#FBBF24;border:none;border-radius:5px;font-weight:900;font-size:9px">ADD</button></div><div id="lArt" style="margin-top:6px"></div></div></div>
-
-<div id="sec-casa" class="sec"><div class="box"><h3 style="font-size:11px">🏠 Casas P1-P6 - Editar / Excluir</h3><div id="fCasa"></div><div style="display:flex;gap:4px;margin-top:6px"><input id="nCasa" placeholder="NOVA CASA" style="flex:1;padding:6px;border-radius:5px;border:1px solid #ccc;font-weight:800;text-transform:uppercase;font-size:9px"><button onclick="addCasa()" style="padding:6px 10px;background:#FBBF24;border:none;border-radius:5px;font-weight:900;font-size:9px">ADD</button></div></div></div>
-
 <script>
-var MESES={"OUT/2026":31,"NOV/2026":30,"DEZ/2026":31,"JAN/2027":31,"FEV/2027":28,"MAR/2027":31};
-var NOMES={"OUT/2026":"Outubro 2026","NOV/2026":"Novembro 2026","DEZ/2026":"Dezembro 2026","JAN/2027":"Janeiro 2027","FEV/2027":"Fevereiro 2027","MAR/2027":"Março 2027"};
-var mesAtual="OUT/2026";
-var artistas=[{nome:"ANDRE",cache:300},{nome:"EDILL / GERVASIO",cache:500},{nome:"GERVASIO",cache:200},{nome:"PAOLI",cache:320},{nome:"LUCIANO",cache:300},{nome:"YGOR",cache:280},{nome:"ISRAEL",cache:300},{nome:"RICK",cache:250},{nome:"VATA60",cache:250},{nome:"ANDERSON VAT 60 SOLO",cache:300}];
-var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago"};
-var dados={};
 var KEY="ESTAGEFLOW_V28_FIXO_FINAL_NUNCA_MUDA_ESTE_FINAL";
-
-function vazio(){
-  dados={};
-  for(var m in MESES){
-    dados[m]={};
-    for(var d=1; d<=MESES[m]; d++){
-      dados[m][d]={};
-      for(var p=1;p<=6;p++) dados[m][d]['P'+p]={nome:"",turno:"AL"};
+var MESES={"OUT/2026":31,"NOV/2026":30,"DEZ/2026":31,"JAN/2027":31,"FEV/2027":28,"MAR/2027":31};
+var dadosBKP=null;
+function loga(t){var el=document.getElementById('log'); el.textContent+=t+"\n";}
+function verLocal(){
+  var txt="Chaves encontradas:\n"; var total=0;
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k.includes("ESTAGEFLOW")){
+      var v=localStorage.getItem(k);
+      try{
+        var o=JSON.parse(v); var shows=0;
+        if(o.dados){
+          if(o.dados[1]){ for(var d=1; d<=31; d++) for(var p=1;p<=6;p++) if(o.dados[d] && o.dados[d]['P'+p] && o.dados[d]['P'+p].nome) shows++; txt+="→ "+k+" = V28 ANTIGO PLANO = "+shows+" shows\n"; }
+          else{ for(var m in o.dados){ for(var d in o.dados[m]) for(var p=1;p<=6;p++) if(o.dados[m][d] && o.dados[m][d]['P'+p] && o.dados[m][d]['P'+p].nome) shows++; } txt+="→ "+k+" = COM MESES = "+shows+" shows, meses: "+Object.keys(o.dados).join(',')+"\n"; }
+        }
+        total+=shows;
+      }catch(e){ txt+="→ "+k+" = erro\n"; }
     }
   }
+  txt+="\nTOTAL GERAL: "+total+" shows";
+  document.getElementById('localInfo').textContent=txt; loga(txt);
 }
-function contarMes(m){var c=0;if(!dados[m])return 0;for(var d=1;d<=MESES[m];d++)for(var p=1;p<=6;p++)if(dados[m][d]&&dados[m][d]['P'+p]&&dados[m][d]['P'+p].nome)c++;return c;}
-function contarTotal(){var t=0;for(var m in MESES)t+=contarMes(m);return t;}
-function getCache(n){var f=artistas.find(a=>a.nome==n);return f?f.cache:300;}
-function forcarSalvar(){
-  var q=contarTotal();
-  var s=JSON.stringify({dados:dados,artistas:artistas,casas:casas,mesAtual:mesAtual});
-  try{localStorage.setItem(KEY,s);localStorage.setItem(KEY+"_BKP",s);}catch(e){}
-  document.getElementById('topZ').textContent=q==0?"ZERADO":q+" FIXOS";
-  document.getElementById('stMenu').textContent=q==0?"✅ V44 - ZERADO - PRONTO":q+" SHOWS - V44 MENU COMPLETO + OUTUBRO - FIXO - NAO APAGA";
-  document.getElementById('infoBar').textContent=q==0?"V44 ZERADO • OUTUBRO ADICIONADO • MENU COMPLETO":q+" SHOWS • V44 MENU COMPLETO + OUTUBRO • FIXO • NAO APAGA";
-}
-function carregar(){
-  try{
-    var r=localStorage.getItem(KEY)||localStorage.getItem(KEY+"_BKP");
-    if(!r){vazio();return;}
-    var o=JSON.parse(r);
-    if(o.dados){
-      if(o.dados[1] && !o.dados["NOV/2026"] && !o.dados["OUT/2026"]){
-        // antigo V28 plano
-        vazio();
-        dados["NOV/2026"]=o.dados;
-        for(var d=1; d<=31; d++){if(!dados["NOV/2026"][d]){dados["NOV/2026"][d]={};for(var p=1;p<=6;p++)dados["NOV/2026"][d]['P'+p]={nome:"",turno:"AL"}}}
-      }else{
-        if(!o.dados["OUT/2026"]){
-          // tem dados mas sem OUT, cria OUT e mantém resto
-          if(!dados["OUT/2026"]) vazio();
-          for(var m in MESES){if(o.dados[m]) dados[m]=o.dados[m];}
-          // se vazio criado, garante que NOV que tinha permanece
-          for(var m in o.dados){if(MESES[m] && !dados[m]) dados[m]=o.dados[m];}
-        }else{
-          dados=o.dados;
-        }
+function lerBKP(e){
+  var f=e.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    try{
+      var o=JSON.parse(ev.target.result); dadosBKP=o; var shows=0; var formato="";
+      if(o.dados){
+        if(o.dados[1]){ formato="V28 ANTIGO PLANO (1..31)"; for(var d=1; d<=31; d++) for(var p=1;p<=6;p++) if(o.dados[d] && o.dados[d]['P'+p] && o.dados[d]['P'+p].nome) shows++; }
+        else{ formato="V44 NOVO COM MESES"; for(var m in o.dados) for(var d in o.dados[m]) for(var p=1;p<=6;p++) if(o.dados[m][d] && o.dados[m][d]['P'+p] && o.dados[m][d]['P'+p].nome) shows++; }
       }
-      if(o.artistas) artistas=o.artistas;
-      if(o.casas) casas=o.casas;
-      if(o.mesAtual && MESES[o.mesAtual]) mesAtual=o.mesAtual;
+      var txt="ARQUIVO: "+f.name+"\nFORMATO: "+formato+"\nSHOWS: "+shows+"\n";
+      if(shows>=100) txt+="\n✅ ESSE É SEU BKP BOM COM OS 172! Clica em RESTAURAR abaixo.";
+      document.getElementById('bkpInfo').textContent=txt; loga(txt);
+      if(shows>0) document.getElementById('btnRestaurar').style.display='block';
+    }catch(err){ document.getElementById('bkpInfo').textContent="Erro: "+err; }
+  }; r.readAsText(f);
+}
+function restaurar(){
+  if(!dadosBKP){ alert("Carrega o arquivo primeiro"); return; }
+  try{
+    var o=dadosBKP; var dadosFinais={};
+    if(o.dados && o.dados[1] && !o.dados["OUT/2026"] && !o.dados["NOV/2026"]){
+      loga("Convertendo V28 plano -> NOV/2026...");
+      for(var m in MESES){ dadosFinais[m]={}; for(var d=1; d<=MESES[m]; d++){ dadosFinais[m][d]={}; for(var p=1;p<=6;p++) dadosFinais[m][d]['P'+p]={nome:"",turno:"AL"}; } }
+      dadosFinais["NOV/2026"]=o.dados;
+      o.dados=dadosFinais;
+    }else if(o.dados && o.dados["NOV/2026"] && !o.dados["OUT/2026"]){
+      for(var m in MESES){ if(!o.dados[m]){ o.dados[m]={}; for(var d=1; d<=MESES[m]; d++){ o.dados[m][d]={}; for(var p=1;p<=6;p++) o.dados[m][d]['P'+p]={nome:"",turno:"AL"}; } } }
     }
-  }catch(e){vazio();}
+    var s=JSON.stringify(o);
+    localStorage.setItem(KEY,s); localStorage.setItem(KEY+"_BKP",s);
+    var tot=0; for(var m in o.dados) for(var d in o.dados[m]) for(var p=1;p<=6;p++) if(o.dados[m][d] && o.dados[m][d]['P'+p] && o.dados[m][d]['P'+p].nome) tot++;
+    loga("TOTAL RESTAURADO: "+tot+" SHOWS");
+    alert("✅ RESTAURADO! "+tot+" shows de volta! Agora volta pro ESTAGEFLOW e abre NOV/2026");
+  }catch(e){ alert("Erro: "+e); }
 }
-function zerar(){if(confirm("Zerar tudo? Isso apaga tudo! Tem certeza? Faça backup antes!")){vazio();forcarSalvar();renderGrade();renderFin();renderPlan();}}
-function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show')}
-function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show')}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');if(id=='grade')renderGrade();if(id=='fin')renderFin();if(id=='plan')renderPlan();if(id=='art')renderArt();if(id=='casa')renderCasa();}
-function salvar(m,d,p,campo,val){if(!dados[m])dados[m]={};if(!dados[m][d])dados[m][d]={};if(!dados[m][d]['P'+p])dados[m][d]['P'+p]={nome:"",turno:"AL"};dados[m][d]['P'+p][campo]=val;forcarSalvar();renderTabs();}
-function renderTabs(){var c=document.getElementById('tabsMes');if(!c)return;c.innerHTML='';for(var m in MESES){var b=document.createElement('button');b.textContent=m+(contarMes(m)>0?' ('+contarMes(m)+')':'');b.className=m==mesAtual?'active':'';b.onclick=(function(mm){return function(){mesAtual=mm;document.getElementById('titMes').textContent=NOMES[mm];renderTabs();renderGrade();renderFin();renderPlan();forcarSalvar()}})(m);c.appendChild(b)}}
-function renderGrade(){renderTabs();var cont=document.getElementById('grade');cont.innerHTML='';for(var d=1;d<=MESES[mesAtual];d++){var dt=new Date(mesAtual.split('/')[1],{"OUT":9,"NOV":10,"DEZ":11,"JAN":0,"FEV":1,"MAR":2}[mesAtual.split('/')[0]],d);var sem=["DOM","SEG","TER","QUA","QUI","SEX","SAB"][dt.getDay()];var cur=dados[mesAtual]&&dados[mesAtual][d]?dados[mesAtual][d]:{};var card=document.createElement('div');card.className='card';var html='<div class="dia"><span>'+d+' '+sem+'</span><span class="badge">● FIXO</span></div>';for(var p=1;p<=6;p++){var inf=cur['P'+p]||{nome:"",turno:"AL"};var opts=artistas.map(a=>'<option value="'+a.nome+'" '+(a.nome==inf.nome?'selected':'')+'>'+a.nome+'</option>').join('');html+='<div class="linha"><b>P'+p+':</b><select class="esc" onchange="salvar(\''+mesAtual+'\','+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><select class="al" onchange="salvar(\''+mesAtual+'\','+d+','+p+',\'turno\',this.value)"><option value="AL" '+(inf.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(inf.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(inf.turno=='AL/JA'?'selected':'')+'>AL/JA</option></select></div>';}card.innerHTML=html;cont.appendChild(card)}}
-function renderFin(){
-  var sel=document.getElementById('filtroMusico');if(sel){var opts=artistas.map(a=>'<option value="'+a.nome+'">'+a.nome+' - R$ '+a.cache+'</option>').join('');sel.innerHTML='<option value="TODOS">TODOS - RESUMO</option>'+opts;}
-  var rel={},tot=0,sh=0;
-  for(var d=1;d<=MESES[mesAtual];d++)for(var p=1;p<=6;p++){var inf=dados[mesAtual]&&dados[mesAtual][d]&&dados[mesAtual][d]['P'+p]?dados[mesAtual][d]['P'+p]:null;if(!inf||!inf.nome)continue;var q=inf.turno=='AL/JA'?2:1;if(!rel[inf.nome])rel[inf.nome]={s:0,t:0};rel[inf.nome].s+=q;var c=getCache(inf.nome)*q;rel[inf.nome].t+=c;tot+=c;sh+=q;}
-  document.getElementById('finShows').textContent=sh;
-  document.getElementById('finTotal').textContent="R$ "+tot;
-  document.getElementById('finPeriodo').textContent=mesAtual;
-  document.getElementById('finDetalhe').textContent="Mês todo";
-  var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:6px 0"><div style="background:#111;color:#fff;padding:8px;border-radius:8px;text-align:center;font-size:9px">SHOWS<br><b>'+sh+'</b></div><div style="background:#FBBF24;padding:8px;border-radius:8px;text-align:center;font-size:9px">TOTAL<br><b>R$ '+tot+'</b></div></div><table style="width:100%;font-size:8px;border-collapse:collapse"><tr><th style="background:#111;color:#fff;padding:5px">Músico</th><th style="background:#111;color:#fff;padding:5px">Shows</th><th style="background:#111;color:#fff;padding:5px">R$</th></tr>';
-  for(var k in rel)h+='<tr><td style="padding:5px;border-bottom:1px solid #eee"><b>'+k+'</b></td><td style="text-align:center;padding:5px;border-bottom:1px solid #eee">'+rel[k].s+'</td><td style="text-align:right;padding:5px;border-bottom:1px solid #eee;color:green;font-weight:900">R$ '+rel[k].t+'</td></tr>';
-  h+='</table>';if(Object.keys(rel).length==0)h='<div style="padding:20px;text-align:center;color:#999;font-size:9px">Sem shows em '+mesAtual+'</div>';
-  document.getElementById('fin').innerHTML=h;
-  document.getElementById('finListaData').innerHTML='';
-}
-function renderPlan(){var por={},html='';for(var m in MESES)for(var d=1;d<=MESES[m];d++)for(var p=1;p<=6;p++){var inf=dados[m]&&dados[m][d]&&dados[m][d]['P'+p]?dados[m][d]['P'+p]:null;if(!inf||!inf.nome)continue;if(!por[inf.nome])por[inf.nome]=[];por[inf.nome].push({mes:m,dia:d,casa:casas['P'+p]||'P'+p,turno:inf.turno});}for(var k in por){html+='<div style="background:#F3F4F6;padding:6px;border-radius:6px;margin-top:4px;font-size:9px"><b>'+k+' - '+por[k].length+' shows</b><div style="font-size:8px;margin-top:2px">'+por[k].map(x=>x.mes+' '+x.dia+' '+x.casa+' '+x.turno).join(' | ')+'</div></div>';}if(html=='')html='<div style="padding:20px;text-align:center;color:#999;font-size:9px">Zerado</div>';document.getElementById('plan').innerHTML=html;}
-function addArt(){var n=document.getElementById('nArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cArt').value)||0;if(!n)return;artistas.push({nome:n,cache:c});document.getElementById('nArt').value='';document.getElementById('cArt').value='';renderArt();renderGrade();renderFin();renderPlan();forcarSalvar();}
-function renderArt(){document.getElementById('lArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:5px;background:#F3F4F6;border-radius:5px;margin-top:3px;font-size:8px"><div><b>'+a.nome+'</b> R$ '+a.cache+'</div><button onclick="artistas.splice('+i+',1);renderArt();renderGrade();forcarSalvar()" style="background:#EF4444;color:#fff;border:none;padding:2px 6px;border-radius:3px">X</button></div>').join('');}
-function renderCasa(){var h='';for(var k in casas){h+='<div style="display:flex;gap:4px;margin-top:4px;font-size:9px"><b>'+k+'</b><input id="casa_'+k+'" value="'+casas[k]+'" style="flex:1;padding:4px;border:1px solid #ccc;border-radius:4px;font-size:8px"><button onclick="saveCasas()" style="background:#22C55E;padding:4px 8px;border:none;border-radius:4px;font-size:7px">OK</button></div>';}document.getElementById('fCasa').innerHTML=h;}
-function saveCasas(){for(var k in casas){var el=document.getElementById('casa_'+k);if(el)casas[k]=el.value.toUpperCase();}forcarSalvar();renderGrade();}
-function addCasa(){var n=document.getElementById('nCasa').value.toUpperCase().trim();if(!n)return;var keys=Object.keys(casas);var last=keys[keys.length-1];var num=parseInt(last.replace('P',''))+1;casas['P'+num]=n;document.getElementById('nCasa').value='';renderCasa();renderGrade();forcarSalvar();}
-function mesParaData(mesStr,dia){var parts=mesStr.split('/');var map={"OUT":9,"NOV":10,"DEZ":11,"JAN":0,"FEV":1,"MAR":2};var ano=parseInt(parts[1]);var mm=map[parts[0]];return new Date(ano,mm,dia);}
-function filtrarPorData(){var musico=document.getElementById('filtroMusico').value;var iniVal=document.getElementById('dataIni').value;var fimVal=document.getElementById('dataFim').value;if(!iniVal||!fimVal){alert('Coloca data início e fim');return;}var ini=new Date(iniVal+'T00:00:00');var fim=new Date(fimVal+'T23:59:59');var total=0,shows=0,list=[];for(var m in MESES){for(var d=1;d<=MESES[m];d++){var dataReal=mesParaData(m,d);if(dataReal>=ini&&dataReal<=fim){for(var p=1;p<=6;p++){var inf=dados[m]&&dados[m][d]&&dados[m][d]['P'+p]?dados[m][d]['P'+p]:null;if(!inf||!inf.nome)continue;if(musico!="TODOS"&&inf.nome!=musico)continue;var q=inf.turno=='AL/JA'?2:1;var cache=getCache(inf.nome);total+=cache*q;shows+=q;list.push({data:dataReal,mes:m,dia:d,p:'P'+p,nome:inf.nome,turno:inf.turno,casa:casas['P'+p]||'P'+p,valor:cache*q});}}}}document.getElementById('finShows').textContent=shows;document.getElementById('finTotal').textContent="R$ "+total;document.getElementById('finPeriodo').textContent=iniVal.split('-').reverse().join('/')+' a '+fimVal.split('-').reverse().join('/');document.getElementById('finDetalhe').textContent=musico;list.sort((a,b)=>a.data-b.data);var h='<div style="margin-top:8px"><b style="font-size:11px">📋 Detalhe: '+musico+' de '+iniVal.split('-').reverse().join('/')+' a '+fimVal.split('-').reverse().join('/')+' ('+list.length+' registros) - Total R$ '+total+'</b>';for(var i=0;i<list.length;i++){var it=list[i];h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:11px"><span>'+it.data.toLocaleDateString('pt-BR')+' '+it.p+' '+it.casa+' '+it.nome+' '+it.turno+'</span><b>R$ '+it.valor+'</b></div>';}if(list.length==0)h+='<div style="padding:20px;text-align:center;color:#999">Nenhum show do '+musico+' neste período</div>';h+='</div>';document.getElementById('finListaData').innerHTML=h;}
-function exportar(){forcarSalvar();var blob=new Blob([localStorage.getItem(KEY)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_V44_COMPLETO.json';a.click();}
-function importar(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var o=JSON.parse(ev.target.result);if(o.dados)dados=o.dados;if(o.artistas)artistas=o.artistas;if(o.casas)casas=o.casas;if(o.mesAtual&&MESES[o.mesAtual])mesAtual=o.mesAtual;forcarSalvar();renderTabs();renderGrade();renderFin();renderPlan();renderArt();renderCasa();alert('✅ Importado! Seus 172 voltaram!');closeMenu();}catch(err){alert('Erro no arquivo');}};r.readAsText(f);}
-vazio();carregar();renderTabs();renderGrade();renderArt();renderCasa();renderFin();renderPlan();forcarSalvar();setInterval(forcarSalvar,1000);
+function voltar(){ window.location.href="index.html?v=44recuperado"; }
+loga("Página de recuperação carregada. Chave alvo: "+KEY);
+verLocal();
 </script>
-</body></html>
+</body>
+</html>
