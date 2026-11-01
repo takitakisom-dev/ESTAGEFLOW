@@ -1,266 +1,88 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ESTAGEFLOW V46 FINAL RECUPERADO - 172 SHOWS - OUTUBRO + FILTRO</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#F2F2F2}
-.top{background:#111;color:#fff;padding:10px 12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:99}
-.top .name{font-size:15px;font-weight:900}
-.pills{margin-left:8px;display:flex;gap:5px}
-.pill{font-size:8px;font-weight:900;padding:4px 8px;border-radius:10px}
-.z{background:#FBBF24;color:#000}.r{background:#22C55E;color:#000}.f{background:#fff;color:#000;cursor:pointer}
-.menuBtn{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer}
-.tabsMes{display:flex;background:#fff;padding:6px 12px;border-bottom:1px solid #E5E7EB;overflow:auto;gap:6px;white-space:nowrap}
-.tabsMes button{border:1px solid #E5E7EB;background:#fff;padding:8px 14px;font-size:11px;font-weight:800;border-radius:20px}
-.tabsMes button.active{background:#111;color:#fff;border-color:#111}
-.tabs{display:flex;background:#fff;padding:6px 12px;border-bottom:1px solid #E5E7EB}
-.tabs button{border:none;background:transparent;padding:8px 14px;font-size:12px;font-weight:700;margin-right:8px;border-bottom:2px solid transparent}
-.tabs button.active{border-bottom:2px solid #111;color:#111}
-.infoBar{background:#111;color:#fff;padding:8px 12px;font-size:10px;font-weight:900;text-align:center}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 6px 90px}
-.card{background:#fff;border-radius:10px;padding:8px;border:1px solid #E5E7EB}
-.dia{font-size:10px;font-weight:900;display:flex;justify-content:space-between;margin-bottom:5px;border-bottom:1px solid #F3F4F6;padding-bottom:3px}
-.linha{display:flex;align-items:center;gap:3px;margin-bottom:3px}
-.linha b{flex:0 0 22px;font-size:7px;font-weight:900}
-.linha select{border:1px solid #D1D5DB;border-radius:5px;padding:1px 2px;font-size:7px;background:#fff;font-weight:600;height:20px}
-.linha select.esc{flex:1}
-.linha select.al{flex:0 0 38px;text-align:center;font-weight:900;background:#F3F4F6}
-.drawer{position:fixed;top:0;right:-360px;width:340px;height:100%;background:#111;color:#fff;z-index:9999;transition:.25s;padding:14px;overflow:auto}
-.drawer.open{right:0}
-.drawer button{width:100%;padding:10px;margin-bottom:6px;border:none;border-radius:8px;text-align:left;background:#1F1F1F;color:#fff;font-size:10px;cursor:pointer}
-.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:9998}.fundo.show{display:block}
-.sec{display:none}.sec.show{display:block}
-.box{background:#fff;border-radius:10px;margin:8px;padding:12px;border:1px solid #E5E7EB}
-.finInput{width:100%;padding:10px;border:1px solid #D1D5DB;border-radius:8px;font-size:12px;font-weight:700;margin-top:6px;background:#fff}
-</style>
-</head>
-<body>
-<div class="top"><span class="name">ESTAGEFLOW</span><div class="pills"><span class="pill z" id="topZ">ZERADO</span><span class="pill r">RELATORIO</span><span class="pill f" onclick="window.print()">1 FOLHA</span></div><button class="menuBtn" onclick="openMenu()">☰</button></div>
-<div class="fundo" id="fundo" onclick="closeMenu()"></div>
-<div class="drawer" id="drawer">
-<h3>ESTAGEFLOW V46 RECUPERADO</h3>
-<p style="font-size:8px;color:#9CA3AF;margin:4px 0 10px">V46 RECUPERADO 172 SHOWS + OUTUBRO + FILTRO ANDRE - MENU COMPLETO ORIGINAL</p>
-<div style="background:#22C55E;color:#000;padding:8px;border-radius:6px;font-weight:900;text-align:center;margin-bottom:10px;font-size:11px" id="stMenu">✅ V46 - 172 SHOWS RECUPERADOS</div>
-<button onclick="go('grade');closeMenu()">📅 Grade P1-P12 - ESCOLHA + AL/JA - RECUPERADO</button>
-<button onclick="go('fin');closeMenu()">💰 Relatório Financeiro - Todos/Individual/Dia/Semana/Mês/Ano</button>
-<button onclick="go('filtro');closeMenu()" style="background:#FBBF24;color:#000;font-weight:900">🎤 Filtro Músico e Data - ANDRE 01/10 A 04/10</button>
-<button onclick="go('plan');closeMenu()">📋 Planejamento Mês por Músico - Todos</button>
-<button onclick="go('art');closeMenu()">🎤 Músicos - Editar / Excluir</button>
-<button onclick="go('casa');closeMenu()">🏠 Casas P1-P12 - Editar / Excluir</button>
-<button onclick="window.print()" style="background:#FBBF24;color:#000;text-align:center;font-weight:900">🖨️ 1 FOLHA - 30 DIAS</button>
-<button onclick="forcarSalvar(true)" style="background:#22C55E;color:#000;text-align:center;font-weight:900">💾 Salvar Fixo - Não Apaga Mais</button>
-<button onclick="exportar()" style="background:#3B82F6;text-align:center">📤 Exportar Backup - FAÇA SEMPRE</button>
-<button onclick="document.getElementById('fileIn').click()" style="background:#22C55E;color:#000;text-align:center;font-weight:900">📥 Importar Backup - RECUPERADO 172</button>
-<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<button onclick="zerar()" style="background:#7F1D1D;text-align:center">🧹 Zerar Grade</button>
-<button onclick="closeMenu()" style="background:#fff;color:#000;text-align:center;font-weight:900">✖ FECHAR</button>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PAGFLOW V19 SEMIBOLD</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#f8fafc;--card:#ffffff;--card2:#eef2ff;--line:#e0e7ff;--text:#0f172a;--blue:#2563eb;--green:#15803d;--red:#dc2626;--muted:#475569}
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',system-ui;background:var(--bg);color:var(--text);font-weight:500;letter-spacing:-0.2px}
+b,strong,h1,h2,h3{font-weight:600 !important;letter-spacing:-0.3px}
+header{padding:14px 18px;background:var(--blue);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;color:#fff}
+header .logo{font-weight:700;letter-spacing:2px;font-size:15px}
+#btnMenu{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;font-size:18px;font-weight:600}
+#sideMenu{position:fixed;top:0;left:-300px;width:300px;height:100%;background:#fff;z-index:20;transition:.3s;overflow:auto;border-right:1px solid var(--line)}
+#sideMenu.open{left:0}.menu-head{padding:18px;font-weight:700;border-bottom:1px solid var(--line);background:var(--card2);color:var(--blue);letter-spacing:1px}
+.menu-item{padding:13px 18px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;display:flex;justify-content:space-between;font-weight:500}
+.menu-item.active{background:var(--card2);font-weight:600;border-left:3px solid var(--blue);color:var(--blue)}
+#overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:15}#overlay.show{display:block}
+main{padding:12px;max-width:460px;margin:0 auto}
+.sum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.sum div:first-child{border-left:3px solid var(--red)}
+.sum div:nth-child(2){border-left:3px solid var(--green)}
+.sum div:last-child{border-left:3px solid var(--blue)}
+.sum .small{font-weight:600 !important;color:var(--muted);font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.sum b{display:block;margin-top:4px;font-size:17px;font-weight:700 !important;letter-spacing:-0.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.small{font-size:11px;color:var(--muted);font-weight:500}
+.label{font-size:12px;color:var(--text);font-weight:600 !important;margin-bottom:2px;display:block}
+.badge{font-size:10px;border-radius:12px;padding:3px 8px;font-weight:600 !important;letter-spacing:.2px}
+.badge.dev{color:#fff;background:var(--red)}
+.badge.pago{color:#fff;background:var(--green)}
+.badge.azul{color:var(--blue);background:var(--card2);border:1px solid var(--line);font-weight:600 !important}
+input,select{width:100%;padding:12px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--text);margin-top:4px;font-weight:500 !important;font-size:14px}
+input::placeholder{font-weight:400;color:#94a3b8}
+.btn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700 !important;margin-top:10px;font-size:14px;letter-spacing:.3px}
+.btn2{padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--card2);font-size:11px;color:var(--blue);font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.view{display:none}.view.active{display:block}
+</style></head><body>
+<div id="overlay" onclick="fecharMenu()"></div>
+<div id="sideMenu">
+<div class="menu-head">PAGFLOW • SEMIBOLD</div>
+<div class="menu-item active" id="m-home" onclick="irHome()"><span>🏠 Início</span></div>
+<div class="menu-item" id="m-pagar" onclick="mudarCat('pagar')"><span>📌 Contas a pagar</span><span class="badge dev" id="qtdPagarMenu">0</span></div>
+<div class="menu-item" id="m-receber" onclick="mudarCat('receber')"><span>💰 Contas a receber</span><span class="badge pago" id="qtdRecMenu" style="display:none">0</span></div>
+<div class="menu-item" onclick="mudarCat('carro')"><span>🚗 Parcelas carro</span></div>
+<div class="menu-item" onclick="mudarCat('bancos')"><span>🏦 Dívidas bancos</span></div>
+<div class="menu-item" onclick="mudarCat('viagem')"><span>✈️ Viagem</span></div>
+<div class="menu-item" onclick="mudarCat('casa')"><span>🏠 Casa / Projetos</span></div>
+<div style="padding:10px;border-top:1px solid var(--line);margin-top:10px"><button onclick="exportarBKP()" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600">📤 Exportar BKP</button><button onclick="document.getElementById('imp').click()" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;margin-top:6px;background:#fff;font-weight:600">📥 Importar BKP</button><input type="file" id="imp" style="display:none" accept=".json" onchange="importarBKP(this)"><div id="bkp" class="small" style="text-align:center;margin-top:6px"></div></div>
 </div>
-<div id="sec-grade" class="sec show">
-<div class="tabs"><button class="active">Grade</button><button style="border:none;background:transparent;padding:8px 14px;font-size:12px;color:#9CA3AF" onclick="go('fin')">Relatorio</button><button style="border:none;background:transparent;padding:8px 14px;font-size:12px;color:#9CA3AF" onclick="go('art')">Artistas</button></div>
-<div class="tabsMes" id="tabsMes"></div>
-<div class="infoBar" id="infoBar">V46 - 172 SHOWS RECUPERADOS - OUTUBRO + FILTRO</div>
-<div class="grid" id="grade"></div>
+<header><div class="logo">PAGFLOW</div><button id="btnMenu" onclick="abrirMenu()">☰</button></header>
+<main>
+<div id="viewHome" class="view active">
+<div class="sum"><div><div class="small">A PAGAR</div><b id="tPagar" style="color:var(--red)">R$ 0,00</b></div><div><div class="small">A RECEBER</div><b id="tReceber" style="color:var(--green)">R$ 0,00</b></div><div><div class="small">SALDO</div><b id="tSaldo" style="color:var(--blue)">R$ 0,00</b></div></div>
+<div class="card"><b style="font-size:14px;color:var(--blue);font-weight:700 !important">+ Adicionar rápido → Contas a pagar</b>
+<div style="margin-top:10px"><span class="label">O que é?</span><select id="tipo" onchange="document.getElementById('nome').value=this.value"></select></div>
+<input id="nome" placeholder="Ou digite novo (LUZ, Água...)">
+<div class="grid2" style="margin-top:10px"><div><span class="label">Valor R$</span><input id="valor" type="number"></div><div><span class="label">Vencimento</span><input id="data" type="date"></div></div>
+<div class="grid2" style="margin-top:10px"><div><span class="label">Qtd</span><input id="qtdI" type="number" value="1"></div><div><span class="label">Frequência</span><select id="freq"><option value="mensal" selected>Mensal</option><option value="dia">Dia x30</option><option value="semana">Semana x4,33</option><option value="quinzenal">Quinzenal x2</option><option value="unica">Única</option></select></div></div>
+<button class="btn" onclick="salvar()">SALVAR EM CONTAS A PAGAR</button>
+<div class="small" style="text-align:center;margin-top:8px;font-weight:500">Vá em ☰ > 📌 Contas a pagar pra ver a lista</div>
 </div>
-<div id="sec-fin" class="sec"><div class="box"><h3>💰 Relatório Financeiro - <span id="titMesFin">Novembro 2026</span></h3><div id="fin"></div></div></div>
-<div id="sec-filtro" class="sec">
-<div class="box">
-<h3 style="font-size:14px">💰 Filtro por Músico e Data - ANDRE 01/10 A 04/10</h3>
-<p style="font-size:10px;color:#6B7280;margin:4px 0 10px">Que você pediu - 172 shows recuperados</p>
-<div style="background:#FEF3C7;border:2px solid #FBBF24;border-radius:10px;padding:10px;margin-top:10px">
-<b style="font-size:11px">🎤 FILTRAR - POR MÚSICO + DATA - 172 SHOWS</b>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
-<div><label style="font-size:9px;font-weight:800">MÚSICO</label><select id="filtroMusico" class="finInput"></select></div>
-<div><label style="font-size:9px;font-weight:800">DATA FIM</label><input id="dataFim" type="date" class="finInput" value="2026-10-04"></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b style="color:var(--blue);font-weight:700 !important">Resumo</b><span class="badge azul" onclick="irMenu('pagar')" style="cursor:pointer">Ver no menu →</span></div><div id="resumoHome" class="small" style="margin-top:8px;font-weight:500"></div></div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
-<div><label style="font-size:9px;font-weight:800">DATA INÍCIO</label><input id="dataIni" type="date" class="finInput" value="2026-10-01"></div>
-<div><label style="font-size:9px;font-weight:800">VISÃO</label><select class="finInput"><option>POR PERIODO</option></select></div>
+<div id="viewLista" class="view">
+<div class="card"><div style="display:flex;justify-content:space-between"><b id="tit" style="color:var(--blue);font-weight:700 !important">📌 Contas a pagar</b><span class="badge dev" id="qtd">0 itens</span></div><div id="lista" style="margin-top:8px"></div><button class="btn" style="background:#fff;color:var(--blue);border:1px solid var(--line);margin-top:12px;font-weight:700 !important" onclick="irHome()">← Voltar pro Início</button></div>
 </div>
-<button onclick="filtrarPorData()" style="width:100%;margin-top:8px;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;font-weight:900">🔍 FILTRAR - ANDRÉ 01/10 A 04/10 VER VALOR</button>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
-<div style="background:#111;color:#fff;padding:12px;border-radius:12px;text-align:center"><div style="font-size:10px">SHOWS FILTRO</div><b style="font-size:22px" id="finShows">0</b><div style="font-size:9px" id="finPeriodo">OUT/2026</div></div>
-<div style="background:#22C55E;color:#000;padding:12px;border-radius:12px;text-align:center"><div style="font-size:10px">TOTAL FILTRO</div><b style="font-size:18px" id="finTotal">R$ 0</b><div style="font-size:9px" id="finDetalhe">Filtrado</div></div>
-</div>
-<div id="finListaData"></div>
-</div>
-</div>
-</div>
-<div id="sec-plan" class="sec"><div class="box"><h3>📋 Planejamento Mês por Músico - Todos - 172 SHOWS</h3><div id="plan"></div></div></div>
-<div id="sec-art" class="sec"><div class="box"><h3>🎤 Músicos - Editar / Excluir</h3><div style="display:flex;gap:4px"><input id="nArt" placeholder="NOME DO MÚSICO" style="flex:1;padding:6px;border-radius:5px;border:1px solid #ccc;font-weight:800;text-transform:uppercase;font-size:9px"><input id="cArt" type="number" placeholder="R$" style="width:60px;padding:6px;border-radius:5px;font-size:9px"><button onclick="addArt()" style="padding:6px 10px;background:#FBBF24;border:none;border-radius:5px;font-weight:900;font-size:9px">ADD</button></div><div id="lArt" style="margin-top:6px"></div></div></div>
-<div id="sec-casa" class="sec"><div class="box"><h3>🏠 Casas P1-P12 - Editar / Excluir</h3><div id="fCasa"></div><div style="display:flex;gap:4px;margin-top:6px"><input id="nCasa" placeholder="NOVA CASA" style="flex:1;padding:6px;border-radius:5px;border:1px solid #ccc;font-weight:800;text-transform:uppercase;font-size:9px"><button onclick="addCasa()" style="padding:6px 10px;background:#FBBF24;border:none;border-radius:5px;font-weight:900;font-size:9px">ADD</button></div></div></div>
+</main>
 <script>
-var MESES={"OUT/2026":31,"NOV/2026":30,"DEZ/2026":31,"JAN/2027":31,"FEV/2027":28,"MAR/2027":31};
-var NOMES={"OUT/2026":"Outubro 2026","NOV/2026":"Novembro 2026","DEZ/2026":"Dezembro 2026","JAN/2027":"Janeiro 2027","FEV/2027":"Fevereiro 2027","MAR/2027":"Março 2027"};
-var mesAtual="NOV/2026";
-var artistas=[{nome:"ANDRE",cache:300},{nome:"EDILL",cache:250},{nome:"GERVAZIO",cache:200},{nome:"EDILL / GERVASIO",cache:500},{nome:"PAOLI",cache:320},{nome:"LUCIANO",cache:300},{nome:"YGOR",cache:280},{nome:"ISRAEL",cache:300},{nome:"RICK",cache:250},{nome:"VATA60",cache:250},{nome:"VAT 60",cache:250},{nome:"ANDERSON VAT 60 SOLO",cache:300},{nome:"ANDERSON VAT60 DUO",cache:300},{nome:"ANDERSON VAT 60 DUO",cache:300},{nome:"ANDERSON VAT 60 TRIO",cache:400},{nome:"DUO CLASSIC ROCK",cache:350}];
-var casas={P1:"Cais",P2:"Vila",P3:"Grill",P4:"Ze",P5:"Omau",P6:"Vago",P7:"P7",P8:"P8",P9:"P9",P10:"P10",P11:"P11",P12:"P12"};
-var dados={};
-var KEY="ESTAGEFLOW_V28_FIXO_FINAL_NUNCA_MUDA_ESTE_FINAL";
-function vazio(){dados={};for(var m in MESES){dados[m]={};for(var d=1; d<=MESES[m]; d++){dados[m][d]={};for(var p=1;p<=12;p++) dados[m][d]['P'+p]={nome:"",turno:"AL"}}}}
-function contarMes(m){var c=0;if(!dados[m])return 0;for(var d=1; d<=MESES[m]; d++)for(var p=1;p<=12;p++)if(dados[m][d]&&dados[m][d]['P'+p]&&dados[m][d]['P'+p].nome)c++;return c;}
-function contarTotal(){var t=0;for(var m in MESES)t+=contarMes(m);return t;}
-function getCache(n){var f=artistas.find(a=>a.nome==n);return f?f.cache:300;}
-function forcarSalvar(forcar=false){
-  var q=contarTotal();
-  try{
-    var bkpStr=localStorage.getItem(KEY+"_BKP");
-    if(bkpStr){
-      var bkp=JSON.parse(bkpStr);
-      var totBkp=0;
-      if(bkp.dados){for(var m in bkp.dados) for(var d in bkp.dados[m]) for(var p in bkp.dados[m][d]) if(bkp.dados[m][d][p] && bkp.dados[m][d][p].nome) totBkp++;}
-      if(q==0&&totBkp>10&&!forcar){
-        var s=JSON.stringify({dados:dados,artistas:artistas,casas:casas,mesAtual:mesAtual});
-        localStorage.setItem(KEY,s);
-        document.getElementById('topZ').textContent="ZERADO";
-        document.getElementById('stMenu').textContent="⚠️ ZERADO - MAS BKP COM "+totBkp+" SHOWS PROTEGIDO";
-        document.getElementById('infoBar').textContent="ZERADO - BKP COM "+totBkp+" PROTEGIDO - IMPORTE";
-        return;
-      }
-    }
-  }catch(e){}
-  var s=JSON.stringify({dados:dados,artistas:artistas,casas:casas,mesAtual:mesAtual});
-  try{localStorage.setItem(KEY,s);localStorage.setItem(KEY+"_BKP",s);}catch(e){}
-  document.getElementById('topZ').textContent=q==0?"ZERADO":q+" FIXOS";
-  document.getElementById('stMenu').textContent=q==0?"⚠️ ZERADO":q+" SHOWS - V46 RECUPERADO 172 - FIXO";
-  document.getElementById('infoBar').textContent=q+" SHOWS - "+NOMES[mesAtual]+" - "+contarMes(mesAtual)+" NESSE MES - V46 RECUPERADO + OUTUBRO";
-}
-function carregar(){
-  try{
-    var r=localStorage.getItem(KEY);
-    if(!r) r=localStorage.getItem(KEY+"_BKP");
-    if(!r){vazio();return;}
-    var o=JSON.parse(r);
-    if(o.dados){
-      if(o.dados["OUT/2026"] || o.dados["NOV/2026"]){
-        dados=o.dados;
-        for(var m in MESES){
-          if(!dados[m]){dados[m]={}; for(var d=1; d<=MESES[m]; d++){dados[m][d]={}; for(var p=1;p<=12;p++) dados[m][d]['P'+p]={nome:"",turno:"AL"}}}
-          else{
-            for(var d=1; d<=MESES[m]; d++){
-              if(!dados[m][d]){dados[m][d]={}; for(var p=1;p<=12;p++) dados[m][d]['P'+p]={nome:"",turno:"AL"}}
-              else{
-                for(var p=1;p<=12;p++){ if(!dados[m][d]['P'+p]) dados[m][d]['P'+p]={nome:"",turno:"AL"} }
-              }
-            }
-          }
-        }
-      }else{vazio();}
-      if(o.artistas) artistas=o.artistas;
-      if(o.casas) casas=o.casas;
-      if(o.mesAtual && MESES[o.mesAtual]) mesAtual=o.mesAtual;
-    }
-  }catch(e){vazio();}
-}
-function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show')}
-function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show')}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show');if(id=='grade')renderGrade();if(id=='fin')renderFin();if(id=='filtro')renderFiltro();if(id=='plan')renderPlan();if(id=='art')renderArt();if(id=='casa')renderCasa();}
-function salvar(m,d,p,campo,val){if(!dados[m])dados[m]={};if(!dados[m][d])dados[m][d]={};if(!dados[m][d]['P'+p])dados[m][d]['P'+p]={nome:"",turno:"AL"};dados[m][d]['P'+p][campo]=val;forcarSalvar();}
-function renderTabs(){var c=document.getElementById('tabsMes');if(!c)return;c.innerHTML='';for(var m in MESES){var b=document.createElement('button');b.textContent=m+(contarMes(m)>0?' ('+contarMes(m)+')':'');b.className=m==mesAtual?'active':'';b.onclick=(function(mm){return function(){mesAtual=mm;document.getElementById('titMesFin').textContent=NOMES[mm];renderTabs();renderGrade();renderFin();renderPlan();forcarSalvar()}})(m);c.appendChild(b);}}
-function renderGrade(){renderTabs();var cont=document.getElementById('grade');cont.innerHTML='';for(var d=1;d<=MESES[mesAtual];d++){var cur=dados[mesAtual]&&dados[mesAtual][d]?dados[mesAtual][d]:{};var card=document.createElement('div');card.className='card';var html='<div class="dia"><span>'+d+' '+mesAtual+'</span><span style="font-size:7px;background:#F3F4F6;padding:2px 6px;border-radius:8px">'+contarMes(mesAtual)+' FIXOS</span></div>';for(var p=1;p<=12;p++){var key='P'+p;var inf=cur[key]||{nome:"",turno:"AL"};if(p>6 && !inf.nome) continue;var opts=artistas.map(a=>'<option value="'+a.nome+'" '+(a.nome==inf.nome?'selected':'')+'>'+a.nome+'</option>').join('');html+='<div class="linha"><b>'+key+':</b><select class="esc" onchange="salvar(\''+mesAtual+'\','+d+','+p+',\'nome\',this.value)"><option value="">ESCOLHA</option>'+opts+'</select><select class="al" onchange="salvar(\''+mesAtual+'\','+d+','+p+',\'turno\',this.value)"><option value="AL" '+(inf.turno=='AL'?'selected':'')+'>AL</option><option value="JA" '+(inf.turno=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(inf.turno=='AL/JA'||inf.turno=='AL+JA'?'selected':'')+'>AL/JA</option></select></div>';}card.innerHTML=html;cont.appendChild(card);}}
-function renderFin(){
-  var rel={},tot=0,sh=0;
-  for(var d=1;d<=MESES[mesAtual];d++)for(var p=1;p<=12;p++){var inf=dados[mesAtual]&&dados[mesAtual][d]&&dados[mesAtual][d]['P'+p]?dados[mesAtual][d]['P'+p]:null;if(!inf||!inf.nome)continue;var q=(inf.turno=='AL/JA'||inf.turno=='AL+JA')?2:1;if(!rel[inf.nome])rel[inf.nome]={s:0,t:0};rel[inf.nome].s+=q;var c=getCache(inf.nome)*q;rel[inf.nome].t+=c;tot+=c;sh+=q;}
-  var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:6px 0"><div style="background:#111;color:#fff;padding:8px;border-radius:8px;text-align:center;font-size:9px">SHOWS<br><b>'+sh+'</b></div><div style="background:#FBBF24;padding:8px;border-radius:8px;text-align:center;font-size:9px">TOTAL<br><b>R$ '+tot+'</b></div></div><table style="width:100%;font-size:8px;border-collapse:collapse"><tr><th style="background:#111;color:#fff;padding:5px">Músico</th><th style="background:#111;color:#fff;padding:5px">Shows</th><th style="background:#111;color:#fff;padding:5px">R$</th></tr>';
-  for(var k in rel)h+='<tr><td style="padding:5px;border-bottom:1px solid #eee"><b>'+k+'</b></td><td style="text-align:center;padding:5px;border-bottom:1px solid #eee">'+rel[k].s+'</td><td style="text-align:right;padding:5px;border-bottom:1px solid #eee;color:green;font-weight:900">R$ '+rel[k].t+'</td></tr>';
-  h+='</table>';if(Object.keys(rel).length==0)h='<div style="padding:20px;text-align:center;color:#999;font-size:9px">Sem shows em '+mesAtual+'</div>';
-  document.getElementById('fin').innerHTML=h;
-}
-function renderFiltro(){var sel=document.getElementById('filtroMusico');if(!sel)return;var opts=artistas.map(a=>'<option value="'+a.nome+'">'+a.nome+' - R$ '+a.cache+'</option>').join('');sel.innerHTML='<option value="TODOS">TODOS - RESUMO</option>'+opts;}
-function mesParaData(mesStr,dia){var parts=mesStr.split('/');var map={"OUT":9,"NOV":10,"DEZ":11,"JAN":0,"FEV":1,"MAR":2};var ano=parseInt(parts[1]);var mm=map[parts[0]];return new Date(ano,mm,dia);}
-function filtrarPorData(){
-  var musico=document.getElementById('filtroMusico').value;
-  var iniVal=document.getElementById('dataIni').value;
-  var fimVal=document.getElementById('dataFim').value;
-  if(!iniVal||!fimVal){alert('Coloca data início e fim');return;}
-  var ini=new Date(iniVal+'T00:00:00');var fim=new Date(fimVal+'T23:59:59');
-  var total=0,shows=0,list=[];
-  for(var m in MESES){
-    for(var d=1; d<=MESES[m]; d++){
-      var dataReal=mesParaData(m,d);
-      if(dataReal>=ini&&dataReal<=fim){
-        for(var p=1;p<=12;p++){
-          var inf=dados[m]&&dados[m][d]&&dados[m][d]['P'+p]?dados[m][d]['P'+p]:null;
-          if(!inf||!inf.nome)continue;
-          if(musico!="TODOS"&&inf.nome!=musico)continue;
-          var q=(inf.turno=='AL/JA'||inf.turno=='AL+JA')?2:1;
-          var cache=getCache(inf.nome);
-          total+=cache*q;shows+=q;
-          list.push({data:dataReal,[STRIPPED]
-        }
-      }
-    }
-  }
-  document.getElementById('finShows').textContent=shows;
-  document.getElementById('finTotal').textContent="R$ "+total;
-  document.getElementById('finPeriodo').textContent=iniVal.split('-').reverse().join('/')+' a '+fimVal.split('-').reverse().join('/');
-  document.getElementById('finDetalhe').textContent=musico;
-  list.sort((a,b)=>a.data-b.data);
-  var h='<div style="margin-top:8px"><b style="font-size:11px">📋 '+musico+' de '+iniVal.split('-').reverse().join('/')+' a '+fimVal.split('-').reverse().join('/')+' ('+list.length+' registros) Total R$ '+total+'</b>';
-  for(var i=0;i<list.length;i++){var it=list[i];h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:11px"><span>'+it.data.toLocaleDateString('pt-BR')+' '+it.p+' '+it.casa+' '+it.nome+' '+it.turno+'</span><b>R$ '+it.valor+'</b></div>';}
-  if(list.length==0)h+='<div style="padding:20px;text-align:center;color:#999">Nenhum show do '+musico+' neste período</div>';
-  h+='</div>';
-  document.getElementById('finListaData').innerHTML=h;
-}
-function renderPlan(){var por={},html='';for(var m in MESES)for(var d=1;d<=MESES[m];d++)for(var p=1;p<=12;p++){var inf=dados[m]&&dados[m][d]&&dados[m][d]['P'+p]?dados[m][d]['P'+p]:null;if(!inf||!inf.nome)continue;if(!por[inf.nome])por[inf.nome]=[];por[inf.nome].push({mes:m,dia:d,casa:casas['P'+p]||'P'+p,turno:inf.turno});}for(var k in por){html+='<div style="background:#F3F4F6;padding:6px;border-radius:6px;margin-top:4px;font-size:9px"><b>'+k+' - '+por[k].length+' shows</b><div style="font-size:8px;margin-top:2px">'+por[k].map(x=>x.mes+' '+x.dia+' '+x.casa+' '+x.turno).join(' | ')+'</div></div>';}if(html=='')html='<div style="padding:20px;text-align:center;color:#999;font-size:9px">Zerado</div>';document.getElementById('plan').innerHTML=html;}
-function addArt(){var n=document.getElementById('nArt').value.toUpperCase().trim();var c=parseFloat(document.getElementById('cArt').value)||0;if(!n)return;artistas.push({nome:n,cache:c});document.getElementById('nArt').value='';document.getElementById('cArt').value='';renderArt();renderGrade();forcarSalvar(true);}
-function renderArt(){document.getElementById('lArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:5px;background:#F3F4F6;border-radius:5px;margin-top:3px;font-size:8px"><div><b>'+a.nome+'</b> R$ '+a.cache+'</div><button onclick="artistas.splice('+i+',1);renderArt();renderGrade();forcarSalvar(true)" style="background:#EF4444;color:#fff;border:none;padding:2px 6px;border-radius:3px">X</button></div>').join('');}
-function renderCasa(){var h='';for(var k in casas){h+='<div style="display:flex;gap:4px;margin-top:4px;font-size:9px"><b>'+k+'</b><input id="casa_'+k+'" value="'+casas[k]+'" style="flex:1;padding:4px;border:1px solid #ccc;border-radius:4px;font-size:8px"><button onclick="saveCasas()" style="background:#22C55E;padding:4px 8px;border:none;border-radius:4px;font-size:7px">OK</button></div>';}document.getElementById('fCasa').innerHTML=h;}
-function saveCasas(){for(var k in casas){var el=document.getElementById('casa_'+k);if(el)casas[k]=el.value.toUpperCase();}forcarSalvar(true);renderGrade();}
-function addCasa(){var n=document.getElementById('nCasa').value.toUpperCase().trim();if(!n)return;var keys=Object.keys(casas);var last=keys[keys.length-1];var num=parseInt(last.replace('P',''))+1;casas['P'+num]=n;document.getElementById('nCasa').value='';renderCasa();renderGrade();forcarSalvar(true);}
-function zerar(){if(confirm("Zerar tudo? Isso apaga tudo! Faça backup antes!")){vazio();forcarSalvar(true);renderGrade();renderFin();renderPlan();}}
-function exportar(){forcarSalvar(true);var blob=new Blob([localStorage.getItem(KEY)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ESTAGEFLOW_V46_BACKUP_172_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
-function importar(e){
-  var f=e.target.files[0];
-  if(!f){alert("Nenhum arquivo");return;}
-  var r=new FileReader();
-  r.onload=function(ev){
-    try{
-      var o=JSON.parse(ev.target.result);
-      if(o.all){
-        var MESES_MAP={"2026-10":"OUT/2026","2026-11":"NOV/2026","2026-12":"DEZ/2026","2027-01":"JAN/2027","2027-02":"FEV/2027","2027-03":"MAR/2027"};
-        vazio();
-        for(var oldKey in o.all){
-          var newMes=MESES_MAP[oldKey];
-          if(!newMes) continue;
-          for(var diaStr in o.all[oldKey]){
-            var d=parseInt(diaStr);
-            if(!dados[newMes][d]) continue;
-            var flat=[];
-            for(var pk in o.all[oldKey][diaStr]){
-              var pv=o.all[oldKey][diaStr][pk];
-              if(Array.isArray(pv)){ for(var it of pv) if(it.nome) flat.push(it); }
-              else if(pv.nome) flat.push(pv);
-            }
-            for(var i=0;i<flat.length&&i<12;i++){
-              var ent=flat[i];
-              var turno=ent.turno=='AL+JA'?'AL/JA':ent.turno;
-              dados[newMes][d]['P'+(i+1)]={nome:ent.nome,turno:turno};
-            }
-          }
-        }
-      }else{
-        var dadosBrutos=o.dados?o.dados:o;
-        if(dadosBrutos["NOV/2026"]||dadosBrutos["OUT/2026"]){
-          dados=dadosBrutos;
-        }else if(dadosBrutos[1]){
-          vazio();
-          dados["NOV/2026"]=dadosBrutos;
-        }
-      }
-      if(o.artistas) artistas=o.artistas;
-      if(o.casas) casas=o.casas;
-      forcarSalvar(true);
-      renderTabs();renderGrade();renderFin();renderPlan();renderArt();renderCasa();
-      alert("✅ RECUPERADO! "+contarTotal()+" shows! Vai em NOV/2026 - OUTUBRO ADICIONADO");
-      closeMenu();go('grade');
-    }catch(err){alert("Erro: "+err);}
-  };
-  r.readAsText(f);
-}
-vazio();carregar();renderTabs();renderGrade();renderArt();renderCasa();renderFin();renderPlan();renderFiltro();forcarSalvar();
-</script>
-</body>
-</html>
+let DB=JSON.parse(localStorage.getItem('pagflow_v19_semibold')||'null');
+if(!DB){let o={};['pagflow_v18_azul','pagflow_v17_homelimpa','pagflow_v16_final','pagflow_backup_1'].forEach(k=>{try{let d=JSON.parse(localStorage.getItem(k)||'{}');Object.keys(d).forEach(c=>{if(!o[c])o[c]=[];if(Array.isArray(d[c]))d[c].forEach(x=>o[c].push(x));})}catch{}});DB=o;}
+if(!DB.pagar)DB.pagar=[];let cat='pagar';
+let TIPOS=JSON.parse(localStorage.getItem('pagflow_tipos_v11')||'null')||["LUZ","Água","Combustível","Internet","Telefone","Carro","Supermercado","Carol","Passeio","RAÇÃO CACHORRO 🐶","RAÇÃO GATOS 😻","ESPOSA"];
+function salvarE(){localStorage.setItem('pagflow_v19_semibold',JSON.stringify(DB));localStorage.setItem('pagflow_backup_1',JSON.stringify(DB));localStorage.setItem('pagflow_tipos_v11',JSON.stringify(TIPOS));document.getElementById('bkp').innerText='Salvo '+new Date().toLocaleTimeString();}
+function abrirMenu(){document.getElementById('sideMenu').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function fecharMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function irHome(){document.getElementById('viewHome').classList.add('active');document.getElementById('viewLista').classList.remove('active');document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));document.getElementById('m-home').classList.add('active');fecharMenu();}
+function irMenu(c){mudarCat(c);}
+function mudarCat(c){cat=c;document.getElementById('viewHome').classList.remove('active');document.getElementById('viewLista').classList.add('active');document.getElementById('tit').innerText=c==='pagar'?'📌 Contas a pagar':c==='receber'?'💰 Contas a receber':c;document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));let el=document.getElementById('m-'+c);if(el)el.classList.add('active');fecharMenu();mostrar();}
+function renderT(){let s=document.getElementById('tipo');s.innerHTML='<option value="">-- Escolha (LUZ, Água, etc) --</option>';TIPOS.forEach(t=>s.innerHTML+=`<option value="${t}">${t}</option>`);}
+function pm(it){let b=(+it.qtdI||+it.qtd||1)*(+it.valor||0)/(+it.div||1);if(it.freq==='dia')return b*30;if(it.freq==='semana')return b*4.33;if(it.freq==='quinzenal')return b*2;return b;}
+function mostrar(){let l=DB[cat]||[];let h='';l.forEach((it,i)=>{let m=pm(it);let st=cat==='receber'?'pago':'dev';h+=`<div class="row"><div><div style="display:flex;gap:6px;align-items:center"><b style="font-weight:600 !important">${it.nome}</b><span class="badge ${st}">${it.freq||'mensal'}</span></div><div class="small" style="font-weight:500">${it.data||'--'} • R$ ${m.toFixed(2)}/mês</div></div><div><button class="btn2" onclick="editar(${i})">✎</button> <button class="btn2" onclick="apagar(${i})" style="color:var(--red)">✕</button></div></div>`;});document.getElementById('lista').innerHTML=h||'<div class="small" style="text-align:center;padding:10px">Nenhum item</div>';document.getElementById('qtd').innerText=l.length+' itens';}
+function atualizarHome(){let p=(DB.pagar||[]).reduce((a,i)=>a+pm(i),0);let r=(DB.receber||[]).reduce((a,i)=>a+pm(i),0)+(DB.caixinha||[]).reduce((a,i)=>a+pm(i),0);document.getElementById('tPagar').innerText='R$ '+p.toFixed(2);document.getElementById('tReceber').innerText='R$ '+r.toFixed(2);let s=r-p;document.getElementById('tSaldo').innerText='R$ '+s.toFixed(2);let qp=document.getElementById('qtdPagarMenu');qp.innerText=(DB.pagar||[]).length;qp.style.display=(DB.pagar||[]).length?'inline-block':'none';let qr=document.getElementById('qtdRecMenu');qr.innerText=(DB.receber||[]).length;qr.style.display=(DB.receber||[]).length?'inline-block':'none';let res='';if((DB.pagar||[]).length)res+=`<span style="color:var(--red)">●</span> <b style="font-weight:600">Contas a pagar:</b> ${(DB.pagar||[]).length} contas = R$ ${p.toFixed(2)}<br>`;if((DB.receber||[]).length)res+=`<span style="color:var(--green)">●</span> <b style="font-weight:600">A receber:</b> ${(DB.receber||[]).length} = R$ ${r.toFixed(2)}<br>`;res+='Clique no menu ☰ pra ver detalhes';document.getElementById('resumoHome').innerHTML=res;}
+function salvar(){let nome=document.getElementById('nome').value.trim()||document.getElementById('tipo').value;if(!nome){alert('Escolha ou digite');return;}let qtdI=document.getElementById('qtdI').value||1;let valor=document.getElementById('valor').value;let data=document.getElementById('data').value;let freq=document.getElementById('freq').value;if(!valor){alert('Valor');return;}if(!TIPOS.includes(nome)){TIPOS.push(nome);renderT();}if(!DB.pagar)DB.pagar=[];DB.pagar.push({nome,qtd:qtdI,qtdI,valor,data,freq,div:1});salvarE();document.getElementById('nome').value='';document.getElementById('valor').value='';document.getElementById('tipo').value='';atualizarHome();alert('Salvo!');}
+function apagar(i){if(confirm('Apagar?')){DB[cat].splice(i,1);salvarE();mostrar();atualizarHome();}}
+function editar(i){let it=DB[cat][i];let n=prompt('Nome',it.nome);if(n==null)return;let v=prompt('Valor',it.valor);if(v==null)return;it.nome=n;it.valor=v;salvarE();mostrar();atualizarHome();}
+function exportarBKP(){let blob=new Blob([JSON.stringify({db:DB,tipos:TIPOS},null,2)],{type:'application/json'});let u=URL.createObjectURL(blob);let a=document.createElement('a');a.href=u;a.download='PAGFLOW_BKP.json';a.click();}
+function importarBKP(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{try{let o=JSON.parse(e.target.result);let d=o.db||o;Object.keys(d).forEach(k=>{if(!DB[k])DB[k]=[];d[k].forEach(x=>DB[k].push(x));});salvarE();atualizarHome();alert('Restaurado');}catch{alert('Inválido');}};r.readAsText(f);}
+document.getElementById('data').valueAsDate=new Date();renderT();atualizarHome();salvarE();
+</script></body></html>
