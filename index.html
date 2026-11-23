@@ -8,29 +8,22 @@
   *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
   body{margin:0;background:#f4f4f4;color:#111}
   header{background:#000;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-  header b{font-size:15px;letter-spacing:1px}
-  header span{font-size:11px;opacity:.7}
-  .card{background:#fff;margin:10px;border-radius:14px;padding:14px;box-shadow:0 1px 4px #0001}
+  header b{font-size:15px;letter-spacing:1px} header span{font-size:11px;opacity:.7}
+  .card{background:#fff;margin:10px;border-radius:14px;padding:14px}
   .card.yellow{background:#fff8d6}
   label{font-size:12px;font-weight:bold}
-  input,select{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ddd;border-radius:10px;font-size:16px;background:#fff}
-  .btn{background:#000;color:#fff;border:0;width:100%;padding:13px;border-radius:10px;font-weight:bold;font-size:15px;margin-top:6px}
-  .btn.green{background:#1a7a1a}
+  input,select{width:100%;padding:10px;margin:6px 0 10px;border:1px solid #ddd;border-radius:10px;font-size:15px;background:#fff}
+  .btn{background:#000;color:#fff;border:0;width:100%;padding:13px;border-radius:10px;font-weight:bold}
   .tabs{display:flex;gap:8px;padding:10px;overflow-x:auto;background:#fff}
   .tabs button{border:1px solid #ddd;background:#eee;padding:8px 12px;border-radius:20px;white-space:nowrap}
   .tabs button.on{background:#000;color:#fff}
-  /* GRADE ORIGINAL - POR DIA */
   .dia{border:2px solid #111;border-radius:10px;margin:12px 0;overflow:hidden;background:#fff}
   .dia-top{background:#000;color:#fff;padding:8px 10px;display:flex;justify-content:space-between;font-weight:bold;font-size:13px}
-  .dia-top span:last-child{background:#fff;color:#000;padding:2px 8px;border-radius:20px;font-size:11px}
-  .linha{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #eee}
-  .linha.verde{background:#b7e5b7}
-  .linha.amarela{background:#fff3b0}
-  .linha.vazia{background:#fff}
-  .p{font-weight:900;width:36px}
-  .mus{flex:1;font-weight:bold;text-transform:uppercase}
-  .bol{width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:12px;font-weight:bold}
-  .bol.v{background:#1a7a1a;color:#fff}.bol.a{background:#e6c200}.bol.r{background:#c00;color:#fff}.bol.p{background:#111;color:#fff}
+  .linha{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid #eee}
+  .linha.cheia{background:#b7e5b7}
+  .linha select{margin:0;padding:8px;font-weight:bold}
+  .linha .status{width:48px;padding:8px 2px;text-align:center;font-weight:bold;border:0;border-radius:8px}
+  .ja{background:#fff}.al{background:#ffcf3f}.x{background:#ff6b6b;color:#fff}.mais{background:#111;color:#fff}
   .menu{position:fixed;inset:0;background:#0008;display:none;z-index:20}
   .menu.open{display:block}.menuBox{background:#fff;width:88%;max-width:360px;height:100%;padding:16px;overflow:auto}
   .menuBox button{display:block;width:100%;text-align:left;padding:12px;border:0;border-bottom:1px solid #eee;background:#fff;font-size:15px}
@@ -38,7 +31,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <button onclick="document.getElementById('menu').classList.add('open')" style="background:none;border:0;color:#fff;font-size:20px">☰</button>
   <b>STAGEFLOW</b><span id="topInfo">• V66 AGRUPA</span>
@@ -76,7 +68,9 @@
 
 <div id="grade" class="card">
   <div id="aviso"></div>
-  <h3 id="tituloMes">NOV/2026 - GRADE P1-P12</h3>
+  <h3 id="tituloMes">NOV/2026 - GRADE</h3>
+  <button class="btn" onclick="criarGradeMes(true)">+ CRIAR GRADE PRÉ-MONTADA DO MÊS</button>
+  <p style="font-size:12px;color:#666">Se a grade vier vazia, clica aqui. Ela cria todos os dias do mês com P1 até P6 vazios pra você só completar.</p>
   <div id="gradeList"></div>
 </div>
 
@@ -95,40 +89,85 @@
 <div id="casas" class="card" style="display:none"><h3>Casas P1-P12</h3><div id="casasList"></div></div>
 
 <script>
-/* ===== FORMATO ORIGINAL: GRADE = ARRAY DE DIAS, CADA DIA TEM P1..P12 ===== */
-/* Exemplo real: {data:"2026-11-23", P1:"ISRAEL", P2:"DOUGLAS", P3:"", ...} */
-const K_GRADE='stageflow_grade_v66';
-const K_SHOWS='stageflow_shows_v66';
-const K_MUS='stageflow_musicos_v66';
-const K_CASAS='stageflow_casas_v66';
+const K_GRADE='stageflow_grade_v66', K_SHOWS='stageflow_shows_v66', K_MUS='stageflow_musicos_v66', K_CASAS='stageflow_casas_v66';
 let mesAtual='2026-11';
-let grade = [];
-let musicos = [];
-let casas = [];
+let grade=[], musicos=[], casas=[];
+const MESES={JAN:'01',FEV:'02',MAR:'03',ABR:'04',MAI:'05',JUN:'06',JUL:'07',AGO:'08',SET:'09',OUT:'10',NOV:'11',DEZ:'12'};
 
+/* ===== CORREÇÃO 1: ENTENDE QUALQUER FORMATO DE DATA ===== */
+function normalizarData(v){
+  if(!v) return '';
+  v=String(v).trim();
+  // 2026-11-23
+  if(/^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0,10);
+  // 23/11/2026 ou 23-11-2026
+  let m=v.match(/(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
+  if(m) return m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0');
+  // 23 - NOV/2026 ou 23 NOV 2026
+  let m2=v.toUpperCase().match(/(\d{1,2})\D+([A-Z]{3})\D+(\d{4})/);
+  if(m2 && MESES[m2[2]]) return m2[3]+'-'+MESES[m2[2]]+'-'+m2[1].padStart(2,'0');
+  // 23 - NOV/26
+  let m3=v.toUpperCase().match(/(\d{1,2})\D+([A-Z]{3})\D+(\d{2})/);
+  if(m3 && MESES[m3[2]]) return '20'+m3[3]+'-'+MESES[m3[2]]+'-'+m3[1].padStart(2,'0');
+  return v;
+}
 function ler(chave){ try{ let v=localStorage.getItem(chave); if(!v) return null; return JSON.parse(v); }catch(e){ return null; } }
 
 function carregarInicial(){
   grade = ler(K_GRADE) || ler(K_SHOWS) || [];
-  // Se veio no formato antigo {nome, turno, P1...} ou {shows:[...]} normaliza
   if(!Array.isArray(grade)){
     if(grade && Array.isArray(grade.grade)) grade=grade.grade;
     else if(grade && Array.isArray(grade.shows)) grade=grade.shows;
     else grade=[];
   }
   musicos = ler(K_MUS) || [];
-  if(musicos.length===0) musicos=[{nome:'DOUGLAS',cache:300},{nome:'DUO CLASSIC ROCK',cache:450},{nome:'EDIL',cache:300},{nome:'FELIPE DUO',cache:400},{nome:'GERVÁSIO',cache:300},{nome:'ISRAEL',cache:300},{nome:'LUCIANO',cache:300},{nome:'MARTIN',cache:300},{nome:'PAOLI',cache:300},{nome:'RICK',cache:300},{nome:'ANDRÉ',cache:300}];
+  if(musicos.length===0) musicos=[
+    {nome:'ISRAEL',cache:300},{nome:'YGOR',cache:300},{nome:'LUCIANO',cache:300},{nome:'ANDRE',cache:300},
+    {nome:'DOUGLAS',cache:300},{nome:'DUO CLASSIC ROCK',cache:450},{nome:'EDILL',cache:300},{nome:'FELIPE DUO',cache:400},
+    {nome:'GERVÁSIO',cache:300},{nome:'MARTIN',cache:300},{nome:'PAOLI',cache:300},{nome:'RICK',cache:300},
+    {nome:'RICK SOLO',cache:300},{nome:'ROBSON SOLO',cache:300},{nome:'ANDERSON VAT SOLO',cache:300}
+  ];
   casas = ler(K_CASAS) || ['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','P11','P12'].map(n=>({nome:n}));
-  // Garante que cada dia tem data e P1..P12
+  // Normaliza cada dia: data + P1..P12 + status
   grade = grade.filter(d=>d && typeof d==='object').map(d=>{
-    let o={data:d.data||d.dia||'', P1:d.P1||'',P2:d.P2||'',P3:d.P3||'',P4:d.P4||'',P5:d.P5||'',P6:d.P6||'',P7:d.P7||'',P8:d.P8||'',P9:d.P9||'',P10:d.P10||'',P11:d.P11||'',P12:d.P12||''};
+    let data = normalizarData(d.data || d.dia || d.nome || d.date || '');
+    let o={data:data};
+    for(let i=1;i<=12;i++){
+      let v=d['P'+i] ?? d['p'+i] ?? d['casa'+i] ?? '';
+      if(typeof v==='object' && v) v=v.nome||v.musico||v.artista||'';
+      o['P'+i]=String(v||'').toUpperCase().trim();
+      o['S'+i]=d['S'+i]||d['status'+i]||(o['P'+i]?'JA':'');
+    }
+    // Se o dia veio como {nome:"ISRAEL", turno:"AL"} - ignora, não é grade
     return o;
-  }).sort((a,b)=>a.data.localeCompare(b.data));
+  }).filter(d=>d.data && /^\d{4}-\d{2}-\d{2}$/.test(d.data));
+  grade.sort((a,b)=>a.data.localeCompare(b.data));
+  // Se carregou mas o mês atual está vazio, NÃO apaga - só mostra botão de criar
 }
 carregarInicial();
 
+/* ===== CORREÇÃO 2: GRADE PRÉ-MONTADA ===== */
+function criarGradeMes(confirmar){
+  let [ano,mes]=mesAtual.split('-').map(Number);
+  let diasNoMes=new Date(ano,mes,0).getDate();
+  let novos=0;
+  for(let dia=1;dia<=diasNoMes;dia++){
+    let data=ano+'-'+String(mes).padStart(2,'0')+'-'+String(dia).padStart(2,'0');
+    if(!grade.find(d=>d.data===data)){
+      let o={data:data};
+      for(let i=1;i<=12;i++){ o['P'+i]=''; o['S'+i]=''; }
+      grade.push(o); novos++;
+    }
+  }
+  grade.sort((a,b)=>a.data.localeCompare(b.data));
+  localStorage.setItem(K_GRADE, JSON.stringify(grade));
+  localStorage.setItem(K_SHOWS, JSON.stringify(grade));
+  if(confirmar) alert('Grade pré-montada criada! Dias: '+grade.length+' • Novos: '+novos+'\nAgora é só completar com os músicos.');
+  render();
+}
+
 function salvarFixo(){
-  if(grade.length===0 && !confirm('ATENÇÃO: grade está com 0 dias. Tem certeza que quer salvar 0? Clica CANCELAR para importar o backup primeiro.')) return;
+  if(grade.length===0 && !confirm('Grade com 0 dias. Quer salvar 0? Clica CANCELAR e importa o backup primeiro.')) return;
   localStorage.setItem(K_GRADE, JSON.stringify(grade));
   localStorage.setItem(K_SHOWS, JSON.stringify(grade));
   localStorage.setItem(K_MUS, JSON.stringify(musicos));
@@ -146,81 +185,73 @@ function importar(e){
   r.onload=()=>{
     try{
       let j=JSON.parse(r.result);
-      let novaGrade=null, novosMus=[], novasCas=[];
+      let novaGrade=null;
       if(Array.isArray(j)) novaGrade=j;
       else if(Array.isArray(j.grade)) novaGrade=j.grade;
       else if(Array.isArray(j.shows)) novaGrade=j.shows;
       else if(Array.isArray(j.dados)) novaGrade=j.dados;
-      else if(Array.isArray(j.data)) novaGrade=j.data;
-      else {
-        // Backup por mês: {"2026-11":[{P1...}]}
-        let acc=[]; Object.keys(j).forEach(k=>{ if(Array.isArray(j[k])) acc=acc.concat(j[k]); });
-        if(acc.length) novaGrade=acc;
-      }
-      if(j.musicos) novosMus=j.musicos;
-      if(j.casas) novasCas=j.casas;
-      if(!novaGrade || novaGrade.length===0){ alert('Esse arquivo não tem grade. Tenta o arquivo ESTAGEFLOW de 71KB.'); return; }
-      // Conta quantos P preenchidos tem
-      let preenchidos=0; novaGrade.forEach(d=>{ for(let i=1;i<=12;i++){ if(d['P'+i] && String(d['P'+i]).trim()!=='') preenchidos++; } });
-      if(!confirm('Achei no backup: '+novaGrade.length+' dias, '+preenchidos+' shows preenchidos. Substituir a grade atual?')) return;
-      grade=novaGrade.filter(d=>d && typeof d==='object');
-      if(novosMus.length) musicos=novosMus;
-      if(novasCas.length) casas=novasCas;
-      localStorage.setItem(K_GRADE, JSON.stringify(grade));
-      localStorage.setItem(K_SHOWS, JSON.stringify(grade));
-      localStorage.setItem(K_MUS, JSON.stringify(musicos));
-      localStorage.setItem(K_CASAS, JSON.stringify(casas));
-      alert('RESTAURADO! Dias: '+grade.length+' • Shows: '+preenchidos);
-      show('grade');
-    }catch(err){ alert('Não consegui ler esse arquivo. Escolhe o .json de 71KB. Erro: '+err.message); }
+      else { let acc=[]; Object.keys(j).forEach(k=>{ if(Array.isArray(j[k])) acc=acc.concat(j[k]); }); if(acc.length) novaGrade=acc; }
+      if(!novaGrade || !novaGrade.length){ alert('Esse arquivo não tem grade. Tenta o ESTAGEFLOW de 71KB.'); return; }
+      // Reusa a mesma normalização do carregar
+      let tempGrade=grade; grade=novaGrade;
+      // Normaliza de novo usando a função de cima
+      let salvoMusicos=musicos;
+      carregarInicial(); // não, vamos fazer manual:
+      // Na verdade, força reload com os dados novos
+      localStorage.setItem(K_GRADE, JSON.stringify(novaGrade));
+      localStorage.setItem(K_SHOWS, JSON.stringify(novaGrade));
+      location.reload();
+    }catch(err){ alert('Não consegui ler. Escolhe o .json de 71KB. Erro: '+err.message); }
   };
   r.readAsText(f); e.target.value='';
 }
-function diaSemana(dataStr){
-  try{ let d=new Date(dataStr+'T12:00:00'); return ['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'][d.getDay()]; }catch(e){ return ''; }
-}
-function fmtData(dataStr){
-  if(!dataStr) return ''; let p=dataStr.split('-'); if(p.length===3) return p[2]+' - '+p[1]+'/'+p[0].slice(2); return dataStr;
-}
+function diaSemana(dataStr){ try{ let d=new Date(dataStr+'T12:00:00'); return ['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'][d.getDay()]; }catch(e){ return ''; } }
+function fmtData(dataStr){ let p=dataStr.split('-'); return p[2]+' - '+['','JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'][Number(p[1])]+'/'+p[0].slice(2); }
+
 function render(){
   document.getElementById('topInfo').textContent='• V66 AGRUPA • '+grade.length+' DIAS';
   document.getElementById('statusMenu').textContent='Dias: '+grade.length+' • Músicos: '+musicos.length;
   let aviso=document.getElementById('aviso');
-  if(grade.length===0){ aviso.innerHTML='<div style="background:#fff3b0;padding:10px;border-radius:10px"><b>⚠️ Grade vazia.</b><br>Não clica em Salvar Fixo. Vai no menu > Importar Backup > escolhe o ESTAGEFLOW 71KB.</div>'; }
-  else { aviso.innerHTML='<div style="background:#b7e5b7;padding:10px;border-radius:10px">✅ <b>'+grade.length+' dias carregados.</b></div>'; }
+  if(grade.length===0) aviso.innerHTML='<div style="background:#fff3b0;padding:10px;border-radius:10px"><b>⚠️ Grade vazia.</b><br>Menu > Importar Backup > ESTAGEFLOW 71KB<br>Ou clica em CRIAR GRADE PRÉ-MONTADA abaixo.</div>';
+  else aviso.innerHTML='<div style="background:#b7e5b7;padding:10px;border-radius:10px">✅ <b>'+grade.length+' dias carregados.</b></div>';
   let lista=grade.filter(d=>d.data.startsWith(mesAtual));
-  document.getElementById('tituloMes').textContent=(mesAtual==='2026-10'?'OUT/2026':mesAtual==='2026-11'?'NOV/2026':mesAtual==='2026-12'?'DEZ/2026':'JAN/2027')+' - GRADE P1-P12';
-  document.getElementById('gradeList').innerHTML=lista.map((d,idx)=>{
+  document.getElementById('tituloMes').textContent=(mesAtual==='2026-10'?'OUT/2026':mesAtual==='2026-11'?'NOV/2026':mesAtual==='2026-12'?'DEZ/2026':'JAN/2027')+' - GRADE';
+  document.getElementById('gradeList').innerHTML=lista.map(d=>{
     let linhas='';
-    for(let i=1;i<=12;i++){
-      let v=(d['P'+i]||'').toString().trim();
-      let cls=v?'linha verde':'linha';
-      let bola=v?'✔':'';
-      let bolCls=v?'bol v':'bol';
-      linhas+=`<div class="${cls}"><span class="p">P${i}</span><span class="mus">${v||'—'}</span><span class="${bolCls}">${bola}</span><button onclick="editarCelula('${d.data}',${i})" style="border:1px solid #ddd;background:#fff;border-radius:12px;padding:4px 8px">✏️</button></div>`;
+    // Mostra P1-P6 como no original, + P7-P12 se tiver algo
+    let maxP=6; for(let i=7;i<=12;i++){ if(d['P'+i]) maxP=12; }
+    for(let i=1;i<=maxP;i++){
+      let v=d['P'+i]||'';
+      let st=d['S'+i]||'';
+      let cls=v?'linha cheia':'linha';
+      let opts='<option value="">ESCOLHA</option>'+musicos.map(m=>`<option ${m.nome===v?'selected':''}>${m.nome}</option>`).join('')+(v && !musicos.find(m=>m.nome===v)?`<option selected>${v}</option>`:'');
+      linhas+=`<div class="${cls}"><b style="width:30px">P${i}</b><select onchange="trocarMusico('${d.data}',${i},this.value)">${opts}</select><select class="status ${st==='AL'?'al':st==='X'?'x':st==='+'?'mais':'ja'}" onchange="trocarStatus('${d.data}',${i},this.value)"><option value="JA" ${st==='JA'?'selected':''}>JA</option><option value="AL" ${st==='AL'?'selected':''}>AL</option><option value="+" ${st==='+'?'selected':''}>+</option><option value="X" ${st==='X'?'selected':''}>X</option></select></div>`;
     }
-    return `<div class="dia"><div class="dia-top"><span>${fmtData(d.data)} • ${diaSemana(d.data)}</span><span>${d.data}</span></div>${linhas}</div>`;
-  }).join('')||'Nenhum dia nesse mês.';
+    return `<div class="dia"><div class="dia-top"><span>${fmtData(d.data)}</span><span>${diaSemana(d.data)}</span></div>${linhas}</div>`;
+  }).join('')||'<p>Nenhum dia nesse mês. Clica em CRIAR GRADE PRÉ-MONTADA DO MÊS acima.</p>';
   document.getElementById('musicosList').innerHTML=musicos.map((m,i)=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><b>${m.nome}</b><span>R$ ${m.cache} <button onclick="editarCache(${i})">✏️</button></span></div>`).join('');
   document.getElementById('casasList').innerHTML=casas.map(c=>`<div style="padding:10px 0;border-bottom:1px solid #eee"><b>${c.nome||c}</b> • ATIVO</div>`).join('');
   document.getElementById('filtroMusico').innerHTML='<option value="TODOS">TODOS</option>'+musicos.map(m=>`<option>${m.nome}</option>`).join('');
   renderRel();
-  // Planejamento
   let planHtml='';
   musicos.forEach(m=>{
     let dias=[];
-    grade.forEach(d=>{ for(let i=1;i<=12;i++){ if((d['P'+i]||'').toUpperCase()===m.nome.toUpperCase()) dias.push(d.data+' - P'+i); } });
+    grade.forEach(d=>{ for(let i=1;i<=12;i++){ if((d['P'+i]||'')===m.nome) dias.push(d.data+' - P'+i); } });
     if(dias.length) planHtml+=`<b>${m.nome} • ${dias.length} shows</b><br>${dias.map(x=>`<div style="padding:6px 0;border-bottom:1px solid #eee">${x}</div>`).join('')}<hr>`;
   });
   document.getElementById('planList').innerHTML=planHtml||'Sem planejamento.';
 }
-function editarCelula(data, p){
+function trocarMusico(data,p,valor){
   let d=grade.find(x=>x.data===data); if(!d) return;
-  let atual=d['P'+p]||'';
-  let lista=musicos.map(m=>m.nome).join(', ');
-  let novo=prompt('P'+p+' em '+data+'\nMúsicos: '+lista+'\n\nDeixa vazio para limpar:', atual);
-  if(novo===null) return;
-  d['P'+p]=novo.toUpperCase().trim();
+  d['P'+p]=valor.toUpperCase().trim();
+  if(valor && !d['S'+p]) d['S'+p]='JA';
+  localStorage.setItem(K_GRADE, JSON.stringify(grade));
+  localStorage.setItem(K_SHOWS, JSON.stringify(grade));
+  render();
+}
+function trocarStatus(data,p,valor){
+  let d=grade.find(x=>x.data===data); if(!d) return;
+  d['S'+p]=valor;
   localStorage.setItem(K_GRADE, JSON.stringify(grade));
   localStorage.setItem(K_SHOWS, JSON.stringify(grade));
   render();
@@ -233,13 +264,11 @@ function renderRel(){
   grade.forEach(d=>{
     if(ini && d.data<ini) return; if(fim && d.data>fim) return;
     for(let i=1;i<=12;i++){
-      let nome=(d['P'+i]||'').toString().trim().toUpperCase();
-      if(!nome) continue;
+      let nome=(d['P'+i]||'').trim().toUpperCase();
+      if(!nome || nome==='ESCOLHA') continue;
       if(filtro!=='TODOS' && nome!==filtro.toUpperCase()) continue;
-      cont[nome]=cont[nome]||{q:0,v:0};
-      cont[nome].q++;
-      let m=musicos.find(x=>x.nome.toUpperCase()===nome);
-      cont[nome].v+=m?m.cache:0;
+      cont[nome]=cont[nome]||{q:0,v:0}; cont[nome].q++;
+      let m=musicos.find(x=>x.nome.toUpperCase()===nome); cont[nome].v+=m?m.cache:0;
     }
   });
   let totalQ=Object.values(cont).reduce((a,c)=>a+c.q,0);
@@ -248,7 +277,7 @@ function renderRel(){
   document.getElementById('total').textContent='R$ '+totalV.toLocaleString('pt-BR');
   document.getElementById('relList').innerHTML=Object.entries(cont).sort((a,b)=>b[1].q-a[1].q).map(([k,v])=>`<div class="rel-linha"><span>${k}</span><span>${v.q} • R$ ${v.v.toLocaleString('pt-BR')}</span></div>`).join('')||'Sem shows no período.';
 }
-function filtroAndre(){ show('rel'); document.getElementById('filtroMusico').value='ANDRÉ'; renderRel(); }
+function filtroAndre(){ show('rel'); document.getElementById('filtroMusico').value='ANDRE'; renderRel(); }
 function show(id){
   ['grade','rel','plan','musicos','casas'].forEach(x=>{ let el=document.getElementById(x); if(el) el.style.display=x===id?'block':'none'; });
   document.getElementById('menu').classList.remove('open'); render();
