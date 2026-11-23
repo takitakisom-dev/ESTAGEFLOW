@@ -1,59 +1,257 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>RECUPERAR STAGEFLOW</title>
-<style>body{font-family:Arial;padding:16px}button{background:#000;color:#fff;border:0;padding:14px;width:100%;border-radius:10px;font-weight:bold;margin:10px 0}pre{background:#eee;padding:10px;white-space:pre-wrap;word-break:break-word;border-radius:10px}</style>
-</head><body>
-<h2>RECUPERAR - STAGEFLOW</h2>
-<p>Isso aqui NÃO apaga nada, só procura.</p>
-<button onclick="procurar()">🔍 PROCURAR MEUS DADOS</button>
-<div id="saida"></div>
-<button onclick="restaurar()" id="btnRest" style="display:none;background:green">✅ RESTAURAR DADOS ENCONTRADOS</button>
-<input type="file" id="fileBackup" onchange="lerArquivo(event)" style="margin-top:20px">
-<p>Se não achar aqui, escolhe o arquivo de backup que está em Documento.</p>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAGEFLOW</title>
+<style>
+  *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+  body{margin:0;background:#f4f4f4;color:#111}
+  header{background:#000;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+  header b{font-size:15px;letter-spacing:1px}
+  header span{font-size:11px;opacity:.7}
+  .tabs{display:flex;gap:8px;padding:10px;overflow-x:auto;background:#fff}
+  .tabs button{border:1px solid #ddd;background:#eee;padding:8px 12px;border-radius:20px;white-space:nowrap}
+  .tabs button.on{background:#000;color:#fff}
+  .card{background:#fff;margin:10px;border-radius:14px;padding:14px;box-shadow:0 1px 4px #0001}
+  .card.yellow{background:#fff8d6}
+  label{font-size:12px;font-weight:bold}
+  input,select{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ddd;border-radius:10px;font-size:16px;background:#fff}
+  .btn{background:#000;color:#fff;border:0;width:100%;padding:13px;border-radius:10px;font-weight:bold;font-size:15px;margin-top:6px}
+  .btn.green{background:#1a7a1a}
+  .row{display:flex;gap:10px}.row .card{flex:1;text-align:center}
+  .big{font-size:24px;font-weight:900}
+  .day{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;gap:8px}
+  .pill{padding:7px 10px;border-radius:20px;font-size:12px;font-weight:bold;border:0}
+  .p1{background:#d6f5d6}.p2{background:#fff3b0}.x{background:#ffd6d6}
+  .menu{position:fixed;inset:0;background:#0008;display:none;z-index:20}
+  .menu.open{display:block}.menuBox{background:#fff;width:88%;max-width:360px;height:100%;padding:16px;overflow:auto}
+  .menuBox button{display:block;width:100%;text-align:left;padding:12px;border:0;border-bottom:1px solid #eee;background:#fff;font-size:15px}
+  .edit{border:1px solid #ddd;background:#fff;border-radius:20px;padding:6px 10px}
+  .ok{background:#d6f5d6;padding:10px;border-radius:10px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>
+  <button onclick="document.getElementById('menu').classList.add('open')" style="background:none;border:0;color:#fff;font-size:20px">☰</button>
+  <b>STAGEFLOW</b><span id="topInfo">• V66 AGRUPA</span>
+</header>
+
+<div id="menu" class="menu" onclick="this.classList.remove('open')">
+  <div class="menuBox" onclick="event.stopPropagation()">
+    <h3>STAGEFLOW</h3>
+    <button onclick="show('grade')">Grade P1-P12</button>
+    <button onclick="show('relSimples')">Relatório Financeiro Por Mês</button>
+    <button onclick="show('relSimples')">Relatório TOTAL Todos Meses</button>
+    <button onclick="show('relSimples')">RELATÓRIO SIMPLES TODOS POR MÚSICO</button>
+    <button onclick="showFiltroAndre()">Filtro ANDRÉ</button>
+    <button onclick="show('planMusico')">Planejamento Por Músico</button>
+    <button onclick="show('planGeral')">Planejamento GERAL</button>
+    <button onclick="show('musicos')">Músicos • Editar Cachê ✏️</button>
+    <button onclick="show('casas')">Casas P1-P12</button>
+    <button onclick="show('folha30')">1 FOLHA 30 Dias</button>
+    <button onclick="show('folha7')">1 FOLHA 7 Dias</button>
+    <button onclick="salvarFixo()">Salvar Fixo • NÃO ZERA</button>
+    <button onclick="exportar()">Exportar Backup</button>
+    <button onclick="document.getElementById('imp').click()">Importar Backup</button>
+    <input type="file" id="imp" hidden accept=".json,.txt" onchange="importar(event)">
+    <button onclick="document.getElementById('menu').classList.remove('open')">FECHAR</button>
+    <div id="statusMenu" style="font-size:12px;color:#555;margin-top:10px"></div>
+  </div>
+</div>
+
+<div class="tabs" id="tabsMes">
+  <button data-mes="2026-10">OUT/2026</button>
+  <button data-mes="2026-11" class="on">NOV/2026</button>
+  <button data-mes="2026-12">DEZ/2026</button>
+  <button data-mes="2027-01">JAN/2027</button>
+</div>
+
+<div id="aviso" class="card" style="display:none"></div>
+
+<div id="grade" class="card">
+  <h3 id="tituloMes">NOV/2026</h3>
+  <div id="gradeList"></div>
+  <hr>
+  <h4>Adicionar Show</h4>
+  <label>DATA</label><input type="date" id="novaData">
+  <label>MÚSICO</label><select id="novaMusico"></select>
+  <label>CASA / TURNO</label><select id="novaCasa"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option><option>P7</option><option>P8</option><option>P9</option><option>P10</option><option>P11</option><option>P12</option></select>
+  <button class="btn green" onclick="addShow()">+ ADICIONAR SHOW</button>
+</div>
+
+<div id="relSimples" class="card yellow" style="display:none">
+  <h3>Relatório - Por Músico</h3>
+  <label>INÍCIO</label><input type="date" id="inicio">
+  <label>FIM</label><input type="date" id="fim">
+  <label>MÚSICO</label><select id="musicoFiltro"><option value="TODOS">TODOS</option></select>
+  <button class="btn" onclick="filtrar()">FILTRAR • AGRUPA AUTOMÁTICO</button>
+  <div class="row">
+    <div class="card"><div>SHOWS</div><div class="big" id="qtd">0</div></div>
+    <div class="card"><div>TOTAL</div><div class="big" id="total">R$ 0</div></div>
+  </div>
+  <div><b>Agrupado por Músico</b><div id="listaAgrupado"></div></div>
+  <div style="margin-top:14px"><b>Por Mês</b><div id="listaMes"></div></div>
+</div>
+
+<div id="planMusico" class="card" style="display:none"><h3>Planejamento por Músico</h3><div id="planList"></div></div>
+<div id="planGeral" class="card" style="display:none"><h3>Planejamento GERAL</h3><div id="planGeralList"></div></div>
+<div id="musicos" class="card" style="display:none"><h3>Músicos • Editar Cachê</h3><div id="musicosList"></div><button class="btn" onclick="addMusico()">+ ADICIONAR MÚSICO</button></div>
+<div id="casas" class="card" style="display:none"><h3>Casas P1-P12</h3><div id="casasList"></div></div>
+<div id="folha30" class="card" style="display:none"><h3>1 FOLHA 30 Dias</h3><div id="folha30List"></div><button class="btn" onclick="window.print()">🖨️ IMPRIMIR</button></div>
+<div id="folha7" class="card" style="display:none"><h3>1 FOLHA 7 Dias</h3><div id="folha7List"></div><button class="btn" onclick="window.print()">🖨️ IMPRIMIR</button></div>
+
 <script>
-let achado = null;
-function procurar(){
-  let html = '';
-  for(let i=0;i<localStorage.length;i++){
-    let k = localStorage.key(i);
-    let v = localStorage.getItem(k);
-    html += `<b>Gaveta:</b> ${k}<br><b>Tamanho:</b> ${v.length} letras<br><pre>${v.slice(0,1000)}</pre><hr>`;
-    // tenta achar shows em qualquer chave
-    try{
-      let j = JSON.parse(v);
-      let arr = Array.isArray(j) ? j : (j.shows || j.dados || j.grade || null);
-      if(arr && arr.length > 0){ achado = {chave:k, dados:arr, completo:j}; }
-      if(j && j.musicos) achado = achado || {chave:k, dados:j};
-    }catch(e){}
-  }
-  if(!achado) html += `<h3 style="color:red">Não achei nas gavetas do navegador. Usa o arquivo de backup abaixo.</h3>`;
-  else { html += `<h3 style="color:green">ACHEI! Gaveta ${achado.chave} com dados!</h3>`; document.getElementById('btnRest').style.display='block'; }
-  document.getElementById('saida').innerHTML = html || 'Nenhuma gaveta encontrada.';
+/* ===== CHAVES CORRETAS - NÃO MUDA ===== */
+const KEY_SHOWS='stageflow_shows_v66';
+const KEY_MUSICOS='stageflow_musicos_v66';
+const KEY_CASAS='stageflow_casas_v66';
+let mesAtual='2026-11';
+
+/* ===== CARREGA SEM APAGAR NADA ===== */
+function carregar(chave, padrao){
+  try{
+    let v=localStorage.getItem(chave);
+    if(v===null) return padrao;
+    let j=JSON.parse(v);
+    if(Array.isArray(j)) return j;
+    return padrao;
+  }catch(e){ return padrao; }
 }
-function restaurar(){
-  if(!achado) return;
-  // Salva nas 3 chaves possíveis, pra qualquer versão achar
-  let shows = achado.completo?.shows || achado.dados;
-  let musicos = achado.completo?.musicos || [];
-  let casas = achado.completo?.casas || [];
-  localStorage.setItem('stageflow_shows_v66', JSON.stringify(shows));
-  localStorage.setItem('stageflow_musicos_v66', JSON.stringify(musicos));
-  localStorage.setItem('stageflow_casas_v66', JSON.stringify(casas));
-  // Salva também nas chaves antigas mais comuns
-  localStorage.setItem('shows', JSON.stringify(shows));
-  localStorage.setItem('stageflow_shows', JSON.stringify(shows));
-  localStorage.setItem('grade', JSON.stringify(shows));
-  alert('RESTAURADO! Agora abre o STAGEFLOW de novo. Shows: ' + shows.length);
+let shows = carregar(KEY_SHOWS, []);
+let musicos = carregar(KEY_MUSICOS, []);
+let casas = carregar(KEY_CASAS, []);
+if(musicos.length===0) musicos=[{nome:'ISRAEL',cache:700},{nome:'ANDRÉ',cache:700},{nome:'RICK',cache:700}];
+if(casas.length===0) casas=['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','P11','P12'].map(n=>({nome:n}));
+
+/* Normaliza qualquer formato antigo para {data,musico,casa,cache} */
+function normalizarShows(arr){
+  let out=[];
+  (arr||[]).forEach(s=>{
+    if(!s) return;
+    // Formato grade antigo: {nome, turno, P1, P2...} ou {data, P1:...}
+    if(s.data && s.musico){ out.push({data:s.data,musico:s.musico,casa:s.casa||s.turno||'P1',cache:Number(s.cache||s.valor||0)}); return; }
+    if(s.data && s.nome){ out.push({data:s.data,musico:s.nome,casa:s.turno||s.casa||'P1',cache:Number(s.cache||0)}); return; }
+    // Se for objeto por dia com P1/P2...
+    if(s.data && (s.P1||s.P2)){
+      ['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','P11','P12'].forEach(c=>{
+        if(s[c] && s[c]!==''){ out.push({data:s.data,musico:String(s[c]),casa:c,cache:0}); }
+      });
+      return;
+    }
+    if(typeof s==='string' && s.length>5) return;
+  });
+  // Preenche cache pelo músico se estiver 0
+  out.forEach(o=>{ if(!o.cache){ let m=musicos.find(x=>x.nome===o.musico); if(m) o.cache=m.cache; } });
+  return out;
 }
-function lerArquivo(e){
-  const r = new FileReader();
-  r.onload = () => {
+shows = normalizarShows(shows);
+
+function salvarFixo(){
+  if(shows.length===0 && !confirm('ATENÇÃO: Você tem 0 shows agora. Tem certeza que quer salvar 0 por cima? Clica CANCELAR se for restaurar backup.')) return;
+  localStorage.setItem(KEY_SHOWS, JSON.stringify(shows));
+  localStorage.setItem(KEY_MUSICOS, JSON.stringify(musicos));
+  localStorage.setItem(KEY_CASAS, JSON.stringify(casas));
+  alert('Salvo fixo! Não zera. Shows: '+shows.length);
+  render();
+}
+function exportar(){
+  const blob=new Blob([JSON.stringify({shows,musicos,casas,versao:'V66'})],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='STAGEFLOW-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+}
+/* IMPORTAR - entende todos os formatos do seu backup antigo */
+function importar(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{
     try{
-      let j = JSON.parse(r.result);
-      achado = {chave:'arquivo-backup', dados:j.shows||j, completo:j};
-      document.getElementById('saida').innerHTML = `<h3 style="color:green">ACHEI NO ARQUIVO! Shows: ${(j.shows||[]).length}</h3><pre>${r.result.slice(0,1000)}</pre>`;
-      document.getElementById('btnRest').style.display='block';
-    }catch(err){ alert('Esse arquivo não é o backup JSON. Tenta outro arquivo.'); }
+      let txt=r.result; let j=JSON.parse(txt);
+      let novosShows=[], novosMusicos=[], novasCasas=[];
+      if(Array.isArray(j)) novosShows=j;
+      else if(j.shows) novosShows=j.shows;
+      else if(j.grade) novosShows=j.grade;
+      else if(j.dados) novosShows=j.dados;
+      else {
+        // Backup por mês: {"2026-11":[...], "OUT/2026":[...]}
+        Object.keys(j).forEach(k=>{ if(Array.isArray(j[k])) novosShows=novosShows.concat(j[k]); });
+        if(j.musicos) novosMusicos=j.musicos;
+        if(j.casas) novasCasas=j.casas;
+      }
+      if(j.musicos && Array.isArray(j.musicos)) novosMusicos=j.musicos;
+      if(j.casas && Array.isArray(j.casas)) novasCasas=j.casas;
+      novosShows=normalizarShows(novosShows);
+      if(novosShows.length===0){ alert('Esse arquivo não tem shows. Tenta o arquivo ESTAGEFLOW de 71KB.'); return; }
+      if(!confirm('Achei '+novosShows.length+' shows no backup. Quer substituir os atuais ('+shows.length+') por esses?')) return;
+      shows=novosShows;
+      if(novosMusicos.length) musicos=novosMusicos;
+      if(novasCasas.length) casas=novasCasas;
+      localStorage.setItem(KEY_SHOWS, JSON.stringify(shows));
+      localStorage.setItem(KEY_MUSICOS, JSON.stringify(musicos));
+      localStorage.setItem(KEY_CASAS, JSON.stringify(casas));
+      alert('RESTAURADO! Shows: '+shows.length);
+      show('grade'); render();
+    }catch(err){ alert('Não consegui ler esse arquivo. Escolhe o arquivo .json do backup, o de 71KB. Erro: '+err.message); }
   };
-  r.readAsText(e.target.files[0]);
+  r.readAsText(f);
+  e.target.value='';
 }
-</script></body></html>
+function show(id){
+  ['grade','relSimples','planMusico','planGeral','musicos','casas','folha30','folha7'].forEach(x=>{ const el=document.getElementById(x); if(el) el.style.display = x===id ? 'block':'none'; });
+  document.getElementById('menu').classList.remove('open');
+  render();
+}
+function showFiltroAndre(){
+  show('relSimples');
+  document.getElementById('musicoFiltro').value='ANDRÉ';
+  filtrar();
+}
+function filtrar(){
+  const ini=document.getElementById('inicio').value, fim=document.getElementById('fim').value, m=document.getElementById('musicoFiltro').value;
+  let f=shows.filter(s=> (!ini||s.data>=ini) && (!fim||s.data<=fim) && (m==='TODOS'||s.musico===m));
+  document.getElementById('qtd').textContent=f.length;
+  document.getElementById('total').textContent='R$ '+f.reduce((a,s)=>a+(s.cache||0),0).toLocaleString('pt-BR');
+  let g={}; f.forEach(s=>{ g[s.musico]=g[s.musico]||{q:0,v:0}; g[s.musico].q++; g[s.musico].v+=s.cache||0; });
+  document.getElementById('listaAgrupado').innerHTML=Object.entries(g).map(([k,v])=>`<div class="day"><b>${k}</b><span>${v.q} shows • R$ ${v.v.toLocaleString('pt-BR')}</span></div>`).join('')||'Sem shows no período.';
+  let gm={}; f.forEach(s=>{ let mes=s.data.slice(0,7); gm[mes]=gm[mes]||{q:0,v:0}; gm[mes].q++; gm[mes].v+=s.cache||0; });
+  document.getElementById('listaMes').innerHTML=Object.entries(gm).sort().map(([k,v])=>`<div class="day"><b>${k}</b><span>${v.q} shows • R$ ${v.v.toLocaleString('pt-BR')}</span></div>`).join('')||'';
+}
+function addShow(){
+  let d=document.getElementById('novaData').value, m=document.getElementById('novaMusico').value, c=document.getElementById('novaCasa').value;
+  if(!d){ alert('Escolhe a data'); return; }
+  let mu=musicos.find(x=>x.nome===m);
+  shows.push({data:d,musico:m,casa:c,cache:mu?mu.cache:0});
+  shows.sort((a,b)=>a.data.localeCompare(b.data));
+  localStorage.setItem(KEY_SHOWS, JSON.stringify(shows));
+  render(); alert('Show adicionado!');
+}
+function delShow(i){ if(confirm('Excluir esse show?')){ shows.splice(i,1); localStorage.setItem(KEY_SHOWS, JSON.stringify(shows)); render(); } }
+function editarCache(i){ const v=prompt('Novo cachê para '+musicos[i].nome, musicos[i].cache); if(v!==null){ musicos[i].cache=Number(v); localStorage.setItem(KEY_MUSICOS, JSON.stringify(musicos)); render(); } }
+function addMusico(){ const n=prompt('Nome do músico:'); if(!n) return; const v=prompt('Cachê:', '700'); musicos.push({nome:n.toUpperCase(),cache:Number(v||700)}); localStorage.setItem(KEY_MUSICOS, JSON.stringify(musicos)); render(); }
+function render(){
+  document.getElementById('topInfo').textContent='• V66 AGRUPA • '+shows.length+' SHOWS';
+  document.getElementById('statusMenu').textContent='Shows salvos: '+shows.length+' • Músicos: '+musicos.length;
+  let aviso=document.getElementById('aviso');
+  if(shows.length===0){ aviso.style.display='block'; aviso.innerHTML='<b>⚠️ 0 shows carregados.</b><br>Não clica em Salvar Fixo. Vai no menu > Importar Backup e escolhe o arquivo ESTAGEFLOW 71KB.'; }
+  else { aviso.style.display='block'; aviso.innerHTML='<div class="ok">✅ <b>'+shows.length+' shows carregados.</b> Pode usar normal.</div>'; }
+  let lista=shows.filter(s=>s.data.startsWith(mesAtual)).sort((a,b)=>a.data.localeCompare(b.data));
+  document.getElementById('tituloMes').textContent=mesAtual==='2026-10'?'OUT/2026':mesAtual==='2026-11'?'NOV/2026':mesAtual==='2026-12'?'DEZ/2026':'JAN/2027';
+  document.getElementById('gradeList').innerHTML=lista.map(s=>{
+    let idx=shows.indexOf(s);
+    return `<div class="day"><span><b>${s.data.split('-').reverse().join('/')}</b> • ${s.musico} • R$ ${s.cache}</span><span><button class="pill p1">${s.casa}</button> <button class="pill x" onclick="delShow(${idx})">X</button></span></div>`;
+  }).join('')||'Nenhum show nesse mês.';
+  document.getElementById('musicosList').innerHTML=musicos.map((m,i)=>`<div class="day"><b>${m.nome}</b><span>R$ ${m.cache} <button class="edit" onclick="editarCache(${i})">✏️</button></span></div>`).join('');
+  document.getElementById('casasList').innerHTML=casas.map(c=>`<div class="day"><b>${c.nome||c}</b><span>ATIVO</span></div>`).join('');
+  document.getElementById('musicoFiltro').innerHTML='<option value="TODOS">TODOS</option>'+musicos.map(m=>`<option>${m.nome}</option>`).join('');
+  document.getElementById('novaMusico').innerHTML=musicos.map(m=>`<option>${m.nome}</option>`).join('');
+  document.getElementById('planList').innerHTML=musicos.map(m=>`<b>${m.nome}</b>`+shows.filter(s=>s.musico===m.nome).slice(0,20).map(s=>`<div class="day"><span>${s.data.split('-').reverse().join('/')} - ${s.casa}</span><span>R$ ${s.cache}</span></div>`).join('')).join('<hr>');
+  document.getElementById('planGeralList').innerHTML=shows.slice().sort((a,b)=>a.data.localeCompare(b.data)).slice(0,100).map(s=>`<div class="day"><span>${s.data.split('-').reverse().join('/')} • ${s.musico}</span><span>${s.casa} • R$ ${s.cache}</span></div>`).join('');
+  document.getElementById('folha30List').innerHTML=shows.slice(0,30).map(s=>`<div class="day"><span>${s.data.split('-').reverse().join('/')} • ${s.musico}</span><span>${s.casa}</span></div>`).join('');
+  document.getElementById('folha7List').innerHTML=shows.slice(0,7).map(s=>`<div class="day"><span>${s.data.split('-').reverse().join('/')} • ${s.musico}</span><span>${s.casa}</span></div>`).join('');
+  filtrar();
+}
+document.querySelectorAll('#tabsMes button').forEach(b=>{ b.onclick=()=>{ document.querySelectorAll('#tabsMes button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); mesAtual=b.dataset.mes; show('grade'); }; });
+render();
+</script>
+</body>
+</html>
