@@ -6,69 +6,56 @@
 <title>ESTAGEFLOW</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f2f2f2}
-.top{background:#111;color:#fff;padding:12px 10px;display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:10}
-.top b{font-size:17px;white-space:nowrap}
-.pill{font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;white-space:nowrap}
-.pill.y{background:#f1c40f;color:#111}
-.pill.g{background:#2ecc71;color:#111}
-.menu{margin-left:auto;background:none;border:0;color:#fff;font-size:22px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
-.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.12);min-width:0}
-.head{display:flex;align-items:center;gap:6px;padding:10px 8px 8px}
-.num{font-size:17px;font-weight:800}
-.dia{font-size:10px;font-weight:800;color:#fff;background:#111;padding:4px 6px;border-radius:4px}
-.dia.blue{background:#2196f3}
-.dia.red{background:#e74c3c}
-.mes{font-size:13px;font-weight:800;white-space:nowrap}
-.semana{margin-left:auto;font-size:9px;font-weight:700;background:#f0f0f0;padding:5px 7px;border-radius:20px}
-.linha{display:flex;gap:5px;padding:4px 7px;align-items:center}
-.linha:last-child{padding-bottom:10px}
-.p{font-size:12px;font-weight:700;width:28px;flex-shrink:0}
-select{height:36px;border:0;border-radius:6px;font-size:13px;font-weight:700;color:#111;cursor:pointer}
-select.nome{flex:1;min-width:140px;background:#2ecc71;padding:0 6px;text-align:left}
+body{background:#e9e9e9}
+.top{background:#111;color:#fff;padding:14px 14px;display:flex;align-items:center;gap:10px}
+.top b{font-size:28px;letter-spacing:-.5px}
+.badge-f{margin-left:auto;background:#f1c40f;color:#111;border-radius:10px;padding:6px 12px;text-align:center;line-height:1}
+.badge-f b{font-size:20px;display:block}
+.badge-f span{font-size:13px;font-weight:800}
+.badge-v{background:#00c853;color:#fff;border-radius:10px;padding:10px 12px;font-size:18px;font-weight:800}
+.grid{padding:12px;display:grid;grid-template-columns:1fr;gap:14px}
+.card{background:#fff;border-radius:18px;padding:16px 14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.head{font-size:20px;font-weight:800;color:#111;padding:0 4px 14px;line-height:1.2}
+.linha{display:flex;gap:8px;align-items:center;padding:4px 0}
+.p{font-size:16px;color:#666;width:38px;flex-shrink:0}
+select{height:42px;border:0;border-radius:22px;font-weight:800;cursor:pointer;color:#111;text-align:center}
+select.nome{flex:1;min-width:0;background:#00e676;font-size:16px;padding:0 6px}
+select.nome.amarelo{background:#d4c72a}
 select.nome.branco{background:#fff;border:1px solid #ddd}
-select.turno{width:62px;flex-shrink:0;text-align:center;font-weight:800}
-select.turno.ja{background:#2ecc71}
+select.turno{width:58px;flex-shrink:0;font-size:16px}
+select.turno.ja{background:#00e676}
 select.turno.al{background:#f1c40f}
-select.turno.alja{background:#2ecc71}
-.plus{background:#111;color:#fff;border:0;width:30px;height:36px;border-radius:5px;font-size:18px;cursor:pointer;flex-shrink:0}
-.del{background:#e74c3c;color:#fff;border:0;width:30px;height:36px;border-radius:5px;font-size:15px;cursor:pointer;flex-shrink:0}
-/* CELULAR: 1 COLUNA PRA O NOME CABER INTEIRO */
-@media (max-width:700px){
-.grid{grid-template-columns:1fr}
-select.nome{font-size:14px}
-select.turno{width:68px}
-}
+select.turno.alja{background:#00e676}
+.plus{background:#111;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:24px;cursor:pointer;flex-shrink:0}
+.del{background:#ff2d2d;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body>
-<div class="top"><b>ESTAGEFLOW</b><span class="pill y">197 FIXOS</span><span class="pill g">R$ 75350</span><button class="menu">☰</button></div>
+<div class="top"><b>ESTAGEFLOW</b><div class="badge-f"><b>197</b><span>FIXOS</span></div><div class="badge-v">R$ 75350</div></div>
 <div class="grid" id="grid"></div>
 <script>
 const MUSICOS=["ESCOLHA","ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN","FELIPE DUO","DUO CLASSIC ROCK","VAT 60 EVENTO"];
 const DIAS=[
-{num:23,dia:"SEG",diaCls:"",sem:"SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","JA"],["P3:","LUCIANO","JA"],["P4:","ANDRE","JA"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ESCOLHA","AL"]]},
-{num:24,dia:"TER",diaCls:"",sem:"TERÇA",rows:[["P1:","ROBSON SOLO","JA"],["P2:","RICK SOLO","JA"],["P3:","ANDRE","JA"],["P4:","PAOLI","JA"],["P5:","ISRAEL","JA"],["P6:","ESCOLHA","AL"]]},
-{num:25,dia:"QUA",diaCls:"",sem:"QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"]]},
-{num:26,dia:"QUI",diaCls:"",sem:"QUINTA",rows:[["P1:","ISRAEL","JA"],["P2:","EDILL","JA"],["P3:","LUCIANO","JA"],["P4:","PAOLI","JA"],["P5:","ANDRE","JA"],["P6:","ESCOLHA","AL"]]},
-{num:27,dia:"SEX",diaCls:"blue",sem:"SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
-{num:28,dia:"SAB",diaCls:"blue",sem:"SÁBADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"]]},
-{num:29,dia:"DOM",diaCls:"red",sem:"DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"]]},
-{num:30,dia:"SEG",diaCls:"",sem:"SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"]]}
+{head:"23 SEG — NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"]]},
+{head:"24 TER — NOV/2026 TERÇA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"]]},
+{head:"25 QUA — NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"]]},
+{head:"26 QUI — NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"]]},
+{head:"27 SEX — NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{head:"28 SÁB — NOV/2026 SÁBADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"]]},
+{head:"29 DOM — NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"]]},
+{head:"30 SEG — NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"]]}
 ];
 function clsT(t){return t==="AL"?"al":t==="AL/JA"?"alja":"ja"}
 function render(){
 document.getElementById('grid').innerHTML=DIAS.map((d,di)=>{
 let rows=d.rows.map((r,ri)=>{
-let nc=r[1]==="ESCOLHA"?"nome branco":"nome";
+let isP6Amarelo=(ri===5 && r[2]==="AL" && r[1]!=="ESCOLHA");
+let nc=r[1]==="ESCOLHA"?"nome branco":isP6Amarelo?"nome amarelo":"nome";
 let opts=MUSICOS.map(m=>`<option ${m===r[1]?"selected":""}>${m}</option>`).join("");
 let topts=["JA","AL","AL/JA"].map(t=>`<option ${t===r[2]?"selected":""}>${t}</option>`).join("");
-let isLast=ri===d.rows.length-1;
-let delBtn=isLast?"":`<button class="del" onclick="DIAS[${di}].rows.splice(${ri},1);render()">×</button>`;
-return `<div class="linha"><span class="p">${r[0]}</span><select class="${nc}" onchange="DIAS[${di}].rows[${ri}][1]=this.value;render()">${opts}</select><select class="turno ${clsT(r[2])}" onchange="DIAS[${di}].rows[${ri}][2]=this.value;render()">${topts}</select><button class="plus" onclick="DIAS[${di}].rows.splice(${ri}+1,0,['P6:','ESCOLHA','AL']);render()">+</button>${delBtn}</div>`;
+return `<div class="linha"><span class="p">${r[0]}</span><select class="${nc}" onchange="DIAS[${di}].rows[${ri}][1]=this.value;render()">${opts}</select><select class="turno ${clsT(r[2])}" onchange="DIAS[${di}].rows[${ri}][2]=this.value;render()">${topts}</select><button class="plus" onclick="DIAS[${di}].rows.splice(${ri}+1,0,['P6:','ESCOLHA','AL']);render()">+</button><button class="del" onclick="DIAS[${di}].rows.splice(${ri},1);render()">×</button></div>`;
 }).join("");
-return `<div class="card"><div class="head"><span class="num">${d.num}</span><span class="dia ${d.diaCls}">${d.dia}</span><span class="mes">- NOV/2026</span><span class="semana">${d.sem}</span></div>${rows}</div>`;
+return `<div class="card"><div class="head">${d.head}</div>${rows}</div>`;
 }).join("");
 }
 render();
