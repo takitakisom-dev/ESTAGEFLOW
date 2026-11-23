@@ -3,192 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW</title>
+<title>ESTAGEFLOW - NOV/2026</title>
 <style>
-  *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-  body{margin:0;background:#f2f2f2;color:#111}
-  header{background:#000;color:#fff;padding:12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-  header b{font-size:15px;letter-spacing:1px} header span{font-size:11px;opacity:.7}
-  .card{background:#fff;margin:8px;border-radius:14px;padding:12px}
-  .card.yellow{background:#fff8d6}
-  label{font-size:12px;font-weight:bold}
-  input,select{width:100%;padding:10px;margin:5px 0 10px;border:1px solid #ddd;border-radius:10px;font-size:15px;background:#fff}
-  .btn{background:#000;color:#fff;border:0;width:100%;padding:13px;border-radius:10px;font-weight:bold;margin-top:6px}
-  .tabs{display:flex;gap:6px;padding:8px;overflow-x:auto;background:#fff}
-  .tabs button{border:1px solid #ddd;background:#eee;padding:8px 12px;border-radius:20px;white-space:nowrap}
-  .tabs button.on{background:#000;color:#fff}
-  /* IGUAL O PRINT - 1 DIA POR VEZ, TELA CHEIA */
-  .dia{background:#fff;border-radius:14px;margin:12px 0;overflow:hidden;box-shadow:0 1px 6px #0001}
-  .dia-top{padding:10px 12px;display:flex;align-items:center;gap:8px;font-weight:900;font-size:20px}
-  .dia-top .num{background:#000;color:#fff;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-  .dia-top .dsem{background:#3b82f6;color:#fff;padding:4px 12px;border-radius:10px;font-size:13px}
-  /* LINHA P1 - IGUAL PRINT */
-  .linha{display:flex;align-items:center;gap:6px;padding:6px 10px}
-  .p{font-weight:900;font-size:16px;width:34px;flex-shrink:0}
-  select.mus{flex:1;min-width:0;margin:0;padding:12px 8px;font-weight:bold;font-size:15px;border-radius:10px;border:1px solid #ccc}
-  select.mus.cheio{background:#22c55e;color:#000;border-color:#16a34a}
-  select.mus.vazio{background:#fff;color:#000}
-  select.turno{width:104px;flex-shrink:0;margin:0;padding:12px 4px;font-weight:bold;font-size:15px;border-radius:10px;text-align:center;border:1px solid #ccc}
-  select.turno.ja{background:#22c55e} select.turno.al{background:#facc15} select.turno.alja{background:#22c55e}
-  .bplus{background:#111;color:#fff;border:0;border-radius:8px;width:36px;height:44px;font-weight:bold;font-size:18px;flex-shrink:0}
-  .bx{background:#e11d48;color:#fff;border:0;border-radius:8px;width:36px;height:44px;font-weight:bold;font-size:18px;flex-shrink:0}
-  .menu{position:fixed;inset:0;background:#0008;display:none;z-index:20}
-  .menu.open{display:block}.menuBox{background:#fff;width:88%;max-width:360px;height:100%;padding:16px;overflow:auto}
-  .menuBox button{display:block;width:100%;text-align:left;padding:12px;border:0;border-bottom:1px solid #eee;background:#fff;font-size:15px}
-  .rel-linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;font-weight:bold}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f2f2f2}
+.top{background:#111;color:#fff;padding:14px 12px 10px}
+.top small{color:#aaa;font-size:11px;letter-spacing:1px}
+.top h1{font-size:26px;margin:4px 0 2px}
+.top p{font-size:12px;color:#ccc}
+.top p b{color:#fff}
+.btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.btns button{border:0;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.novo{background:#2ecc71;color:#fff}
+.outros{background:#e6e6e6}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.card-head{display:flex;align-items:center;gap:6px;padding:8px;border-bottom:1px solid #eee}
+.num{background:#111;color:#fff;font-weight:800;font-size:22px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.dia{color:#2b7fff;font-weight:800;font-size:12px}
+.mes{font-size:10px;color:#888}
+.semana{background:#eee;font-size:10px;font-weight:700;padding:4px 6px;border-radius:10px}
+.icons{margin-left:auto;font-size:13px;white-space:nowrap}
+.linha{display:flex;align-items:center;gap:4px;padding:5px 6px}
+.p{background:#eee;font-size:10px;font-weight:700;width:32px;text-align:center;padding:6px 2px;border-radius:6px;flex-shrink:0}
+.nome{flex:1;background:#2ecc71;color:#fff;font-size:11px;font-weight:700;padding:7px 6px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nome.branco{background:#fff;color:#111;border:1px solid #ddd}
+.turno{font-size:10px;font-weight:800;padding:7px 6px;border-radius:6px;flex-shrink:0;min-width:30px;text-align:center}
+.turno.ja{background:#2ecc71;color:#fff}
+.turno.al{background:#f1c40f;color:#111}
+.mais{background:#111;color:#fff;border:0;width:20px;height:20px;border-radius:4px;cursor:pointer;flex-shrink:0}
+.fechar{background:#e74c3c;color:#fff;border:0;width:20px;height:20px;border-radius:4px;cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body>
-<header>
-  <button onclick="document.getElementById('menu').classList.add('open')" style="background:none;border:0;color:#fff;font-size:20px">☰</button>
-  <b>STAGEFLOW</b><span id="topInfo">• V66</span>
-</header>
 
-<div id="menu" class="menu" onclick="this.classList.remove('open')">
-  <div class="menuBox" onclick="event.stopPropagation()">
-    <h3>STAGEFLOW</h3>
-    <button onclick="show('grade')">Grade P1-P12</button>
-    <button onclick="show('rel')">Relatório Financeiro Por Mês</button>
-    <button onclick="show('rel')">Relatório TOTAL Todos Meses</button>
-    <button onclick="show('rel')">RELATÓRIO SIMPLES TODOS POR MÚSICO</button>
-    <button onclick="filtroAndre()">Filtro ANDRÉ</button>
-    <button onclick="show('plan')">Planejamento Por Músico</button>
-    <button onclick="show('plan')">Planejamento GERAL</button>
-    <button onclick="show('musicos')">Músicos • Editar Cachê ✏️</button>
-    <button onclick="show('casas')">Casas P1-P12</button>
-    <button onclick="show('grade')">1 FOLHA 30 Dias</button>
-    <button onclick="show('grade')">1 FOLHA 7 Dias</button>
-    <button onclick="salvarFixo()">Salvar Fixo • NÃO ZERA</button>
-    <button onclick="exportar()">Exportar Backup</button>
-    <button onclick="document.getElementById('imp').click()">Importar Backup</button>
-    <input type="file" id="imp" hidden accept=".json,.txt" onchange="importar(event)">
-    <button onclick="document.getElementById('menu').classList.remove('open')">FECHAR</button>
-    <div id="statusMenu" style="font-size:12px;margin-top:10px"></div>
-  </div>
+<div class="top">
+<small>ESTAGEFLOW</small>
+<h1>NOV/2026</h1>
+<p>HOME / <b>ESTAGEFLOW</b> &nbsp; 197 FIXOS &nbsp; R$ 75350</p>
+<div class="btns">
+<button class="novo">+ NOVO</button>
+<button class="outros">VER TODOS</button>
+<button class="outros">VER COM PRODUTOR</button>
+<button class="outros">FESTIVAIS</button>
+<button class="outros">CALENDÁRIO</button>
+</div>
 </div>
 
-<div class="tabs" id="tabsMes">
-  <button data-mes="2026-10">OUT/2026</button>
-  <button data-mes="2026-11" class="on">NOV/2026</button>
-  <button data-mes="2026-12">DEZ/2026</button>
-  <button data-mes="2027-01">JAN/2027</button>
-</div>
-
-<div id="grade" class="card">
-  <div id="aviso"></div>
-  <h3 id="tituloMes">NOV/2026 - GRADE</h3>
-  <button class="btn" onclick="criarGradeMes()">+ CRIAR GRADE PRÉ-MONTADA DO MÊS</button>
-  <div id="gradeList"></div>
-</div>
-
-<div id="rel" class="card yellow" style="display:none">
-  <h3>Relatório - Por Músico</h3>
-  <label>INÍCIO</label><input type="date" id="inicio">
-  <label>FIM</label><input type="date" id="fim">
-  <label>MÚSICO</label><select id="filtroMusico"><option value="TODOS">TODOS</option></select>
-  <button class="btn" onclick="renderRel()">FILTRAR • AGRUPA AUTOMÁTICO</button>
-  <div style="display:flex;gap:8px;margin-top:10px"><div class="card" style="flex:1;text-align:center"><b>SHOWS</b><div id="qtd" style="font-size:24px;font-weight:900">0</div></div><div class="card" style="flex:1;text-align:center"><b>TOTAL</b><div id="total" style="font-size:24px;font-weight:900">R$ 0</div></div></div>
-  <h4>Agrupado por Músico</h4><div id="relList"></div>
-</div>
-
-<div id="plan" class="card" style="display:none"><h3>Planejamento Por Músico / GERAL</h3><div id="planList"></div></div>
-<div id="musicos" class="card" style="display:none"><h3>Músicos • Editar Cachê</h3><div id="musicosList"></div><button class="btn" onclick="addMusico()">+ ADICIONAR MÚSICO</button></div>
-<div id="casas" class="card" style="display:none"><h3>Casas P1-P12</h3><div id="casasList"></div></div>
+<div class="grid" id="grid"></div>
 
 <script>
-const K_GRADE='stageflow_grade_v66', K_SHOWS='stageflow_shows_v66', K_MUS='stageflow_musicos_v66', K_CASAS='stageflow_casas_v66';
-let mesAtual='2026-11';
-let grade=[], musicos=[], casas=[];
-const MESES={JAN:'01',FEV:'02',MAR:'03',ABR:'04',MAI:'05',JUN:'06',JUL:'07',AGO:'08',SET:'09',OUT:'10',NOV:'11',DEZ:'12'};
-function normalizarData(v){ if(!v) return ''; v=String(v).trim(); if(/^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0,10); let m=v.match(/(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/); if(m) return m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'); let m2=v.toUpperCase().match(/(\d{1,2})\D+([A-Z]{3})\D+(\d{4})/); if(m2 && MESES[m2[2]]) return m2[3]+'-'+MESES[m2[2]]+'-'+m2[1].padStart(2,'0'); return v; }
-function ler(chave){ try{ let v=localStorage.getItem(chave); if(!v) return null; return JSON.parse(v); }catch(e){ return null; } }
-/* Cada P = lista de {musico, turno: JA | AL | AL/JA} */
-function normalizarDia(d){
-  let data=normalizarData(d.data||d.dia||d.nome||''); if(!data) return null;
-  let o={data:data};
-  for(let i=1;i<=12;i++){
-    let raw=d['P'+i]; let lista=[];
-    if(Array.isArray(raw)){ raw.forEach(e=>{ if(typeof e==='string'){ if(e.trim()) lista.push({musico:e.toUpperCase().trim(),turno:'JA'}); } else if(e && typeof e==='object'){ let t=(e.turno||e.tipo||'JA').toUpperCase(); if(t==='ALJA') t='AL/JA'; lista.push({musico:(e.musico||e.nome||'').toUpperCase().trim(), turno:t}); } }); }
-    else if(typeof raw==='string' && raw.trim()){ let t=(d['S'+i]||d['turno'+i]||'JA').toUpperCase(); if(t==='ALJA') t='AL/JA'; lista.push({musico:raw.toUpperCase().trim(), turno:t}); }
-    o['P'+i]=lista;
-  }
-  return o;
-}
-function carregarInicial(){
-  let bruto = ler(K_GRADE) || ler(K_SHOWS) || [];
-  if(!Array.isArray(bruto)){ if(bruto && Array.isArray(bruto.grade)) bruto=bruto.grade; else if(bruto && Array.isArray(bruto.shows)) bruto=bruto.shows; else bruto=[]; }
-  grade = bruto.map(normalizarDia).filter(Boolean); grade.sort((a,b)=>a.data.localeCompare(b.data));
-  musicos = ler(K_MUS) || [];
-  if(!musicos.length) musicos=[
-    {nome:'ISRAEL',cache:300},{nome:'YGOR',cache:300},{nome:'LUCIANO',cache:300},{nome:'ANDRE',cache:300},
-    {nome:'DOUGLAS',cache:300},{nome:'DUO CLASSIC ROCK',cache:450},{nome:'EDILL',cache:300},{nome:'FELIPE DUO',cache:400},
-    {nome:'GERVÁSIO',cache:300},{nome:'MARTIN',cache:300},{nome:'PAOLI',cache:300},{nome:'RICK',cache:300},
-    {nome:'RICK SOLO',cache:300},{nome:'ROBSON SOLO',cache:300},{nome:'ANDERSON VAT SOLO',cache:300},{nome:'ANDERSON VAT 60 SOLO',cache:300},{nome:'VAT 60',cache:300},{nome:'VAT 60 EVENTO',cache:300}
-  ];
-  casas = ler(K_CASAS) || ['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','P11','P12'].map(n=>({nome:n}));
-  // Se veio vazio, já deixa o dia 21/11 do seu print pronto pra testar
-  if(grade.length===0){
-    grade=[{data:'2026-11-21', P1:[{musico:'EDILL',turno:'AL/JA'}], P2:[{musico:'ISRAEL',turno:'AL/JA'}], P3:[{musico:'ANDRE',turno:'AL/JA'}], P4:[{musico:'VAT 60',turno:'AL/JA'}], P5:[{musico:'DUO CLASSIC ROCK',turno:'AL/JA'}], P6:[{musico:'YGOR',turno:'AL'}], P7:[],P8:[],P9:[],P10:[],P11:[],P12:[]}];
-  }
-}
-carregarInicial();
-function persistir(){ localStorage.setItem(K_GRADE, JSON.stringify(grade)); localStorage.setItem(K_SHOWS, JSON.stringify(grade)); localStorage.setItem(K_MUS, JSON.stringify(musicos)); localStorage.setItem(K_CASAS, JSON.stringify(casas)); }
-function criarGradeMes(){
-  let [ano,mes]=mesAtual.split('-').map(Number); let diasNoMes=new Date(ano,mes,0).getDate();
-  for(let dia=1;dia<=diasNoMes;dia++){ let data=ano+'-'+String(mes).padStart(2,'0')+'-'+String(dia).padStart(2,'0'); if(!grade.find(d=>d.data===data)){ let o={data:data}; for(let i=1;i<=12;i++) o['P'+i]=[]; grade.push(o); } }
-  grade.sort((a,b)=>a.data.localeCompare(b.data)); persistir(); render(); alert('Grade criada!');
-}
-function salvarFixo(){ if(grade.length===0 && !confirm('Grade com 0 dias. Salvar 0? Clica CANCELAR e importa o backup primeiro.')) return; persistir(); alert('Salvo fixo! Dias: '+grade.length); render(); }
-function exportar(){ const blob=new Blob([JSON.stringify({grade,musicos,casas,versao:'V66-PRINT-21'})],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='STAGEFLOW-backup.json'; a.click(); }
-function importar(e){ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ let j=JSON.parse(r.result); let nova=null; if(Array.isArray(j)) nova=j; else if(Array.isArray(j.grade)) nova=j.grade; else if(Array.isArray(j.shows)) nova=j.shows; else { let acc=[]; Object.keys(j).forEach(k=>{ if(Array.isArray(j[k])) acc=acc.concat(j[k]); }); if(acc.length) nova=acc; } if(!nova || !nova.length){ alert('Esse arquivo não tem grade.'); return; } if(!confirm('Achei '+nova.length+' dias. Substituir?')) return; localStorage.setItem(K_GRADE, JSON.stringify(nova)); localStorage.setItem(K_SHOWS, JSON.stringify(nova)); if(j.musicos) localStorage.setItem(K_MUS, JSON.stringify(j.musicos)); location.reload(); }catch(err){ alert('Erro: '+err.message); } }; r.readAsText(f); e.target.value=''; }
-function diaSemana(s){ try{ let d=new Date(s+'T12:00:00'); return ['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'][d.getDay()]; }catch(e){ return ''; } }
-function fmtData(s){ let p=s.split('-'); return p[2]+' - '+['','JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'][Number(p[1])]+'/'+p[0].slice(2); }
-function siglaSemana(s){ return ['DOM','SEG','TER','QUA','QUI','SEX','SAB'][new Date(s+'T12:00:00').getDay()]; }
-function render(){
-  document.getElementById('topInfo').textContent='• V66 • '+grade.length+' DIAS';
-  document.getElementById('statusMenu').textContent='Dias: '+grade.length+' • Músicos: '+musicos.length;
-  let aviso=document.getElementById('aviso');
-  aviso.innerHTML = grade.length===0 ? '<div style="background:#fff3b0;padding:10px;border-radius:10px"><b>⚠️ Grade vazia.</b></div>' : '<div style="background:#b7e5b7;padding:10px;border-radius:10px">✅ <b>'+grade.length+' dias carregados.</b> 1 dia por vez, igual o print.</div>';
-  let lista=grade.filter(d=>d.data.startsWith(mesAtual));
-  document.getElementById('tituloMes').textContent=(mesAtual==='2026-10'?'OUT/2026':mesAtual==='2026-11'?'NOV/2026':mesAtual==='2026-12'?'DEZ/2026':'JAN/2027')+' - GRADE';
-  document.getElementById('gradeList').innerHTML=lista.map(d=>{
-    let linhas='';
-    for(let i=1;i<=6;i++){
-      let entradas=d['P'+i]||[]; if(entradas.length===0) entradas=[{musico:'',turno:'JA'}];
-      linhas+=entradas.map((e,idx)=>{
-        let opts='<option value="">ESCOLHA</option>'+musicos.map(m=>`<option ${m.nome===e.musico?'selected':''}>${m.nome}</option>`).join('')+(e.musico && !musicos.find(m=>m.nome===e.musico)?`<option selected>${e.musico}</option>`:'');
-        let clsMus=e.musico?'cheio':'vazio';
-        let clsTurno=e.turno==='AL'?'al':e.turno==='AL/JA'?'alja':'ja';
-        let subLabel=entradas.length>1 ? 'P'+i+'.'+(idx+8) : 'P'+i+':';
-        return `<div class="linha"><b class="p">${subLabel}</b><select class="mus ${clsMus}" onchange="trocarMusico('${d.data}',${i},${idx},this.value)">${opts}</select><select class="turno ${clsTurno}" onchange="trocarTurno('${d.data}',${i},${idx},this.value)"><option value="JA" ${e.turno==='JA'?'selected':''}>JA</option><option value="AL" ${e.turno==='AL'?'selected':''}>AL</option><option value="AL/JA" ${e.turno==='AL/JA'?'selected':''}>AL/JA</option></select><button class="bplus" onclick="addCantor('${d.data}',${i},${idx})">+</button><button class="bx" onclick="removerCantor('${d.data}',${i},${idx})">X</button></div>`;
-      }).join('');
-    }
-    return `<div class="dia"><div class="dia-top"><span class="num">${d.data.split('-')[2]}</span><span class="dsem">${siglaSemana(d.data)}</span><span>- NOV/2026</span></div>${linhas}</div>`;
-  }).join('')||'<p>Nenhum dia nesse mês. Clica em CRIAR GRADE PRÉ-MONTADA.</p>';
-  document.getElementById('musicosList').innerHTML=musicos.map((m,i)=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee"><b>${m.nome}</b><span>R$ ${m.cache} <button onclick="editarCache(${i})">✏️</button></span></div>`).join('');
-  document.getElementById('casasList').innerHTML=casas.map(c=>`<div style="padding:10px 0;border-bottom:1px solid #eee"><b>${c.nome||c}</b> • ATIVO</div>`).join('');
-  document.getElementById('filtroMusico').innerHTML='<option value="TODOS">TODOS</option>'+musicos.map(m=>`<option>${m.nome}</option>`).join('');
-  renderRel();
-  let planHtml=''; musicos.forEach(m=>{ let dias=[]; grade.forEach(d=>{ for(let i=1;i<=12;i++){ (d['P'+i]||[]).forEach(e=>{ if(e.musico===m.nome) dias.push(d.data+' - P'+i+' ('+e.turno+')'); }); } }); if(dias.length) planHtml+=`<b>${m.nome} • ${dias.length} shows</b><br>${dias.map(x=>`<div style="padding:6px 0;border-bottom:1px solid #eee">${x}</div>`).join('')}<hr>`; });
-  document.getElementById('planList').innerHTML=planHtml||'Sem planejamento.';
-}
-function addCantor(data,p,idx){ let d=grade.find(x=>x.data===data); if(!d) return; d['P'+p].splice(idx+1,0,{musico:'',turno:'JA'}); persistir(); render(); }
-function removerCantor(data,p,idx){ let d=grade.find(x=>x.data===data); if(!d) return; if(!confirm('Tirar esse cantor da casa P'+p+'?')) return; d['P'+p].splice(idx,1); persistir(); render(); }
-function trocarMusico(data,p,idx,valor){ let d=grade.find(x=>x.data===data); if(!d) return; if(!d['P'+p][idx]) d['P'+p][idx]={musico:'',turno:'JA'}; d['P'+p][idx].musico=valor.toUpperCase().trim(); persistir(); render(); }
-function trocarTurno(data,p,idx,valor){ let d=grade.find(x=>x.data===data); if(!d) return; if(!d['P'+p][idx]) return; d['P'+p][idx].turno=valor; persistir(); render(); }
-function editarCache(i){ let v=prompt('Novo cachê para '+musicos[i].nome, musicos[i].cache); if(v!==null){ musicos[i].cache=Number(v); localStorage.setItem(K_MUS, JSON.stringify(musicos)); render(); } }
-function addMusico(){ let n=prompt('Nome do músico:'); if(!n) return; let v=prompt('Cachê:','300'); musicos.push({nome:n.toUpperCase(),cache:Number(v||300)}); localStorage.setItem(K_MUS, JSON.stringify(musicos)); render(); }
-function renderRel(){
-  let ini=document.getElementById('inicio').value, fim=document.getElementById('fim').value, filtro=document.getElementById('filtroMusico').value; let cont={};
-  grade.forEach(d=>{ if(ini && d.data<ini) return; if(fim && d.data>fim) return; for(let i=1;i<=12;i++){ (d['P'+i]||[]).forEach(e=>{ let nome=(e.musico||'').trim().toUpperCase(); if(!nome) return; if(filtro!=='TODOS' && nome!==filtro.toUpperCase()) return; cont[nome]=cont[nome]||{q:0,v:0}; cont[nome].q++; let m=musicos.find(x=>x.nome.toUpperCase()===nome); cont[nome].v+=m?m.cache:0; }); } });
-  let totalQ=Object.values(cont).reduce((a,c)=>a+c.q,0); let totalV=Object.values(cont).reduce((a,c)=>a+c.v,0);
-  document.getElementById('qtd').textContent=totalQ; document.getElementById('total').textContent='R$ '+totalV.toLocaleString('pt-BR');
-  document.getElementById('relList').innerHTML=Object.entries(cont).sort((a,b)=>b[1].q-a[1].q).map(([k,v])=>`<div class="rel-linha"><span>${k}</span><span>${v.q} • R$ ${v.v.toLocaleString('pt-BR')}</span></div>`).join('')||'Sem shows no período.';
-}
-function filtroAndre(){ show('rel'); document.getElementById('filtroMusico').value='ANDRE'; renderRel(); }
-function show(id){ ['grade','rel','plan','musicos','casas'].forEach(x=>{ let el=document.getElementById(x); if(el) el.style.display=x===id?'block':'none'; }); document.getElementById('menu').classList.remove('open'); render(); }
-document.querySelectorAll('#tabsMes button').forEach(b=>{ b.onclick=()=>{ document.querySelectorAll('#tabsMes button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); mesAtual=b.dataset.mes; show('grade'); }; });
-render();
+const dias=[
+{num:23,dia:"SEG",semana:"SEGUNDA",linhas:[["P1:","ISRAEL","JA"],["P2:","YGOR","JA"],["P3:","LUCIANO","JA"],["P4:","ANDRE","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:24,dia:"TER",semana:"TERÇA",linhas:[["P1:","GABI","JA"],["P2:","EDILL","JA"],["P3:","ROBSON","JA"],["P4:","ISRAEL","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:25,dia:"QUA",semana:"QUARTA",linhas:[["P1:","LUCIANO","JA"],["P2:","RICK","JA"],["P3:","YGOR","JA"],["P4:","DOUGLAS","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:26,dia:"QUI",semana:"QUINTA",linhas:[["P1:","GABI","JA"],["P2:","YGOR","JA"],["P3:","ISRAEL","JA"],["P4:","ANDRE","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:27,dia:"SEX",semana:"SEXTA",linhas:[["P1:","BRUNO","JA"],["P2:","ISRAEL","JA"],["P3:","GABI","JA"],["P4:","YGOR","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:28,dia:"SAB",semana:"SÁBADO",linhas:[["P1:","EDILL","JA"],["P2:","LUCIANO","JA"],["P3:","YGOR","JA"],["P4:","ANDRE","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:29,dia:"DOM",semana:"DOMINGO",linhas:[["P1:","ROBSON","JA"],["P2:","GABI","JA"],["P3:","YGOR","JA"],["P4:","ANDRE","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]},
+{num:30,dia:"SEG",semana:"SEGUNDA",linhas:[["P1:","LUCIANO","JA"],["P2:","PAOLI","JA"],["P3:","ROBSON","JA"],["P4:","ISRAEL","JA"],["P5:","ANDERSON VAT 60","JA"],["P6:","ESCOLHA","AL"]]}
+];
+
+const grid=document.getElementById('grid');
+dias.forEach(d=>{
+let html=`<div class="card"><div class="card-head"><div class="num">${d.num}</div><div><div class="dia">${d.dia}</div><div class="mes">NOV/2026</div></div><span class="semana">${d.semana}</span><span class="icons">📅 ✕ + ⧉ 🗑</span></div>`;
+d.linhas.forEach(l=>{
+let cls=l[2]==='AL'?'al':'ja';
+let nomeCls=l[1]==='ESCOLHA'?'nome branco':'nome';
+html+=`<div class="linha"><span class="p">${l[0]}</span><span class="${nomeCls}">${l[1]}</span><span class="turno ${cls}">${l[2]}</span><button class="mais">+</button><button class="fechar">X</button></div>`;
+});
+html+=`</div>`;
+grid.innerHTML+=html;
+});
 </script>
 </body>
 </html>
