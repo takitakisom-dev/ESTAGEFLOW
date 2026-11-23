@@ -1,162 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW</title>
-<style>
-  *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-  body{margin:0;background:#f4f4f4;color:#111}
-  header{background:#000;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-  header b{font-size:15px;letter-spacing:1px} /* STAGEFLOW pequeno */
-  header span{font-size:12px;opacity:.7}
-  .tabs{display:flex;gap:8px;padding:10px;overflow-x:auto;background:#fff}
-  .tabs button{border:1px solid #ddd;background:#eee;padding:8px 12px;border-radius:20px;white-space:nowrap}
-  .tabs button.on{background:#000;color:#fff}
-  .card{background:#fff;margin:10px;border-radius:14px;padding:14px;box-shadow:0 1px 4px #0001}
-  .card.yellow{background:#fff8d6}
-  label{font-size:12px;font-weight:bold}
-  input,select{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ddd;border-radius:10px;font-size:16px;background:#fff}
-  .btn{background:#000;color:#fff;border:0;width:100%;padding:13px;border-radius:10px;font-weight:bold;font-size:15px}
-  .row{display:flex;gap:10px}.row .card{flex:1;text-align:center}
-  .big{font-size:24px;font-weight:900}
-  .day{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
-  .pill{padding:7px 10px;border-radius:20px;font-size:12px;font-weight:bold;border:0}
-  .p1{background:#d6f5d6}.p2{background:#fff3b0}.x{background:#ffd6d6}
-  .menu{position:fixed;inset:0;background:#0008;display:none;z-index:20}
-  .menu.open{display:block}.menuBox{background:#fff;width:86%;max-width:340px;height:100%;padding:16px;overflow:auto}
-  .menuBox button{display:block;width:100%;text-align:left;padding:12px;border:0;border-bottom:1px solid #eee;background:#fff;font-size:15px}
-  .edit{border:1px solid #ddd;background:#fff;border-radius:20px;padding:6px 10px}
-</style>
-</head>
-<body>
-
-<header>
-  <button onclick="document.getElementById('menu').classList.add('open')" style="background:none;border:0;color:#fff;font-size:20px">☰</button>
-  <b>STAGEFLOW</b><span>• V66 AGRUPA • RICK 197 SHOWS</span>
-</header>
-
-<div id="menu" class="menu" onclick="this.classList.remove('open')">
-  <div class="menuBox" onclick="event.stopPropagation()">
-    <h3>STAGEFLOW</h3>
-    <button onclick="show('grade')">Grade P1-P12</button>
-    <button onclick="show('relMes')">Relatório Financeiro Por Mês</button>
-    <button onclick="show('relTotal')">Relatório TOTAL Todos Meses</button>
-    <button onclick="show('relSimples')">RELATÓRIO SIMPLES TODOS POR MÚSICO</button>
-    <button onclick="show('filtro')">Filtro ANDRÉ</button>
-    <button onclick="show('planMusico')">Planejamento Por Músico</button>
-    <button onclick="show('planGeral')">Planejamento GERAL</button>
-    <button onclick="show('musicos')">Músicos • Editar Cachê ✏️</button>
-    <button onclick="show('casas')">Casas P1-P12</button>
-    <button onclick="show('folha30')">1 FOLHA 30 Dias</button>
-    <button onclick="show('folha7')">1 FOLHA 7 Dias</button>
-    <button onclick="salvarFixo()">Salvar Fixo • NÃO ZERA</button>
-    <button onclick="exportar()">Exportar Backup</button>
-    <button onclick="document.getElementById('imp').click()">Importar Backup</button>
-    <input type="file" id="imp" hidden onchange="importar(event)">
-    <button onclick="document.getElementById('menu').classList.remove('open')">FECHAR</button>
-  </div>
-</div>
-
-<div class="tabs">
-  <button>OUT/2026</button><button class="on">NOV/2026</button><button>DEZ/2026</button><button>JAN/2027</button>
-</div>
-
-<!-- GRADE -->
-<div id="grade" class="card">
-  <h3>NOV/2026</h3>
-  <div id="gradeList"></div>
-</div>
-
-<!-- RELATÓRIO SIMPLES / FILTRO -->
-<div id="relSimples" class="card yellow" style="display:none">
-  <h3>Relatório - Por Músico</h3>
-  <label>INÍCIO</label>
-  <input type="date" id="inicio">
-  <label>FIM</label>
-  <input type="date" id="fim">
-  <label>MÚSICO</label>
-  <select id="musicoFiltro"><option value="TODOS">TODOS</option></select>
-  <button class="btn" onclick="filtrar()">FILTRAR • AGRUPA AUTOMÁTICO</button>
-  <div class="row">
-    <div class="card"><div>SHOWS</div><div class="big" id="qtd">0</div></div>
-    <div class="card"><div>TOTAL</div><div class="big" id="total">R$ 0</div></div>
-  </div>
-  <div id="agrupado"><b>Agrupado por Músico</b><div id="listaAgrupado"></div></div>
-</div>
-
-<!-- PLANEJAMENTO -->
-<div id="planMusico" class="card" style="display:none">
-  <h3>Planejamento por Músico</h3>
-  <div id="planList"></div>
-</div>
-
-<!-- MÚSICOS -->
-<div id="musicos" class="card" style="display:none">
-  <h3>Músicos • Editar Cachê</h3>
-  <div id="musicosList"></div>
-</div>
-
-<!-- CASAS -->
-<div id="casas" class="card" style="display:none">
-  <h3>Casas P1-P12</h3>
-  <div id="casasList"></div>
-</div>
-
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>RECUPERAR STAGEFLOW</title>
+<style>body{font-family:Arial;padding:16px}button{background:#000;color:#fff;border:0;padding:14px;width:100%;border-radius:10px;font-weight:bold;margin:10px 0}pre{background:#eee;padding:10px;white-space:pre-wrap;word-break:break-word;border-radius:10px}</style>
+</head><body>
+<h2>RECUPERAR - STAGEFLOW</h2>
+<p>Isso aqui NÃO apaga nada, só procura.</p>
+<button onclick="procurar()">🔍 PROCURAR MEUS DADOS</button>
+<div id="saida"></div>
+<button onclick="restaurar()" id="btnRest" style="display:none;background:green">✅ RESTAURAR DADOS ENCONTRADOS</button>
+<input type="file" id="fileBackup" onchange="lerArquivo(event)" style="margin-top:20px">
+<p>Se não achar aqui, escolhe o arquivo de backup que está em Documento.</p>
 <script>
-/* NÃO MUDA AS CHAVES - É ISSO QUE MANTÉM SEUS DADOS */
-const KEY_SHOWS='stageflow_shows_v66';
-const KEY_MUSICOS='stageflow_musicos_v66';
-const KEY_CASAS='stageflow_casas_v66';
-
-let shows = JSON.parse(localStorage.getItem(KEY_SHOWS)||'[]');
-let musicos = JSON.parse(localStorage.getItem(KEY_MUSICOS)||'[{"nome":"ISRAEL","cache":700},{"nome":"ANDRÉ","cache":700},{"nome":"RICK","cache":700}]');
-let casas = JSON.parse(localStorage.getItem(KEY_CASAS)||'[]');
-
-function salvarFixo(){
-  localStorage.setItem(KEY_SHOWS, JSON.stringify(shows));
-  localStorage.setItem(KEY_MUSICOS, JSON.stringify(musicos));
-  localStorage.setItem(KEY_CASAS, JSON.stringify(casas));
-  alert('Salvo fixo! Não zera. Shows: '+shows.length);
+let achado = null;
+function procurar(){
+  let html = '';
+  for(let i=0;i<localStorage.length;i++){
+    let k = localStorage.key(i);
+    let v = localStorage.getItem(k);
+    html += `<b>Gaveta:</b> ${k}<br><b>Tamanho:</b> ${v.length} letras<br><pre>${v.slice(0,1000)}</pre><hr>`;
+    // tenta achar shows em qualquer chave
+    try{
+      let j = JSON.parse(v);
+      let arr = Array.isArray(j) ? j : (j.shows || j.dados || j.grade || null);
+      if(arr && arr.length > 0){ achado = {chave:k, dados:arr, completo:j}; }
+      if(j && j.musicos) achado = achado || {chave:k, dados:j};
+    }catch(e){}
+  }
+  if(!achado) html += `<h3 style="color:red">Não achei nas gavetas do navegador. Usa o arquivo de backup abaixo.</h3>`;
+  else { html += `<h3 style="color:green">ACHEI! Gaveta ${achado.chave} com dados!</h3>`; document.getElementById('btnRest').style.display='block'; }
+  document.getElementById('saida').innerHTML = html || 'Nenhuma gaveta encontrada.';
 }
-function exportar(){
-  const blob=new Blob([JSON.stringify({shows,musicos,casas})],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='stageflow-backup.json'; a.click();
+function restaurar(){
+  if(!achado) return;
+  // Salva nas 3 chaves possíveis, pra qualquer versão achar
+  let shows = achado.completo?.shows || achado.dados;
+  let musicos = achado.completo?.musicos || [];
+  let casas = achado.completo?.casas || [];
+  localStorage.setItem('stageflow_shows_v66', JSON.stringify(shows));
+  localStorage.setItem('stageflow_musicos_v66', JSON.stringify(musicos));
+  localStorage.setItem('stageflow_casas_v66', JSON.stringify(casas));
+  // Salva também nas chaves antigas mais comuns
+  localStorage.setItem('shows', JSON.stringify(shows));
+  localStorage.setItem('stageflow_shows', JSON.stringify(shows));
+  localStorage.setItem('grade', JSON.stringify(shows));
+  alert('RESTAURADO! Agora abre o STAGEFLOW de novo. Shows: ' + shows.length);
 }
-function importar(e){
-  const r=new FileReader();
-  r.onload=()=>{ const d=JSON.parse(r.result); shows=d.shows||shows; musicos=d.musicos||musicos; casas=d.casas||casas; salvarFixo(); location.reload(); };
+function lerArquivo(e){
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      let j = JSON.parse(r.result);
+      achado = {chave:'arquivo-backup', dados:j.shows||j, completo:j};
+      document.getElementById('saida').innerHTML = `<h3 style="color:green">ACHEI NO ARQUIVO! Shows: ${(j.shows||[]).length}</h3><pre>${r.result.slice(0,1000)}</pre>`;
+      document.getElementById('btnRest').style.display='block';
+    }catch(err){ alert('Esse arquivo não é o backup JSON. Tenta outro arquivo.'); }
+  };
   r.readAsText(e.target.files[0]);
 }
-function show(id){
-  ['grade','relSimples','planMusico','musicos','casas'].forEach(x=>{ const el=document.getElementById(x); if(el) el.style.display = x===id ? 'block':'none'; });
-  // Atalhos: relMes, relTotal, filtro abrem o relatório simples
-  if(['relMes','relTotal','filtro','planGeral','folha30','folha7'].includes(id)) document.getElementById('relSimples').style.display='block';
-  document.getElementById('menu').classList.remove('open');
-  render();
-}
-function filtrar(){
-  const ini=document.getElementById('inicio').value, fim=document.getElementById('fim').value, m=document.getElementById('musicoFiltro').value;
-  let f=shows.filter(s=> (!ini||s.data>=ini) && (!fim||s.data<=fim) && (m==='TODOS'||s.musico===m));
-  document.getElementById('qtd').textContent=f.length;
-  document.getElementById('total').textContent='R$ '+f.reduce((a,s)=>a+(s.cache||0),0).toLocaleString('pt-BR');
-  // Agrupa por músico
-  let g={}; f.forEach(s=>{ g[s.musico]=g[s.musico]||{q:0,v:0}; g[s.musico].q++; g[s.musico].v+=s.cache||0; });
-  document.getElementById('listaAgrupado').innerHTML=Object.entries(g).map(([k,v])=>`<div class="day"><b>${k}</b><span>${v.q} shows • R$ ${v.v}</span></div>`).join('')||'Sem shows no período.';
-}
-function render(){
-  // Grade simples
-  document.getElementById('gradeList').innerHTML = shows.slice(0,30).map(s=>`<div class="day"><span>${s.data} • ${s.musico}</span><span><button class="pill p1">${s.casa||'P1'}</button> <button class="pill x">X</button></span></div>`).join('') || 'Nenhum show ainda - importe seu backup.';
-  // Músicos com lápis
-  document.getElementById('musicosList').innerHTML = musicos.map((m,i)=>`<div class="day"><b>${m.nome}</b><span>R$ ${m.cache} <button class="edit" onclick="editarCache(${i})">✏️</button></span></div>`).join('');
-  document.getElementById('casasList').innerHTML = (casas.length?casas:['P1','P2','P3','P4','P5','P6','P7','P8','P9','P10','P11','P12']).map(c=>`<div class="day"><b>${c.nome||c}</b><span>ATIVO</span></div>`).join('');
-  // Select músicos
-  document.getElementById('musicoFiltro').innerHTML='<option value="TODOS">TODOS</option>'+musicos.map(m=>`<option>${m.nome}</option>`).join('');
-  // Planejamento
-  document.getElementById('planList').innerHTML = musicos.map(m=>`<b>${m.nome}</b>`+shows.filter(s=>s.musico===m.nome).slice(0,5).map(s=>`<div class="day"><span>${s.data}</span><span>${s.casa||'P1'}</span></div>`).join('')).join('<hr>');
-}
-function editarCache(i){ const v=prompt('Novo cachê para '+musicos[i].nome, musicos[i].cache); if(v){ musicos[i].cache=Number(v); salvarFixo(); render(); } }
-render();
-</script>
-</body>
-</html>
+</script></body></html>
