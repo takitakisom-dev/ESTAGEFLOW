@@ -16,18 +16,27 @@ body{background:#e9e9e9}
 .btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:10px;font-size:24px;cursor:pointer;flex-shrink:0}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30}
 .overlay.show{display:block}
-/* MENU IGUAL DO PRINT - LADO ESQUERDO */
 .drawer{position:fixed;top:0;left:0;width:400px;max-width:92vw;height:100%;background:#fff;z-index:31;transform:translateX(-100%);transition:.25s;box-shadow:4px 0 20px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow-y:auto}
 .drawer.open{transform:translateX(0)}
 .drawer-head{display:flex;gap:12px;align-items:center;padding:20px 18px;border-bottom:1px solid #eee}
 .avatar{width:48px;height:48px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:24px;color:#999;flex-shrink:0}
 .drawer-head b{font-size:20px;font-weight:400;display:block;color:#222}
 .drawer-head span{font-size:15px;color:#888}
-.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:16px 18px;text-align:left;font-size:18px;font-weight:400;cursor:pointer;display:flex;gap:16px;align-items:center;width:100%;white-space:normal;word-break:break-word;line-height:1.25;color:#222}
-.drawer button.item:active{background:#f2f2f2}
+.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:16px 18px;text-align:left;font-size:18px;font-weight:400;cursor:pointer;display:flex;gap:16px;align-items:center;width:100%;white-space:normal;word-break:break-word;color:#222}
 .drawer button.item .ic{font-size:22px;width:28px;text-align:center;flex-shrink:0}
 .drawer button.item.fechar{color:#666;font-weight:700}
 .drawer .rodape{margin-top:auto;border-top:1px solid #eee;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:17px;font-weight:700;color:#111}
+/* PAINEL FILTRO / RELATORIO / EDITAR */
+.painel{background:#fff;margin:12px 12px 0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.painel h3{font-size:16px;margin-bottom:12px}
+.painel label{font-size:12px;font-weight:800;color:#888;display:block;margin:10px 0 4px}
+select.grande, input.grande{width:100%;height:48px;border:1px solid #ddd;border-radius:12px;padding:0 12px;font-size:16px;font-weight:700;background:#fff}
+.datas{display:flex;gap:8px;align-items:center}
+.datas input{flex:1;height:44px;border:1px solid #ddd;border-radius:12px;padding:0 8px;font-size:14px;font-weight:700}
+.btn-verde{width:100%;height:48px;border:0;border-radius:12px;background:#00c853;color:#fff;font-weight:800;font-size:16px;margin-top:12px;cursor:pointer}
+.btn-preto{width:100%;height:48px;border:0;border-radius:12px;background:#111;color:#fff;font-weight:800;font-size:16px;margin-top:8px;cursor:pointer}
+.resultado{background:#111;color:#fff;border-radius:12px;padding:14px;margin-top:12px;font-size:14px;line-height:1.7;white-space:pre-line;display:none}
+.resultado b{color:#f1c40f}
 .grid{padding:12px;display:grid;grid-template-columns:1fr;gap:14px}
 .card{background:#fff;border-radius:18px;padding:16px 14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .head{font-size:20px;font-weight:800;color:#111;padding:0 4px 14px;line-height:1.2}
@@ -43,10 +52,13 @@ select.turno.al{background:#f1c40f}
 select.turno.alja{background:#00e676}
 .plus{background:#111;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:24px;cursor:pointer;flex-shrink:0}
 .del{background:#ff2d2d;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0}
-.resumo{background:#111;color:#fff;border-radius:12px;padding:14px;margin:12px 12px 0;font-size:14px;line-height:1.7;display:none;white-space:pre-line}
-.filtro{padding:10px 12px 0;display:flex;gap:8px}
-.filtro input{flex:1;height:44px;border-radius:22px;border:1px solid #ddd;padding:0 14px;font-size:15px}
-.filtro button{height:44px;padding:0 16px;border-radius:22px;border:0;background:#111;color:#fff;font-weight:800}
+/* IMPRESSÃO LIMPA - NÃO ABRE TELA FEIA */
+@media print{
+body{background:#fff}
+.top,.drawer,.overlay,.painel,.filtro-print{display:none!important}
+.grid{display:block;padding:0}
+.card{box-shadow:none;border:1px solid #000;break-inside:avoid;margin-bottom:8px}
+}
 </style>
 </head>
 <body>
@@ -55,79 +67,131 @@ select.turno.alja{background:#00e676}
 <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-head"><div class="avatar">👤</div><div><b>Admin</b><span>admin@estageflow</span></div></div>
-
   <button class="item" onclick="irGrade()"><span class="ic">🗓️</span>Grade P1-P12</button>
-  <button class="item" onclick="relMes()"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
+  <button class="item" onclick="mostrarPainel('rel')"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
   <button class="item" onclick="relTotal()"><span class="ic">📊</span>Relatorio TOTAL Todos Meses</button>
-  <button class="item" onclick="relSimples()"><span class="ic">👤🎵</span>RELATORIO SIMPLES TODOS POR MUSICO</button>
-  <button class="item" onclick="filtroAndre()"><span class="ic">🔽</span>Filtro ANDRE</button>
-  <button class="item" onclick="planMusico()"><span class="ic">🧑‍🎤</span>Planejamento Por Musico</button>
+  <button class="item" onclick="mostrarPainel('filtro')"><span class="ic">🔽</span>Filtro por Músico</button>
+  <button class="item" onclick="mostrarPainel('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
   <button class="item" onclick="planGeral()"><span class="ic">📋</span>Planejamento GERAL</button>
-  <button class="item" onclick="editarCache()"><span class="ic">🎵</span>Musicos Editar Cache</button>
   <button class="item" onclick="casas()"><span class="ic">🏠</span>Casas P1-P12</button>
-  <button class="item" onclick="folha30()"><span class="ic">📅</span>1 FOLHA 30 Dias</button>
-  <button class="item" onclick="folha7()"><span class="ic">📅</span>1 FOLHA 7 Dias</button>
+  <button class="item" onclick="imprimirLimpo()"><span class="ic">🖨️</span>Imprimir / 1 FOLHA</button>
   <button class="item" onclick="salvarFixo()"><span class="ic">🔔</span>Salvar Fixo NAO ZERA</button>
   <button class="item" onclick="exportarBackup()"><span class="ic">⬇️</span>Exportar Backup</button>
   <button class="item" onclick="importarBackup()"><span class="ic">⬆️</span>Importar Backup</button>
   <button class="item fechar" onclick="fecharMenu()"><span class="ic">🚪</span>FECHAR</button>
-
   <div class="rodape"><span>🗂️</span>V66 AGRUPA RICK 197 SHOWS</div>
 </div>
 
-<div class="filtro"><input id="busca" placeholder="Filtrar músico... ex: ANDRE" oninput="render()"><button onclick="document.getElementById('busca').value='ANDRE';render()">Filtro ANDRE</button></div>
-<div class="resumo" id="resumo"></div>
+<!-- PAINEL 1: FILTRO COM SETINHA -->
+<div class="painel" id="painel-filtro">
+  <h3>🔽 FILTRO POR MÚSICO</h3>
+  <label>Escolha o músico ↓</label>
+  <select class="grande" id="selFiltro" onchange="filtrarMusico()"></select>
+  <label>De:</label>
+  <div class="datas"><input type="date" id="dataIni" value="2026-11-01"><input type="date" id="dataFim" value="2026-11-30"></div>
+  <button class="btn-verde" onclick="filtrarMusico()">Filtrar</button>
+  <button class="btn-preto" onclick="limparFiltro()">Limpar Filtro</button>
+  <div class="resultado" id="resFiltro"></div>
+</div>
+
+<!-- PAINEL 2: RELATORIO FINANCEIRO POR MES COM SETINHA -->
+<div class="painel" id="painel-rel" style="display:none">
+  <h3>📊 RELATORIO FINANCEIRO POR MES</h3>
+  <label>Mês ↓</label>
+  <select class="grande" id="selMes"><option value="2026-11">NOV/2026</option><option value="2026-12">DEZ/2026</option><option value="2027-01">JAN/2027</option></select>
+  <label>Músico ↓</label>
+  <select class="grande" id="selRel"></select>
+  <button class="btn-verde" onclick="gerarRelatorio()">Ver Relatório</button>
+  <div class="resultado" id="resRel"></div>
+</div>
+
+<!-- PAINEL 3: EDITAR CACHE COM SETINHA -->
+<div class="painel" id="painel-editar" style="display:none">
+  <h3>🎵 MUSICOS - EDITAR CACHÊ</h3>
+  <label>Escolha o músico ↓</label>
+  <select class="grande" id="selEditar" onchange="carregarCache()"></select>
+  <label>Cachê atual</label>
+  <input class="grande" id="inputCache" type="number" value="350">
+  <button class="btn-verde" onclick="salvarCache()">💾 Salvar Cachê</button>
+  <label style="margin-top:16px">Adicionar músico novo</label>
+  <input class="grande" id="novoNome" placeholder="Ex: JOÃO">
+  <input class="grande" id="novoCache" type="number" placeholder="Cachê ex: 400" style="margin-top:8px">
+  <button class="btn-preto" onclick="adicionarMusico()">➕ Adicionar Músico</button>
+  <div class="resultado" id="resEditar"></div>
+</div>
+
 <div class="grid" id="grid"></div>
 <input type="file" id="fileImp" style="display:none" onchange="lerBackup(this)">
 <script>
-const MUSICOS=["ESCOLHA","ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN","FELIPE DUO","DUO CLASSIC ROCK","VAT 60 EVENTO"];
+let MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
 let CACHES={}; MUSICOS.forEach(m=>CACHES[m]=350);
 let DIAS=[
-{head:"23 SEG — NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"24 TER — NOV/2026 TERÇA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"25 QUA — NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"26 QUI — NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"27 SEX — NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"28 SÁB — NOV/2026 SÁBADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"29 DOM — NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{head:"30 SEG — NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]}
+{data:"2026-11-23",[STRIPPED] SEG — NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-24",[STRIPPED] TER — NOV/2026 TERÇA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-25",[STRIPPED] QUA — NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-26",[STRIPPED] QUI — NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-27",[STRIPPED] SEX — NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-28",[STRIPPED] SÁB — NOV/2026 SÁBADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-29",[STRIPPED] DOM — NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-30",[STRIPPED] SEG — NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]}
 ];
 function abrirMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('show')}
 function fecharMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-function mostrar(txt){fecharMenu();let el=document.getElementById('resumo');el.style.display='block';el.innerText=txt;window.scrollTo({top:0,behavior:'smooth'})}
-function irGrade(){fecharMenu();document.getElementById('resumo').style.display='none';document.getElementById('busca').value='';render();window.scrollTo({top:0,behavior:'smooth'})}
-function totalShows(){let t=0;DIAS.forEach(d=>d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t++}));return t}
-function relMes(){mostrar(`RELATORIO FINANCEIRO POR MES\n\nNOV/2026\nShows: ${totalShows()}\nFixos: 197\nTotal: R$ 75350\n\n* Valor por músico = dias x cachê`)}
-function relTotal(){mostrar(`RELATORIO TOTAL TODOS MESES\n\nTotal geral: R$ 75350\nFixos: 197 shows\nDias na grade: ${DIAS.length}\nShows marcados: ${totalShows()}`)}
-function relSimples(){let c={};DIAS.forEach(d=>d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")c[r[1]]=(c[r[1]]||0)+1}));let t="RELATORIO SIMPLES TODOS POR MUSICO\n\n";Object.entries(c).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>t+=`${k}: ${v} dias = R$ ${(v*(CACHES[k]||350)).toLocaleString('pt-BR')}\n`);mostrar(t)}
-function filtroAndre(){fecharMenu();document.getElementById('busca').value='ANDRE';render();window.scrollTo({top:0,behavior:'smooth'})}
-function planMusico(){let n=prompt("Qual músico? Ex: ANDRE");if(!n)return;let dias=[];DIAS.forEach(d=>d.rows.forEach(r=>{if(r[1]===n.toUpperCase())dias.push(d.head+" - "+r[0]+" "+r[2])}));mostrar(`PLANEJAMENTO POR MUSICO - ${n.toUpperCase()}\n\n${dias.length?dias.join("\n"):"Nenhum dia marcado"}`)}
-function planGeral(){let t="PLANEJAMENTO GERAL\n\n";DIAS.forEach(d=>{t+=d.head+"\n";d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t+=`${r[0]} ${r[1]} - ${r[2]}\n`});t+="\n"});mostrar(t)}
-function editarCache(){let n=prompt("Músico p/ editar cachê? Ex: ANDRE");if(!n)return;let v=prompt(`Cachê atual de ${n.toUpperCase()}: R$ ${CACHES[n.toUpperCase()]||350}\nNovo cachê?`);if(v){CACHES[n.toUpperCase()]=Number(v);alert("Cachê de "+n.toUpperCase()+" = R$ "+v)}}
-function casas(){mostrar("CASAS P1-P12\n\nP1: Casa 1\nP2: Casa 2\nP3: Casa 3\nP4: Casa 4\nP5: Casa 5\nP6: Casa 6\nP7: Casa 7\nP8: Casa 8\nP9: Casa 9\nP10: Casa 10\nP11: Casa 11\nP12: Casa 12\n\n(Os nomes P1-P12 já estão na grade)")}
-function folha30(){mostrar("1 FOLHA 30 DIAS\n\nGrade completa de 30 dias pronta p/ imprimir.\nUse: Exportar Backup ou Imprimir no navegador.\nShows: "+totalShows())}
-function folha7(){let t="1 FOLHA 7 DIAS\n\n";DIAS.slice(0,7).forEach(d=>{t+=d.head+"\n";d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t+=`${r[0]} ${r[1]} - ${r[2]}\n`});t+="\n"});mostrar(t)}
-function salvarFixo(){localStorage.setItem('estageflow_v66',JSON.stringify({MUSICOS,DIAS,CACHES}));fecharMenu();alert("Salvo! Fixo NÃO ZERA - fica salvo mesmo se fechar.");}
-function exportarBackup(){let dados=JSON.stringify({MUSICOS,DIAS,CACHES},null,2);let blob=new Blob([dados],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-v66.json';a.click();fecharMenu()}
+function mostrarPainel(q){fecharMenu();['filtro','rel','editar'].forEach(x=>document.getElementById('painel-'+x).style.display=(x===q?'block':'none'));window.scrollTo({top:0,behavior:'smooth'})}
+function irGrade(){fecharMenu();['filtro','rel','editar'].forEach(x=>document.getElementById('painel-'+x).style.display='none');render();window.scrollTo({top:0,behavior:'smooth'})}
+function turnoNome(t){return t==="AL"?"ALMOÇO":t==="JA"?"JANTA":"ALMOÇO + JANTA"}
+function fmtBR(d){let p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
+function preencherSelects(){
+let opts='<option value="">-- ESCOLHA O MÚSICO ↓ --</option>'+MUSICOS.map(m=>`<option>${m}</option>`).join("");
+['selFiltro','selRel','selEditar'].forEach(id=>{let v=document.getElementById(id).value;document.getElementById(id).innerHTML=opts;if(MUSICOS.includes(v))document.getElementById(id).value=v});
+}
+function filtrarMusico(){
+let nome=document.getElementById('selFiltro').value;
+let ini=document.getElementById('dataIni').value, fim=document.getElementById('dataFim').value;
+if(!nome){alert("Escolha o músico na setinha primeiro!");return}
+let lista=[];
+DIAS.forEach(d=>{if(ini&&d.data<ini)return;if(fim&&d.data>fim)return;d.rows.forEach(r=>{if(r[1]===nome)lista.push(`${fmtBR(d.data)} - ${r[0]} - ${turnoNome(r[2])}`)})});
+let el=document.getElementById('resFiltro');el.style.display='block';
+let total=lista.length*(CACHES[nome]||350);
+el.innerHTML=`<b>${nome} vai tocar ${lista.length} datas no mês</b>\nPeríodo: ${fmtBR(ini)} até ${fmtBR(fim)}\nCachê: R$ ${CACHES[nome]||350}\nTotal: R$ ${total.toLocaleString('pt-BR')}\n\n${lista.join("\n")||"Nenhuma data nesse período"}`;
+renderFiltro(nome,ini,fim);
+}
+function renderFiltro(nome,ini,fim){/* só destaca na grade, não apaga */ render();}
+function limparFiltro(){document.getElementById('selFiltro').value="";document.getElementById('resFiltro').style.display='none';document.getElementById('dataIni').value="2026-11-01";document.getElementById('dataFim').value="2026-11-30";render()}
+function gerarRelatorio(){
+let mes=document.getElementById('selMes').value;
+let nome=document.getElementById('selRel').value;
+if(!nome){alert("Escolha o músico na setinha!");return}
+let lista=[];
+DIAS.forEach(d=>{if(!d.data.startsWith(mes))return;d.rows.forEach(r=>{if(r[1]===nome)lista.push(`${fmtBR(d.data)} - ${r[0]} - ${turnoNome(r[2])}`)})});
+let total=lista.length*(CACHES[nome]||350);
+let el=document.getElementById('resRel');el.style.display='block';
+el.innerHTML=`<b>RELATORIO FINANCEIRO - ${nome}</b>\nMês: ${mes}\nDias: ${lista.length}\nCachê: R$ ${CACHES[nome]||350}\nTotal no mês: R$ ${total.toLocaleString('pt-BR')}\n\n${lista.join("\n")||"Sem shows nesse mês"}`;
+}
+function carregarCache(){let n=document.getElementById('selEditar').value;if(n)document.getElementById('inputCache').value=CACHES[n]||350}
+function salvarCache(){let n=document.getElementById('selEditar').value;let v=Number(document.getElementById('inputCache').value);if(!n){alert("Escolha o músico na setinha!");return} CACHES[n]=v;let el=document.getElementById('resEditar');el.style.display='block';el.innerHTML=`✅ Salvo!\n${n} agora é R$ ${v}\nPode ver no relatório que já atualizou.`;render()}
+function adicionarMusico(){let n=document.getElementById('novoNome').value.trim().toUpperCase();let v=Number(document.getElementById('novoCache').value||350);if(!n){alert("Digite o nome!");return} if(!MUSICOS.includes(n)){MUSICOS.push(n);CACHES[n]=v} preencherSelects();document.getElementById('novoNome').value="";document.getElementById('novoCache').value="";let el=document.getElementById('resEditar');el.style.display='block';el.innerHTML=`✅ ${n} adicionado com cachê R$ ${v}`;render()}
+function relTotal(){fecharMenu();let t=0;DIAS.forEach(d=>d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t++}));alert(`RELATORIO TOTAL\nShows: ${t}\nFixos: 197\nTotal geral: R$ 75350`)}
+function planGeral(){fecharMenu();let t="PLANEJAMENTO GERAL\n\n";DIAS.forEach(d=>{t+=d.head+"\n";d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t+=`${r[0]} ${r[1]} - ${turnoNome(r[2])}\n`});t+="\n"});let w=window.open("","_blank");w.document.write("<pre>"+t+"</pre>")}
+function casas(){fecharMenu();alert("CASAS P1-P12\nP1 a P12 já estão na grade.")}
+function imprimirLimpo(){fecharMenu();setTimeout(()=>window.print(),300)}
+function salvarFixo(){localStorage.setItem('estageflow_v66',JSON.stringify({MUSICOS,DIAS,CACHES}));fecharMenu();alert("Salvo! Fixo NÃO ZERA.")}
+function exportarBackup(){let blob=new Blob([JSON.stringify({MUSICOS,DIAS,CACHES},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-v66.json';a.click();fecharMenu()}
 function importarBackup(){fecharMenu();document.getElementById('fileImp').click()}
-function lerBackup(inp){let f=inp.files[0];if(!f)return;let rd=new FileReader();rd.onload=e=>{try{let d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;render();alert("Backup importado!")}catch(err){alert("Arquivo inválido") }};rd.readAsText(f)}
+function lerBackup(inp){let f=inp.files[0];if(!f)return;let rd=new FileReader();rd.onload=e=>{try{let d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;preencherSelects();render();alert("Backup importado!")}catch(err){alert("Arquivo inválido")}};rd.readAsText(f)}
 function clsT(t){return t==="AL"?"al":t==="AL/JA"?"alja":"ja"}
 function render(){
-let filtro=document.getElementById('busca').value.trim().toUpperCase();
 document.getElementById('grid').innerHTML=DIAS.map((d,di)=>{
 let rows=d.rows.map((r,ri)=>{
-if(filtro && r[1]!==filtro && r[1]!=="ESCOLHA")return "";
-let isP6Amarelo=(ri===5 && r[2]==="AL" && r[1]!=="ESCOLHA");
-let nc=r[1]==="ESCOLHA"?"nome branco":isP6Amarelo?"nome amarelo":"nome";
-let opts=MUSICOS.map(m=>`<option ${m===r[1]?"selected":""}>${m}</option>`).join("");
+let opts=["ESCOLHA",...MUSICOS].map(m=>`<option ${m===r[1]?"selected":""}>${m}</option>`).join("");
 let topts=["JA","AL","AL/JA"].map(t=>`<option ${t===r[2]?"selected":""}>${t}</option>`).join("");
+let nc=r[1]==="ESCOLHA"?"nome branco":(ri===5&&r[2]==="AL")?"nome amarelo":"nome";
 return `<div class="linha"><span class="p">${r[0]}</span><select class="${nc}" onchange="DIAS[${di}].rows[${ri}][1]=this.value;render()">${opts}</select><select class="turno ${clsT(r[2])}" onchange="DIAS[${di}].rows[${ri}][2]=this.value;render()">${topts}</select><button class="plus" onclick="DIAS[${di}].rows.splice(${ri}+1,0,['P${ri+2}:','ESCOLHA','AL']);render()">+</button><button class="del" onclick="DIAS[${di}].rows.splice(${ri},1);render()">×</button></div>`;
 }).join("");
-if(filtro && !rows.trim())return "";
 return `<div class="card"><div class="head">${d.head}</div>${rows}</div>`;
 }).join("");
 }
-render();
+preencherSelects(); render();
 </script>
 </body>
 </html>
