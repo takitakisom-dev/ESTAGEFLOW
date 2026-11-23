@@ -7,43 +7,40 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#e9e9e9}
-.top{background:#111;color:#fff;padding:12px 12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:20}
+.top{background:#111;color:#fff;padding:12px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:20}
 .top b{font-size:24px;white-space:nowrap}
 .badge-f{background:#f1c40f;color:#111;border-radius:10px;padding:4px 10px;text-align:center;line-height:1}
 .badge-f b{font-size:18px;display:block}
 .badge-f span{font-size:11px;font-weight:800}
 .badge-v{background:#00c853;color:#fff;border-radius:10px;padding:8px 10px;font-size:16px;font-weight:800;white-space:nowrap}
-.btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:10px;font-size:24px;cursor:pointer;flex-shrink:0}
+.btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:10px;font-size:24px;cursor:pointer}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30}
 .overlay.show{display:block}
-.drawer{position:fixed;top:0;left:0;width:400px;max-width:92vw;height:100%;background:#fff;z-index:31;transform:translateX(-100%);transition:.25s;box-shadow:4px 0 20px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow-y:auto}
+.drawer{position:fixed;top:0;left:0;width:400px;max-width:92vw;height:100%;background:#fff;z-index:31;transform:translateX(-100%);transition:.25s;display:flex;flex-direction:column;overflow-y:auto}
 .drawer.open{transform:translateX(0)}
 .drawer-head{display:flex;gap:12px;align-items:center;padding:20px 18px;border-bottom:1px solid #eee}
-.avatar{width:48px;height:48px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:24px;color:#999;flex-shrink:0}
-.drawer-head b{font-size:20px;font-weight:400;display:block;color:#222}
+.avatar{width:48px;height:48px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:24px}
+.drawer-head b{font-size:20px;display:block}
 .drawer-head span{font-size:15px;color:#888}
-.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:16px 18px;text-align:left;font-size:18px;font-weight:400;cursor:pointer;display:flex;gap:16px;align-items:center;width:100%;white-space:normal;word-break:break-word;color:#222}
-.drawer button.item .ic{font-size:22px;width:28px;text-align:center;flex-shrink:0}
-.drawer button.item.fechar{color:#666;font-weight:700}
-.drawer .rodape{margin-top:auto;border-top:1px solid #eee;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:17px;font-weight:700;color:#111}
-/* PAINEL FILTRO / RELATORIO / EDITAR */
-.painel{background:#fff;margin:12px 12px 0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:16px 18px;text-align:left;font-size:18px;cursor:pointer;display:flex;gap:16px;align-items:center;width:100%}
+.drawer button.item .ic{font-size:22px;width:28px;text-align:center}
+.drawer .rodape{margin-top:auto;border-top:1px solid #eee;padding:16px 18px;font-size:17px;font-weight:700}
+.painel{background:#fff;margin:12px;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .painel h3{font-size:16px;margin-bottom:12px}
 .painel label{font-size:12px;font-weight:800;color:#888;display:block;margin:10px 0 4px}
-select.grande, input.grande{width:100%;height:48px;border:1px solid #ddd;border-radius:12px;padding:0 12px;font-size:16px;font-weight:700;background:#fff}
-.datas{display:flex;gap:8px;align-items:center}
+select.grande,input.grande{width:100%;height:48px;border:1px solid #ddd;border-radius:12px;padding:0 12px;font-size:16px;font-weight:700;background:#fff}
+.datas{display:flex;gap:8px}
 .datas input{flex:1;height:44px;border:1px solid #ddd;border-radius:12px;padding:0 8px;font-size:14px;font-weight:700}
 .btn-verde{width:100%;height:48px;border:0;border-radius:12px;background:#00c853;color:#fff;font-weight:800;font-size:16px;margin-top:12px;cursor:pointer}
 .btn-preto{width:100%;height:48px;border:0;border-radius:12px;background:#111;color:#fff;font-weight:800;font-size:16px;margin-top:8px;cursor:pointer}
 .resultado{background:#111;color:#fff;border-radius:12px;padding:14px;margin-top:12px;font-size:14px;line-height:1.7;white-space:pre-line;display:none}
-.resultado b{color:#f1c40f}
 .grid{padding:12px;display:grid;grid-template-columns:1fr;gap:14px}
-.card{background:#fff;border-radius:18px;padding:16px 14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.head{font-size:20px;font-weight:800;color:#111;padding:0 4px 14px;line-height:1.2}
+.card{background:#fff;border-radius:18px;padding:16px 14px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.head{font-size:20px;font-weight:800;padding:0 4px 14px}
 .linha{display:flex;gap:8px;align-items:center;padding:4px 0}
 .p{font-size:16px;color:#666;width:42px;flex-shrink:0}
 select{height:42px;border:0;border-radius:22px;font-weight:800;cursor:pointer;color:#111;text-align:center}
-select.nome{flex:1;min-width:0;background:#00e676;font-size:16px;padding:0 6px}
+select.nome{flex:1;min-width:0;background:#00e676;font-size:16px}
 select.nome.amarelo{background:#d4c72a}
 select.nome.branco{background:#fff;border:1px solid #ddd}
 select.turno{width:58px;flex-shrink:0;font-size:16px}
@@ -52,146 +49,128 @@ select.turno.al{background:#f1c40f}
 select.turno.alja{background:#00e676}
 .plus{background:#111;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:24px;cursor:pointer;flex-shrink:0}
 .del{background:#ff2d2d;color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0}
-/* IMPRESSÃO LIMPA - NÃO ABRE TELA FEIA */
-@media print{
-body{background:#fff}
-.top,.drawer,.overlay,.painel,.filtro-print{display:none!important}
-.grid{display:block;padding:0}
-.card{box-shadow:none;border:1px solid #000;break-inside:avoid;margin-bottom:8px}
-}
+@media print{body{background:#fff}.top,.drawer,.overlay,.painel{display:none!important}.grid{display:block;padding:0}.card{box-shadow:none;border:1px solid #000;break-inside:avoid;margin-bottom:8px}}
 </style>
 </head>
 <body>
 <div class="top"><b>ESTAGEFLOW</b><div class="badge-f"><b>197</b><span>FIXOS</span></div><div class="badge-v">R$ 75350</div><button class="btn-menu" onclick="abrirMenu()">☰</button></div>
-
 <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 <div class="drawer" id="drawer">
-  <div class="drawer-head"><div class="avatar">👤</div><div><b>Admin</b><span>admin@estageflow</span></div></div>
-  <button class="item" onclick="irGrade()"><span class="ic">🗓️</span>Grade P1-P12</button>
-  <button class="item" onclick="mostrarPainel('rel')"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
-  <button class="item" onclick="relTotal()"><span class="ic">📊</span>Relatorio TOTAL Todos Meses</button>
-  <button class="item" onclick="mostrarPainel('filtro')"><span class="ic">🔽</span>Filtro por Músico</button>
-  <button class="item" onclick="mostrarPainel('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
-  <button class="item" onclick="planGeral()"><span class="ic">📋</span>Planejamento GERAL</button>
-  <button class="item" onclick="casas()"><span class="ic">🏠</span>Casas P1-P12</button>
-  <button class="item" onclick="imprimirLimpo()"><span class="ic">🖨️</span>Imprimir / 1 FOLHA</button>
-  <button class="item" onclick="salvarFixo()"><span class="ic">🔔</span>Salvar Fixo NAO ZERA</button>
-  <button class="item" onclick="exportarBackup()"><span class="ic">⬇️</span>Exportar Backup</button>
-  <button class="item" onclick="importarBackup()"><span class="ic">⬆️</span>Importar Backup</button>
-  <button class="item fechar" onclick="fecharMenu()"><span class="ic">🚪</span>FECHAR</button>
-  <div class="rodape"><span>🗂️</span>V66 AGRUPA RICK 197 SHOWS</div>
+<div class="drawer-head"><div class="avatar">👤</div><div><b>Admin</b><span>admin@estageflow</span></div></div>
+<button class="item" onclick="irGrade()"><span class="ic">🗓️</span>Grade P1-P12</button>
+<button class="item" onclick="mostrarPainel('filtro')"><span class="ic">🔽</span>Filtro / Relatorio por Musico</button>
+<button class="item" onclick="mostrarPainel('rel')"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
+<button class="item" onclick="mostrarPainel('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
+<button class="item" onclick="imprimirLimpo()"><span class="ic">🖨️</span>Imprimir / 1 FOLHA</button>
+<button class="item" onclick="salvarFixo()"><span class="ic">🔔</span>Salvar Fixo NAO ZERA</button>
+<button class="item" onclick="exportarBackup()"><span class="ic">⬇️</span>Exportar Backup</button>
+<button class="item" onclick="importarBackup()"><span class="ic">⬆️</span>Importar Backup</button>
+<button class="item" onclick="fecharMenu()"><span class="ic">🚪</span>FECHAR</button>
+<div class="rodape">🗂️ V66 AGRUPA RICK 197 SHOWS</div>
 </div>
 
-<!-- PAINEL 1: FILTRO COM SETINHA -->
 <div class="painel" id="painel-filtro">
-  <h3>🔽 FILTRO POR MÚSICO</h3>
-  <label>Escolha o músico ↓</label>
-  <select class="grande" id="selFiltro" onchange="filtrarMusico()"></select>
-  <label>De:</label>
-  <div class="datas"><input type="date" id="dataIni" value="2026-11-01"><input type="date" id="dataFim" value="2026-11-30"></div>
-  <button class="btn-verde" onclick="filtrarMusico()">Filtrar</button>
-  <button class="btn-preto" onclick="limparFiltro()">Limpar Filtro</button>
-  <div class="resultado" id="resFiltro"></div>
+<h3>🔽 FILTRO / RELATORIO POR MUSICO</h3>
+<label>Escolha o musico</label>
+<select class="grande" id="selFiltro">
+<option value="">-- ESCOLHA O MUSICO --</option>
+<option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option>
+</select>
+<label>De:</label>
+<div class="datas"><input type="date" id="dataIni" value="2026-11-01"><input type="date" id="dataFim" value="2026-11-30"></div>
+<button class="btn-verde" onclick="filtrarMusico()">Filtrar</button>
+<button class="btn-preto" onclick="limparFiltro()">Limpar Filtro</button>
+<div class="resultado" id="resFiltro"></div>
 </div>
 
-<!-- PAINEL 2: RELATORIO FINANCEIRO POR MES COM SETINHA -->
 <div class="painel" id="painel-rel" style="display:none">
-  <h3>📊 RELATORIO FINANCEIRO POR MES</h3>
-  <label>Mês ↓</label>
-  <select class="grande" id="selMes"><option value="2026-11">NOV/2026</option><option value="2026-12">DEZ/2026</option><option value="2027-01">JAN/2027</option></select>
-  <label>Músico ↓</label>
-  <select class="grande" id="selRel"></select>
-  <button class="btn-verde" onclick="gerarRelatorio()">Ver Relatório</button>
-  <div class="resultado" id="resRel"></div>
+<h3>📊 RELATORIO FINANCEIRO POR MES</h3>
+<label>Mes</label>
+<select class="grande" id="selMes"><option value="2026-11">NOV/2026</option><option value="2026-12">DEZ/2026</option></select>
+<label>Musico</label>
+<select class="grande" id="selRel">
+<option value="">-- ESCOLHA O MUSICO --</option>
+<option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option>
+</select>
+<button class="btn-verde" onclick="gerarRelatorio()">Ver Relatorio</button>
+<div class="resultado" id="resRel"></div>
 </div>
 
-<!-- PAINEL 3: EDITAR CACHE COM SETINHA -->
 <div class="painel" id="painel-editar" style="display:none">
-  <h3>🎵 MUSICOS - EDITAR CACHÊ</h3>
-  <label>Escolha o músico ↓</label>
-  <select class="grande" id="selEditar" onchange="carregarCache()"></select>
-  <label>Cachê atual</label>
-  <input class="grande" id="inputCache" type="number" value="350">
-  <button class="btn-verde" onclick="salvarCache()">💾 Salvar Cachê</button>
-  <label style="margin-top:16px">Adicionar músico novo</label>
-  <input class="grande" id="novoNome" placeholder="Ex: JOÃO">
-  <input class="grande" id="novoCache" type="number" placeholder="Cachê ex: 400" style="margin-top:8px">
-  <button class="btn-preto" onclick="adicionarMusico()">➕ Adicionar Músico</button>
-  <div class="resultado" id="resEditar"></div>
+<h3>🎵 MUSICOS - EDITAR CACHE</h3>
+<label>Escolha o musico</label>
+<select class="grande" id="selEditar" onchange="carregarCache()">
+<option value="">-- ESCOLHA O MUSICO --</option>
+<option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option>
+</select>
+<label>Cache</label>
+<input class="grande" id="inputCache" type="number" value="350">
+<button class="btn-verde" onclick="salvarCache()">Salvar Cache</button>
+<label>Adicionar musico novo</label>
+<input class="grande" id="novoNome" placeholder="Ex: JOAO">
+<input class="grande" id="novoCache" type="number" placeholder="Cache ex: 400" style="margin-top:8px">
+<button class="btn-preto" onclick="adicionarMusico()">Adicionar Musico</button>
+<div class="resultado" id="resEditar"></div>
 </div>
 
 <div class="grid" id="grid"></div>
 <input type="file" id="fileImp" style="display:none" onchange="lerBackup(this)">
 <script>
-let MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
-let CACHES={}; MUSICOS.forEach(m=>CACHES[m]=350);
-let DIAS=[
-{data:"2026-11-23",[STRIPPED] SEG — NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-24",[STRIPPED] TER — NOV/2026 TERÇA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-25",[STRIPPED] QUA — NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-26",[STRIPPED] QUI — NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-27",[STRIPPED] SEX — NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-28",[STRIPPED] SÁB — NOV/2026 SÁBADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-29",[STRIPPED] DOM — NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-30",[STRIPPED] SEG — NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]}
+var MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
+var CACHES={}; for(var i=0;i<MUSICOS.length;i++){CACHES[MUSICOS[i]]=350;}
+var DIAS=[
+{data:"2026-11-23",head:"23 SEG - NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-24",head:"24 TER - NOV/2026 TERCA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-25",head:"25 QUA - NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-26",head:"26 QUI - NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-27",head:"27 SEX - NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-28",head:"28 SAB - NOV/2026 SABADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-29",head:"29 DOM - NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
+{data:"2026-11-30",head:"30 SEG - NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]}
 ];
-function abrirMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('show')}
-function fecharMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-function mostrarPainel(q){fecharMenu();['filtro','rel','editar'].forEach(x=>document.getElementById('painel-'+x).style.display=(x===q?'block':'none'));window.scrollTo({top:0,behavior:'smooth'})}
-function irGrade(){fecharMenu();['filtro','rel','editar'].forEach(x=>document.getElementById('painel-'+x).style.display='none');render();window.scrollTo({top:0,behavior:'smooth'})}
-function turnoNome(t){return t==="AL"?"ALMOÇO":t==="JA"?"JANTA":"ALMOÇO + JANTA"}
-function fmtBR(d){let p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
-function preencherSelects(){
-let opts='<option value="">-- ESCOLHA O MÚSICO ↓ --</option>'+MUSICOS.map(m=>`<option>${m}</option>`).join("");
-['selFiltro','selRel','selEditar'].forEach(id=>{let v=document.getElementById(id).value;document.getElementById(id).innerHTML=opts;if(MUSICOS.includes(v))document.getElementById(id).value=v});
-}
+function abrirMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function fecharMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function mostrarPainel(q){fecharMenu();document.getElementById('painel-filtro').style.display=(q==='filtro'?'block':'none');document.getElementById('painel-rel').style.display=(q==='rel'?'block':'none');document.getElementById('painel-editar').style.display=(q==='editar'?'block':'none');window.scrollTo({top:0,behavior:'smooth'});}
+function irGrade(){fecharMenu();document.getElementById('painel-filtro').style.display='none';document.getElementById('painel-rel').style.display='none';document.getElementById('painel-editar').style.display='none';render();}
+function turnoNome(t){if(t==='AL')return 'ALMOCO';if(t==='JA')return 'JANTA';return 'ALMOCO + JANTA';}
+function fmtBR(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function filtrarMusico(){
-let nome=document.getElementById('selFiltro').value;
-let ini=document.getElementById('dataIni').value, fim=document.getElementById('dataFim').value;
-if(!nome){alert("Escolha o músico na setinha primeiro!");return}
-let lista=[];
-DIAS.forEach(d=>{if(ini&&d.data<ini)return;if(fim&&d.data>fim)return;d.rows.forEach(r=>{if(r[1]===nome)lista.push(`${fmtBR(d.data)} - ${r[0]} - ${turnoNome(r[2])}`)})});
-let el=document.getElementById('resFiltro');el.style.display='block';
-let total=lista.length*(CACHES[nome]||350);
-el.innerHTML=`<b>${nome} vai tocar ${lista.length} datas no mês</b>\nPeríodo: ${fmtBR(ini)} até ${fmtBR(fim)}\nCachê: R$ ${CACHES[nome]||350}\nTotal: R$ ${total.toLocaleString('pt-BR')}\n\n${lista.join("\n")||"Nenhuma data nesse período"}`;
-renderFiltro(nome,ini,fim);
+var nome=document.getElementById('selFiltro').value;
+if(!nome){alert('Escolha o musico na setinha primeiro!');return;}
+var ini=document.getElementById('dataIni').value;var fim=document.getElementById('dataFim').value;
+var lista=[];
+for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(ini&&d.data<ini)continue;if(fim&&d.data>fim)continue;for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];if(r[1]===nome){lista.push(fmtBR(d.data)+' - '+d.head.split(' - ')[0]+' - '+r[0]+' - '+turnoNome(r[2]));}}}
+var el=document.getElementById('resFiltro');el.style.display='block';
+var total=lista.length*(CACHES[nome]||350);
+el.innerText=nome+' vai tocar '+lista.length+' datas\nPeriodo: '+fmtBR(ini)+' ate '+fmtBR(fim)+'\nCache: R$ '+(CACHES[nome]||350)+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+(lista.join('\n')||'Nenhuma data nesse periodo');
 }
-function renderFiltro(nome,ini,fim){/* só destaca na grade, não apaga */ render();}
-function limparFiltro(){document.getElementById('selFiltro').value="";document.getElementById('resFiltro').style.display='none';document.getElementById('dataIni').value="2026-11-01";document.getElementById('dataFim').value="2026-11-30";render()}
+function limparFiltro(){document.getElementById('selFiltro').value='';document.getElementById('resFiltro').style.display='none';document.getElementById('dataIni').value='2026-11-01';document.getElementById('dataFim').value='2026-11-30';render();}
 function gerarRelatorio(){
-let mes=document.getElementById('selMes').value;
-let nome=document.getElementById('selRel').value;
-if(!nome){alert("Escolha o músico na setinha!");return}
-let lista=[];
-DIAS.forEach(d=>{if(!d.data.startsWith(mes))return;d.rows.forEach(r=>{if(r[1]===nome)lista.push(`${fmtBR(d.data)} - ${r[0]} - ${turnoNome(r[2])}`)})});
-let total=lista.length*(CACHES[nome]||350);
-let el=document.getElementById('resRel');el.style.display='block';
-el.innerHTML=`<b>RELATORIO FINANCEIRO - ${nome}</b>\nMês: ${mes}\nDias: ${lista.length}\nCachê: R$ ${CACHES[nome]||350}\nTotal no mês: R$ ${total.toLocaleString('pt-BR')}\n\n${lista.join("\n")||"Sem shows nesse mês"}`;
+var mes=document.getElementById('selMes').value;var nome=document.getElementById('selRel').value;
+if(!nome){alert('Escolha o musico na setinha!');return;}
+var lista=[];
+for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(d.data.indexOf(mes)!==0)continue;for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];if(r[1]===nome){lista.push(fmtBR(d.data)+' - '+r[0]+' - '+turnoNome(r[2]));}}}
+var total=lista.length*(CACHES[nome]||350);
+var el=document.getElementById('resRel');el.style.display='block';
+el.innerText='RELATORIO - '+nome+'\nMes: '+mes+'\nDias: '+lista.length+'\nCache: R$ '+(CACHES[nome]||350)+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+lista.join('\n');
 }
-function carregarCache(){let n=document.getElementById('selEditar').value;if(n)document.getElementById('inputCache').value=CACHES[n]||350}
-function salvarCache(){let n=document.getElementById('selEditar').value;let v=Number(document.getElementById('inputCache').value);if(!n){alert("Escolha o músico na setinha!");return} CACHES[n]=v;let el=document.getElementById('resEditar');el.style.display='block';el.innerHTML=`✅ Salvo!\n${n} agora é R$ ${v}\nPode ver no relatório que já atualizou.`;render()}
-function adicionarMusico(){let n=document.getElementById('novoNome').value.trim().toUpperCase();let v=Number(document.getElementById('novoCache').value||350);if(!n){alert("Digite o nome!");return} if(!MUSICOS.includes(n)){MUSICOS.push(n);CACHES[n]=v} preencherSelects();document.getElementById('novoNome').value="";document.getElementById('novoCache').value="";let el=document.getElementById('resEditar');el.style.display='block';el.innerHTML=`✅ ${n} adicionado com cachê R$ ${v}`;render()}
-function relTotal(){fecharMenu();let t=0;DIAS.forEach(d=>d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t++}));alert(`RELATORIO TOTAL\nShows: ${t}\nFixos: 197\nTotal geral: R$ 75350`)}
-function planGeral(){fecharMenu();let t="PLANEJAMENTO GERAL\n\n";DIAS.forEach(d=>{t+=d.head+"\n";d.rows.forEach(r=>{if(r[1]!=="ESCOLHA")t+=`${r[0]} ${r[1]} - ${turnoNome(r[2])}\n`});t+="\n"});let w=window.open("","_blank");w.document.write("<pre>"+t+"</pre>")}
-function casas(){fecharMenu();alert("CASAS P1-P12\nP1 a P12 já estão na grade.")}
-function imprimirLimpo(){fecharMenu();setTimeout(()=>window.print(),300)}
-function salvarFixo(){localStorage.setItem('estageflow_v66',JSON.stringify({MUSICOS,DIAS,CACHES}));fecharMenu();alert("Salvo! Fixo NÃO ZERA.")}
-function exportarBackup(){let blob=new Blob([JSON.stringify({MUSICOS,DIAS,CACHES},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-v66.json';a.click();fecharMenu()}
-function importarBackup(){fecharMenu();document.getElementById('fileImp').click()}
-function lerBackup(inp){let f=inp.files[0];if(!f)return;let rd=new FileReader();rd.onload=e=>{try{let d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;preencherSelects();render();alert("Backup importado!")}catch(err){alert("Arquivo inválido")}};rd.readAsText(f)}
-function clsT(t){return t==="AL"?"al":t==="AL/JA"?"alja":"ja"}
+function carregarCache(){var n=document.getElementById('selEditar').value;if(n){document.getElementById('inputCache').value=CACHES[n]||350;}}
+function salvarCache(){var n=document.getElementById('selEditar').value;var v=Number(document.getElementById('inputCache').value);if(!n){alert('Escolha o musico na setinha!');return;}CACHES[n]=v;var el=document.getElementById('resEditar');el.style.display='block';el.innerText='Salvo! '+n+' agora e R$ '+v;}
+function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;var opt=document.createElement('option');opt.text=n;document.getElementById('selFiltro').appendChild(opt);var opt2=document.createElement('option');opt2.text=n;document.getElementById('selRel').appendChild(opt2);var opt3=document.createElement('option');opt3.text=n;document.getElementById('selEditar').appendChild(opt3);}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado com cache R$ '+v;render();}
+function imprimirLimpo(){fecharMenu();setTimeout(function(){window.print();},300);}
+function salvarFixo(){localStorage.setItem('estageflow_v66',JSON.stringify({MUSICOS: MUSICOS,DIAS: DIAS,CACHES: CACHES}));fecharMenu();alert('Salvo! Fixo NAO ZERA.');}
+function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS: MUSICOS,DIAS: DIAS,CACHES: CACHES})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-v66.json';a.click();fecharMenu();}
+function importarBackup(){fecharMenu();document.getElementById('fileImp').click();}
+function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
+function clsT(t){if(t==='AL')return 'al';if(t==='AL/JA')return 'alja';return 'ja';}
 function render(){
-document.getElementById('grid').innerHTML=DIAS.map((d,di)=>{
-let rows=d.rows.map((r,ri)=>{
-let opts=["ESCOLHA",...MUSICOS].map(m=>`<option ${m===r[1]?"selected":""}>${m}</option>`).join("");
-let topts=["JA","AL","AL/JA"].map(t=>`<option ${t===r[2]?"selected":""}>${t}</option>`).join("");
-let nc=r[1]==="ESCOLHA"?"nome branco":(ri===5&&r[2]==="AL")?"nome amarelo":"nome";
-return `<div class="linha"><span class="p">${r[0]}</span><select class="${nc}" onchange="DIAS[${di}].rows[${ri}][1]=this.value;render()">${opts}</select><select class="turno ${clsT(r[2])}" onchange="DIAS[${di}].rows[${ri}][2]=this.value;render()">${topts}</select><button class="plus" onclick="DIAS[${di}].rows.splice(${ri}+1,0,['P${ri+2}:','ESCOLHA','AL']);render()">+</button><button class="del" onclick="DIAS[${di}].rows.splice(${ri},1);render()">×</button></div>`;
-}).join("");
-return `<div class="card"><div class="head">${d.head}</div>${rows}</div>`;
-}).join("");
+var html='';
+for(var di=0;di<DIAS.length;di++){var d=DIAS[di];var rows='';
+for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" onchange="DIAS['+di+'].rows['+ri+'][1]=this.value;render()">'+opts+'</select><select class="turno '+clsT(r[2])+'" onchange="DIAS['+di+'].rows['+ri+'][2]=this.value;render()">'+topts+'</select><button class="plus" onclick="DIAS['+di+'].rows.splice('+(ri+1)+',0,[\'P'+(ri+2)+':\',\'ESCOLHA\',\'AL\']);render()">+</button><button class="del" onclick="DIAS['+di+'].rows.splice('+ri+',1);render()">x</button></div>';}
+html+='<div class="card"><div class="head">'+d.head+'</div>'+rows+'</div>';}
+document.getElementById('grid').innerHTML=html;
 }
-preencherSelects(); render();
+render();
 </script>
 </body>
 </html>
