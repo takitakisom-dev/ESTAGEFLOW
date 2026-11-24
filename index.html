@@ -2,27 +2,28 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESTAGEFLOW</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#e9e9e9;font-size:14px}
 .top{background:#111;color:#fff;padding:6px 8px;display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:20}
 .top b{font-size:18px;white-space:nowrap}
 .badge-f{background:#f1c40f;color:#111;border-radius:8px;padding:2px 7px;text-align:center;line-height:1}
 .badge-f b{font-size:14px;display:block}
 .badge-f span{font-size:9px;font-weight:800}
-.badge-v{background:#00c853;color:#fff;border-radius:8px;padding:6px 7px;font-size:13px;font-weight:800;white-space:nowrap}
-.btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:8px;font-size:22px;cursor:pointer;z-index:25}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30}
-.overlay.show{display:block}
+.badge-v{background:#00c853;color:#fff;border-radius:8px;padding:6px 7px;font-size:13px;font-weight:800}
+#abre-menu{display:none}
+.btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:8px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30;cursor:pointer}
 .drawer{position:fixed;top:0;left:0;width:320px;max-width:88vw;height:100%;background:#fff;z-index:40;transform:translateX(-110%);transition:.2s;display:flex;flex-direction:column;overflow-y:auto}
-.drawer.open{transform:translateX(0)!important}
+#abre-menu:checked ~ .drawer{transform:translateX(0)}
+#abre-menu:checked ~ .overlay{display:block}
 .drawer-head{display:flex;gap:10px;align-items:center;padding:14px;border-bottom:1px solid #eee}
 .avatar{width:38px;height:38px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:18px}
 .drawer-head b{font-size:16px;display:block}
 .drawer-head span{font-size:12px;color:#888}
-.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:11px 14px;text-align:left;font-size:15px;cursor:pointer;display:flex;gap:12px;align-items:center;width:100%}
+.drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:11px 14px;text-align:left;font-size:15px;cursor:pointer;display:flex;gap:12px;align-items:center;width:100%;color:#111}
 .drawer button.item .ic{font-size:18px;width:24px;text-align:center}
 .drawer .rodape{margin-top:auto;border-top:1px solid #eee;padding:12px;font-size:14px;font-weight:800;text-align:center;letter-spacing:1px}
 .painel{background:#fff;margin:8px;border-radius:12px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
@@ -50,36 +51,32 @@ select.turno.alja{background:#00e676}
 .plus{background:#111;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0}
 .del{background:#ff2d2d;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0}
 </style>
-<!-- MENU SOZINHO - NAO DEPENDE DO RESTO -->
-<script>
-function abrirMenu(){var d=document.getElementById('drawer');var o=document.getElementById('overlay');if(d){d.classList.add('open');d.style.transform='translateX(0)';}if(o){o.classList.add('show');o.style.display='block';}}
-function fecharMenu(){var d=document.getElementById('drawer');var o=document.getElementById('overlay');if(d){d.classList.remove('open');d.style.transform='translateX(-110%)';}if(o){o.classList.remove('show');o.style.display='none';}}
-</script>
 </head>
 <body>
-<div class="top"><b>ESTAGEFLOW</b><div class="badge-f"><b>197</b><span>FIXOS</span></div><div class="badge-v">R$ 75350</div><button class="btn-menu" id="btnMenu" onclick="abrirMenu();return false;">☰</button></div>
-<div class="overlay" id="overlay" onclick="fecharMenu()"></div>
-<div class="drawer" id="drawer">
+<input type="checkbox" id="abre-menu">
+<div class="top"><b>ESTAGEFLOW</b><div class="badge-f"><b>197</b><span>FIXOS</span></div><div class="badge-v">R$ 75350</div><label for="abre-menu" class="btn-menu">☰</label></div>
+<label for="abre-menu" class="overlay"></label>
+<div class="drawer">
 <div class="drawer-head"><div class="avatar">👤</div><div><b>Admin</b><span>admin@estageflow</span></div></div>
-<button class="item" onclick="irGrade()"><span class="ic">🗓️</span>Grade P1-P12</button>
-<button class="item" onclick="mostrarPainel('rel')"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
-<button class="item" onclick="relTotal()"><span class="ic">📊</span>Relatorio TOTAL Todos Meses</button>
-<button class="item" onclick="relSimples()"><span class="ic">👤🎵</span>RELATORIO SIMPLES TODOS POR MUSICO</button>
-<button class="item" onclick="mostrarPainel('filtroAndre')"><span class="ic">🔽</span>Filtro ANDRE</button>
-<button class="item" onclick="mostrarPainel('planMusico')"><span class="ic">🧑‍🎤</span>Planejamento Por Musico</button>
-<button class="item" onclick="planGeral()"><span class="ic">📋</span>Planejamento GERAL</button>
-<button class="item" onclick="mostrarPainel('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
-<button class="item" onclick="casas()"><span class="ic">🏠</span>Casas P1-P12</button>
-<button class="item" onclick="folha30()"><span class="ic">📅</span>1 FOLHA 30 Dias</button>
-<button class="item" onclick="folha7()"><span class="ic">📅</span>1 FOLHA 7 Dias</button>
-<button class="item" onclick="salvarFixo()"><span class="ic">🔔</span>Salvar Fixo NAO ZERA</button>
-<button class="item" onclick="exportarBackup()"><span class="ic">⬇️</span>Exportar Backup</button>
-<button class="item" onclick="importarBackup()"><span class="ic">⬆️</span>Importar Backup</button>
-<button class="item" onclick="fecharMenu()"><span class="ic">🚪</span>FECHAR</button>
+<button class="item" onclick="clicou('grade')"><span class="ic">🗓️</span>Grade P1-P12</button>
+<button class="item" onclick="clicou('rel')"><span class="ic">📊</span>Relatorio Financeiro Por Mes</button>
+<button class="item" onclick="clicou('total')"><span class="ic">📊</span>Relatorio TOTAL Todos Meses</button>
+<button class="item" onclick="clicou('simples')"><span class="ic">👤🎵</span>RELATORIO SIMPLES TODOS POR MUSICO</button>
+<button class="item" onclick="clicou('filtro')"><span class="ic">🔽</span>Filtro ANDRE</button>
+<button class="item" onclick="clicou('plan')"><span class="ic">🧑‍🎤</span>Planejamento Por Musico</button>
+<button class="item" onclick="clicou('plangeral')"><span class="ic">📋</span>Planejamento GERAL</button>
+<button class="item" onclick="clicou('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
+<button class="item" onclick="clicou('casas')"><span class="ic">🏠</span>Casas P1-P12</button>
+<button class="item" onclick="clicou('folha30')"><span class="ic">📅</span>1 FOLHA 30 Dias</button>
+<button class="item" onclick="clicou('folha7')"><span class="ic">📅</span>1 FOLHA 7 Dias</button>
+<button class="item" onclick="clicou('salvar')"><span class="ic">🔔</span>Salvar Fixo NAO ZERA</button>
+<button class="item" onclick="clicou('exp')"><span class="ic">⬇️</span>Exportar Backup</button>
+<button class="item" onclick="clicou('imp')"><span class="ic">⬆️</span>Importar Backup</button>
+<button class="item" onclick="clicou('fechar')"><span class="ic">🚪</span>FECHAR</button>
 <div class="rodape">ESTAGEFLOW</div>
 </div>
 
-<div class="painel" id="painel-filtroAndre">
+<div class="painel" id="box-filtro">
 <h3>🔽 Filtro ANDRE</h3>
 <label>Escolha o musico</label>
 <select class="grande" id="selFiltro"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
@@ -89,18 +86,18 @@ function fecharMenu(){var d=document.getElementById('drawer');var o=document.get
 <button class="btn-preto" onclick="limparFiltro()">Limpar Filtro</button>
 <div class="resultado" id="resFiltro"></div>
 </div>
-<div class="painel" id="painel-rel" style="display:none">
+<div class="painel" id="box-rel" style="display:none">
 <h3>📊 Relatorio Financeiro Por Mes</h3>
 <label>Mes</label><select class="grande" id="selMes"><option value="2026-11">NOV/2026</option><option value="2026-12">DEZ/2026</option></select>
 <label>Musico</label><select class="grande" id="selRel"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
 <button class="btn-verde" onclick="gerarRelatorio()">Ver Relatorio</button><div class="resultado" id="resRel"></div>
 </div>
-<div class="painel" id="painel-planMusico" style="display:none">
+<div class="painel" id="box-plan" style="display:none">
 <h3>🧑‍🎤 Planejamento Por Musico</h3>
 <label>Escolha o musico</label><select class="grande" id="selPlan"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
 <button class="btn-verde" onclick="gerarPlanMusico()">Ver Planejamento</button><div class="resultado" id="resPlan"></div>
 </div>
-<div class="painel" id="painel-editar" style="display:none">
+<div class="painel" id="box-editar" style="display:none">
 <h3>🎵 Musicos Editar Cache</h3>
 <label>Escolha o musico</label><select class="grande" id="selEditar" onchange="carregarCache()"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
 <label>Cache</label><input class="grande" id="inputCache" type="number" value="350">
@@ -112,48 +109,64 @@ function fecharMenu(){var d=document.getElementById('drawer');var o=document.get
 <div class="grid" id="grid"></div>
 <input type="file" id="fileImp" style="display:none" onchange="lerBackup(this)">
 <script>
-try{
 var MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
-var CACHES={}; for(var i=0;i<MUSICOS.length;i++){CACHES[MUSICOS[i]]=350;}
+var CACHES={};
+for(var i=0;i<MUSICOS.length;i++){CACHES[MUSICOS[i]]=350;}
+// DIAS COMO LISTA SIMPLES: [data, texto, [ [P, musico, turno] ] ]
 var DIAS=[
-{data:"2026-11-23",[STRIPPED] SEG - NOV/2026 SEGUNDA",rows:[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-24",[STRIPPED] TER - NOV/2026 TERCA",rows:[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-25",[STRIPPED] QUA - NOV/2026 QUARTA",rows:[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-26",[STRIPPED] QUI - NOV/2026 QUI",rows:[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-27",[STRIPPED] SEX - NOV/2026 SEXTA",rows:[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-28",[STRIPPED] SAB - NOV/2026 SABADO",rows:[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-29",[STRIPPED] DOM - NOV/2026 DOMINGO",rows:[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]},
-{data:"2026-11-30",[STRIPPED] SEG - NOV/2026 SEGUNDA",rows:[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]}
+["2026-11-23","23/11 - SEG - NOV/2026 SEGUNDA",[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-24","24/11 - TER - NOV/2026 TERCA",[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-25","25/11 - QUA - NOV/2026 QUARTA",[["P1:","DOUGLAS","JA"],["P2:","ANDRE","JA"],["P3:","RICK SOLO","JA"],["P4:","ROBSON SOLO","JA"],["P5:","EDILL","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-26","26/11 - QUI - NOV/2026 QUI",[["P1:","DOUGLAS","JA"],["P2:","EDILL","AL"],["P3:","ISRAEL","JA"],["P4:","YGOR","AL"],["P5:","LUCIANO","JA"],["P6:","ANDRE","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-27","27/11 - SEX - NOV/2026 SEXTA",[["P1:","YGOR","JA"],["P2:","EDILL","JA"],["P3:","ANDRE","JA"],["P4:","LUCIANO","JA"],["P5:","VAT 60","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-28","28/11 - SAB - NOV/2026 SABADO",[["P1:","EDILL","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","LUCIANO","AL"],["P4:","PAOLI","JA"],["P5:","VAT 60","AL/JA"],["P6:","RICK SOLO","AL/JA"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-29","29/11 - DOM - NOV/2026 DOMINGO",[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
+["2026-11-30","30/11 - SEG - NOV/2026 SEGUNDA",[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]]
 ];
-function esconderPaineis(){['painel-filtroAndre','painel-rel','painel-planMusico','painel-editar'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});var g=document.getElementById('resGeral');if(g)g.style.display='none';}
-function mostrarPainel(q){fecharMenu();esconderPaineis();if(q==='filtroAndre')document.getElementById('painel-filtroAndre').style.display='block';if(q==='rel')document.getElementById('painel-rel').style.display='block';if(q==='planMusico')document.getElementById('painel-planMusico').style.display='block';if(q==='editar')document.getElementById('painel-editar').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
-function irGrade(){fecharMenu();esconderPaineis();window.scrollTo({top:0,behavior:'smooth'});}
+function fechaMenu(){document.getElementById('abre-menu').checked=false;}
+function esconde(){document.getElementById('box-filtro').style.display='none';document.getElementById('box-rel').style.display='none';document.getElementById('box-plan').style.display='none';document.getElementById('box-editar').style.display='none';document.getElementById('resGeral').style.display='none';}
+function clicou(q){
+fechaMenu();
+if(q==='fechar'){return;}
+if(q==='grade'){esconde();document.getElementById('box-filtro').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
+if(q==='rel'){esconde();document.getElementById('box-rel').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
+if(q==='filtro'){esconde();document.getElementById('box-filtro').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
+if(q==='plan'){esconde();document.getElementById('box-plan').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
+if(q==='editar'){esconde();document.getElementById('box-editar').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
+if(q==='total'){fazTotal();return;}
+if(q==='simples'){fazSimples();return;}
+if(q==='plangeral'){fazPlanGeral();return;}
+if(q==='casas'){fazCasas();return;}
+if(q==='folha30'){fazFolha30();return;}
+if(q==='folha7'){fazFolha7();return;}
+if(q==='salvar'){salvarFixo();return;}
+if(q==='exp'){exportarBackup();return;}
+if(q==='imp'){importarBackup();return;}
+}
 function turnoNome(t){if(t==='AL')return 'ALMOCO';if(t==='JA')return 'JANTA';return 'ALMOCO + JANTA';}
 function fmtBR(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
-function filtrarMusico(){var nome=document.getElementById('selFiltro').value;if(!nome){alert('Escolha o musico!');return;}var ini=document.getElementById('dataIni').value;var fim=document.getElementById('dataFim').value;var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(ini&&d.data<ini)continue;if(fim&&d.data>fim)continue;for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];if(r[1]===nome){lista.push(fmtBR(d.data)+' - '+d.titulo.split(' - ')[0]+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resFiltro');el.style.display='block';var total=lista.length*(CACHES[nome]||350);el.innerText=nome+' vai tocar '+lista.length+' datas\nPeriodo: '+fmtBR(ini)+' ate '+fmtBR(fim)+'\nCache: R$ '+(CACHES[nome]||350)+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+(lista.join('\n')||'Nenhuma data');}
+function filtrarMusico(){var nome=document.getElementById('selFiltro').value;if(!nome){alert('Escolha o musico!');return;}var ini=document.getElementById('dataIni').value;var fim=document.getElementById('dataFim').value;var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(ini&&d[0]<ini)continue;if(fim&&d[0]>fim)continue;for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+d[1].split(' - ')[0]+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resFiltro');el.style.display='block';var total=lista.length*(CACHES[nome]||350);el.innerText=nome+' vai tocar '+lista.length+' datas\nPeriodo: '+fmtBR(ini)+' ate '+fmtBR(fim)+'\nCache: R$ '+(CACHES[nome]||350)+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+(lista.join('\n')||'Nenhuma data');}
 function limparFiltro(){document.getElementById('selFiltro').value='';document.getElementById('resFiltro').style.display='none';}
-function gerarRelatorio(){var mes=document.getElementById('selMes').value;var nome=document.getElementById('selRel').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(d.data.indexOf(mes)!==0)continue;for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];if(r[1]===nome){lista.push(fmtBR(d.data)+' - '+r[0]+' - '+turnoNome(r[2]));}}}var total=lista.length*(CACHES[nome]||350);var el=document.getElementById('resRel');el.style.display='block';el.innerText='RELATORIO - '+nome+'\nMes: '+mes+'\nDias: '+lista.length+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+lista.join('\n');}
-function relSimples(){fecharMenu();esconderPaineis();var c={};for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di].rows.length;ri++){var r=DIAS[di].rows[ri];if(r[1]!=='ESCOLHA'){c[r[1]]=(c[r[1]]||0)+1;}}}var t='RELATORIO SIMPLES TODOS POR MUSICO\n\n';var keys=Object.keys(c).sort(function(a,b){return c[b]-c[a];});for(var k=0;k<keys.length;k++){var nome=keys[k];t+=nome+': '+c[nome]+' dias = R$ '+(c[nome]*(CACHES[nome]||350)).toLocaleString('pt-BR')+'\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
-function relTotal(){fecharMenu();esconderPaineis();var t=0;for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di].rows.length;ri++){if(DIAS[di].rows[ri][1]!=='ESCOLHA')t++;}}var el=document.getElementById('resGeral');el.style.display='block';el.innerText='RELATORIO TOTAL\nTotal geral: R$ 75350\nFixos: 197 shows\nShows marcados: '+t;window.scrollTo({top:0,behavior:'smooth'});}
-function gerarPlanMusico(){var nome=document.getElementById('selPlan').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];if(r[1]===nome){lista.push(fmtBR(d.data)+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resPlan');el.style.display='block';el.innerText='PLANEJAMENTO - '+nome+'\n\n'+(lista.join('\n')||'Nenhum dia');}
-function planGeral(){fecharMenu();esconderPaineis();var t='PLANEJAMENTO GERAL\n\n';for(var di=0;di<DIAS.length;di++){t+=DIAS[di].titulo+'\n';for(var ri=0;ri<DIAS[di].rows.length;ri++){var r=DIAS[di].rows[ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
-function casas(){fecharMenu();esconderPaineis();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='CASAS P1-P12\nP1 a P12 ja estao na grade.';window.scrollTo({top:0,behavior:'smooth'});}
-function folha30(){fecharMenu();esconderPaineis();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS\nGrade pronta para imprimir.';window.scrollTo({top:0,behavior:'smooth'});}
-function folha7(){fecharMenu();esconderPaineis();var t='1 FOLHA 7 DIAS\n\n';for(var di=0;di<Math.min(7,DIAS.length);di++){t+=DIAS[di].titulo+'\n';for(var ri=0;ri<DIAS[di].rows.length;ri++){var r=DIAS[di].rows[ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
+function gerarRelatorio(){var mes=document.getElementById('selMes').value;var nome=document.getElementById('selRel').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(d[0].indexOf(mes)!==0)continue;for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+r[0]+' - '+turnoNome(r[2]));}}}var total=lista.length*(CACHES[nome]||350);var el=document.getElementById('resRel');el.style.display='block';el.innerText='RELATORIO - '+nome+'\nMes: '+mes+'\nDias: '+lista.length+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+lista.join('\n');}
+function fazSimples(){esconde();var c={};for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){c[r[1]]=(c[r[1]]||0)+1;}}}var t='RELATORIO SIMPLES TODOS POR MUSICO\n\n';var keys=Object.keys(c).sort(function(a,b){return c[b]-c[a];});for(var k=0;k<keys.length;k++){var nome=keys[k];t+=nome+': '+c[nome]+' dias = R$ '+(c[nome]*(CACHES[nome]||350)).toLocaleString('pt-BR')+'\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
+function fazTotal(){esconde();var t=0;for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){if(DIAS[di][2][ri][1]!=='ESCOLHA')t++;}}var el=document.getElementById('resGeral');el.style.display='block';el.innerText='RELATORIO TOTAL\nTotal geral: R$ 75350\nFixos: 197 shows\nShows marcados: '+t;window.scrollTo({top:0,behavior:'smooth'});}
+function gerarPlanMusico(){var nome=document.getElementById('selPlan').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resPlan');el.style.display='block';el.innerText='PLANEJAMENTO - '+nome+'\n\n'+(lista.join('\n')||'Nenhum dia');}
+function fazPlanGeral(){esconde();var t='PLANEJAMENTO GERAL\n\n';for(var di=0;di<DIAS.length;di++){t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
+function fazCasas(){esconde();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='CASAS P1-P12\nP1 a P12 ja estao na grade.';window.scrollTo({top:0,behavior:'smooth'});}
+function fazFolha30(){esconde();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS\nGrade pronta para imprimir.';window.scrollTo({top:0,behavior:'smooth'});}
+function fazFolha7(){esconde();var t='1 FOLHA 7 DIAS\n\n';for(var di=0;di<Math.min(7,DIAS.length);di++){t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
 function carregarCache(){var n=document.getElementById('selEditar').value;if(n){document.getElementById('inputCache').value=CACHES[n]||350;}}
 function salvarCache(){var n=document.getElementById('selEditar').value;var v=Number(document.getElementById('inputCache').value);if(!n){alert('Escolha o musico!');return;}CACHES[n]=v;var el=document.getElementById('resEditar');el.style.display='block';el.innerText='Salvo! '+n+' agora e R$ '+v;}
-function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;var ids=['selFiltro','selRel','selPlan','selEditar'];for(var ii=0;ii<ids.length;ii++){var o=document.createElement('option');o.text=n;document.getElementById(ids[ii]).appendChild(o);}}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado R$ '+v;}
-function salvarFixo(){try{localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES}));}catch(e){}fecharMenu();alert('Salvo! Fixo NAO ZERA.');}
-function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup.json';a.click();fecharMenu();}
-function importarBackup(){fecharMenu();document.getElementById('fileImp').click();}
+function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado R$ '+v;}
+function salvarFixo(){try{localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES}));}catch(e){}alert('Salvo! Fixo NAO ZERA.');}
+function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup.json';a.click();}
+function importarBackup(){document.getElementById('fileImp').click();}
 function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
 function clsT(t){if(t==='AL')return 'al';if(t==='AL/JA')return 'alja';return 'ja';}
-function render(){var html='';for(var di=0;di<DIAS.length;di++){var d=DIAS[di];var rows='';for(var ri=0;ri<d.rows.length;ri++){var r=d.rows[ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="musico">'+opts+'</select><select class="turno '+clsT(r[2])+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="turno">'+topts+'</select><button class="plus" data-di="'+di+'" data-ri="'+ri+'" data-acao="add">+</button><button class="del" data-di="'+di+'" data-ri="'+ri+'" data-acao="del">x</button></div>';}html+='<div class="card"><div class="titulo">'+d.titulo+'</div>'+rows+'</div>';}document.getElementById('grid').innerHTML=html;}
-document.getElementById('grid').addEventListener('change',function(e){var el=e.target;var di=Number(el.getAttribute('data-di'));var ri=Number(el.getAttribute('data-ri'));if(el.getAttribute('data-tipo')==='musico'){DIAS[di].rows[ri][1]=el.value;el.className=el.value==='ESCOLHA'?'nome branco':(ri===5&&DIAS[di].rows[ri][2]==='AL'?'nome amarelo':'nome');}if(el.getAttribute('data-tipo')==='turno'){DIAS[di].rows[ri][2]=el.value;el.className='turno '+clsT(el.value);}});
-document.getElementById('grid').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var di=Number(b.getAttribute('data-di'));var ri=Number(b.getAttribute('data-ri'));if(b.getAttribute('data-acao')==='add'){DIAS[di].rows.splice(ri+1,0,['P'+(ri+2)+':','ESCOLHA','AL']);render();}if(b.getAttribute('data-acao')==='del'){DIAS[di].rows.splice(ri,1);render();}});
-document.getElementById('btnMenu').addEventListener('click',function(ev){ev.preventDefault();abrirMenu();});
+function render(){var html='';for(var di=0;di<DIAS.length;di++){var d=DIAS[di];var rows='';for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="musico">'+opts+'</select><select class="turno '+clsT(r[2])+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="turno">'+topts+'</select><button class="plus" data-di="'+di+'" data-ri="'+ri+'" data-acao="add">+</button><button class="del" data-di="'+di+'" data-ri="'+ri+'" data-acao="del">x</button></div>';}html+='<div class="card"><div class="titulo">'+d[1]+'</div>'+rows+'</div>';}document.getElementById('grid').innerHTML=html;}
+document.getElementById('grid').addEventListener('change',function(e){var el=e.target;var di=Number(el.getAttribute('data-di'));var ri=Number(el.getAttribute('data-ri'));if(el.getAttribute('data-tipo')==='musico'){DIAS[di][2][ri][1]=el.value;el.className=el.value==='ESCOLHA'?'nome branco':(ri===5&&DIAS[di][2][ri][2]==='AL'?'nome amarelo':'nome');}if(el.getAttribute('data-tipo')==='turno'){DIAS[di][2][ri][2]=el.value;el.className='turno '+clsT(el.value);}});
+document.getElementById('grid').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var di=Number(b.getAttribute('data-di'));var ri=Number(b.getAttribute('data-ri'));if(b.getAttribute('data-acao')==='add'){DIAS[di][2].splice(ri+1,0,['P'+(ri+2)+':','ESCOLHA','AL']);render();}if(b.getAttribute('data-acao')==='del'){DIAS[di][2].splice(ri,1);render();}});
 render();
-}catch(err){console.log(err);}
 </script>
 </body>
 </html>
