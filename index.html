@@ -13,6 +13,7 @@ body{background:#e9e9e9;font-size:14px}
 .badge-f b{font-size:14px;display:block}
 .badge-f span{font-size:9px;font-weight:800}
 .badge-v{background:#00c853;color:#fff;border-radius:8px;padding:6px 7px;font-size:13px;font-weight:800}
+#salvo{position:fixed;top:50px;right:8px;background:#00c853;color:#fff;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:800;z-index:50;display:none}
 #abre-menu{display:none}
 .btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:8px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30;cursor:pointer}
@@ -53,6 +54,7 @@ select.turno.alja{background:#00e676}
 </style>
 </head>
 <body>
+<div id="salvo">SALVO ✓</div>
 <input type="checkbox" id="abre-menu">
 <div class="top"><b>ESTAGEFLOW</b><div class="badge-f"><b>197</b><span>FIXOS</span></div><div class="badge-v">R$ 75350</div><label for="abre-menu" class="btn-menu">☰</label></div>
 <label for="abre-menu" class="overlay"></label>
@@ -112,7 +114,6 @@ select.turno.alja{background:#00e676}
 var MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
 var CACHES={};
 for(var i=0;i<MUSICOS.length;i++){CACHES[MUSICOS[i]]=350;}
-// DIAS COMO LISTA SIMPLES: [data, texto, [ [P, musico, turno] ] ]
 var DIAS=[
 ["2026-11-23","23/11 - SEG - NOV/2026 SEGUNDA",[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
 ["2026-11-24","24/11 - TER - NOV/2026 TERCA",[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
@@ -123,6 +124,24 @@ var DIAS=[
 ["2026-11-29","29/11 - DOM - NOV/2026 DOMINGO",[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
 ["2026-11-30","30/11 - SEG - NOV/2026 SEGUNDA",[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]]
 ];
+// CARREGA O QUE FOI SALVO ANTES - AGORA SIM LE DE VOLTA
+try{
+var salvoAntes=localStorage.getItem('estageflow');
+if(salvoAntes){
+var d=JSON.parse(salvoAntes);
+if(d.DIAS) DIAS=d.DIAS;
+if(d.CACHES) CACHES=d.CACHES;
+if(d.MUSICOS) MUSICOS=d.MUSICOS;
+}
+}catch(e){}
+function autoSalvar(){
+try{
+localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES}));
+var s=document.getElementById('salvo');
+s.style.display='block';
+setTimeout(function(){s.style.display='none';},1200);
+}catch(e){}
+}
 function fechaMenu(){document.getElementById('abre-menu').checked=false;}
 function esconde(){document.getElementById('box-filtro').style.display='none';document.getElementById('box-rel').style.display='none';document.getElementById('box-plan').style.display='none';document.getElementById('box-editar').style.display='none';document.getElementById('resGeral').style.display='none';}
 function clicou(q){
@@ -156,16 +175,16 @@ function fazCasas(){esconde();var el=document.getElementById('resGeral');el.styl
 function fazFolha30(){esconde();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS\nGrade pronta para imprimir.';window.scrollTo({top:0,behavior:'smooth'});}
 function fazFolha7(){esconde();var t='1 FOLHA 7 DIAS\n\n';for(var di=0;di<Math.min(7,DIAS.length);di++){t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
 function carregarCache(){var n=document.getElementById('selEditar').value;if(n){document.getElementById('inputCache').value=CACHES[n]||350;}}
-function salvarCache(){var n=document.getElementById('selEditar').value;var v=Number(document.getElementById('inputCache').value);if(!n){alert('Escolha o musico!');return;}CACHES[n]=v;var el=document.getElementById('resEditar');el.style.display='block';el.innerText='Salvo! '+n+' agora e R$ '+v;}
-function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado R$ '+v;}
-function salvarFixo(){try{localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES}));}catch(e){}alert('Salvo! Fixo NAO ZERA.');}
+function salvarCache(){var n=document.getElementById('selEditar').value;var v=Number(document.getElementById('inputCache').value);if(!n){alert('Escolha o musico!');return;}CACHES[n]=v;autoSalvar();var el=document.getElementById('resEditar');el.style.display='block';el.innerText='Salvo! '+n+' agora e R$ '+v;}
+function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';autoSalvar();var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado R$ '+v;}
+function salvarFixo(){autoSalvar();alert('Salvo! Fixo NAO ZERA.');}
 function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup.json';a.click();}
 function importarBackup(){document.getElementById('fileImp').click();}
-function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
+function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;autoSalvar();render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
 function clsT(t){if(t==='AL')return 'al';if(t==='AL/JA')return 'alja';return 'ja';}
 function render(){var html='';for(var di=0;di<DIAS.length;di++){var d=DIAS[di];var rows='';for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="musico">'+opts+'</select><select class="turno '+clsT(r[2])+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="turno">'+topts+'</select><button class="plus" data-di="'+di+'" data-ri="'+ri+'" data-acao="add">+</button><button class="del" data-di="'+di+'" data-ri="'+ri+'" data-acao="del">x</button></div>';}html+='<div class="card"><div class="titulo">'+d[1]+'</div>'+rows+'</div>';}document.getElementById('grid').innerHTML=html;}
-document.getElementById('grid').addEventListener('change',function(e){var el=e.target;var di=Number(el.getAttribute('data-di'));var ri=Number(el.getAttribute('data-ri'));if(el.getAttribute('data-tipo')==='musico'){DIAS[di][2][ri][1]=el.value;el.className=el.value==='ESCOLHA'?'nome branco':(ri===5&&DIAS[di][2][ri][2]==='AL'?'nome amarelo':'nome');}if(el.getAttribute('data-tipo')==='turno'){DIAS[di][2][ri][2]=el.value;el.className='turno '+clsT(el.value);}});
-document.getElementById('grid').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var di=Number(b.getAttribute('data-di'));var ri=Number(b.getAttribute('data-ri'));if(b.getAttribute('data-acao')==='add'){DIAS[di][2].splice(ri+1,0,['P'+(ri+2)+':','ESCOLHA','AL']);render();}if(b.getAttribute('data-acao')==='del'){DIAS[di][2].splice(ri,1);render();}});
+document.getElementById('grid').addEventListener('change',function(e){var el=e.target;var di=Number(el.getAttribute('data-di'));var ri=Number(el.getAttribute('data-ri'));if(el.getAttribute('data-tipo')==='musico'){DIAS[di][2][ri][1]=el.value;el.className=el.value==='ESCOLHA'?'nome branco':(ri===5&&DIAS[di][2][ri][2]==='AL'?'nome amarelo':'nome');autoSalvar();}if(el.getAttribute('data-tipo')==='turno'){DIAS[di][2][ri][2]=el.value;el.className='turno '+clsT(el.value);autoSalvar();}});
+document.getElementById('grid').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var di=Number(b.getAttribute('data-di'));var ri=Number(b.getAttribute('data-ri'));if(b.getAttribute('data-acao')==='add'){DIAS[di][2].splice(ri+1,0,['P'+(ri+2)+':','ESCOLHA','AL']);autoSalvar();render();}if(b.getAttribute('data-acao')==='del'){DIAS[di][2].splice(ri,1);autoSalvar();render();}});
 render();
 </script>
 </body>
