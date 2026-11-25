@@ -27,11 +27,11 @@ body{background:#e9e9e9;font-size:14px}
 .drawer button.item{background:none;border:0;border-bottom:1px solid #f0f0f0;padding:11px 14px;text-align:left;font-size:15px;cursor:pointer;display:flex;gap:12px;align-items:center;width:100%;color:#111}
 .drawer button.item .ic{font-size:18px;width:24px;text-align:center}
 .drawer .rodape{margin-top:auto;border-top:1px solid #eee;padding:12px;font-size:14px;font-weight:800;text-align:center;letter-spacing:1px}
-/* SELETOR DE MES - TELA LIMPA */
-.barra-mes{background:#fff;margin:8px;border-radius:12px;padding:10px;display:flex;gap:6px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.barra-mes select{flex:1;height:40px;border:1px solid #ddd;border-radius:10px;padding:0 8px;font-size:15px;font-weight:800}
+.barra-mes{background:#fff;margin:8px;border-radius:12px;padding:10px;display:flex;gap:6px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.1);flex-wrap:wrap}
+.barra-mes select{flex:1;min-width:140px;height:40px;border:1px solid #ddd;border-radius:10px;padding:0 8px;font-size:15px;font-weight:800}
 .barra-mes button{height:40px;border:0;border-radius:10px;padding:0 12px;font-weight:800;cursor:pointer;font-size:13px}
 .btn-criar{background:#111;color:#fff}
+.btn-coluna{background:#00c853;color:#fff}
 .painel{background:#fff;margin:8px;border-radius:12px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .painel h3{font-size:14px;margin-bottom:8px}
 .painel label{font-size:11px;font-weight:800;color:#888;display:block;margin:8px 0 3px}
@@ -41,7 +41,9 @@ select.grande,input.grande{width:100%;height:38px;border:1px solid #ddd;border-r
 .btn-verde{width:100%;height:38px;border:0;border-radius:10px;background:#00c853;color:#fff;font-weight:800;font-size:14px;margin-top:10px;cursor:pointer}
 .btn-preto{width:100%;height:38px;border:0;border-radius:10px;background:#111;color:#fff;font-weight:800;font-size:14px;margin-top:6px;cursor:pointer}
 .resultado{background:#111;color:#fff;border-radius:10px;padding:10px;margin-top:10px;font-size:13px;line-height:1.5;white-space:pre-line;display:none}
-.grid{padding:8px;display:grid;grid-template-columns:1fr;gap:8px}
+/* GRADE 2 QUADRADOS LADO A LADO */
+.grid{padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+.grid.uma-coluna{grid-template-columns:1fr}
 .card{background:#fff;border-radius:12px;padding:10px 8px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .titulo{font-size:15px;font-weight:800;padding:0 4px 8px}
 .linha{display:flex;gap:5px;align-items:center;padding:2px 0}
@@ -56,7 +58,13 @@ select.turno.al{background:#f1c40f}
 select.turno.alja{background:#00e676}
 .plus{background:#111;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0}
 .del{background:#ff2d2d;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0}
-/* TELAS CHEIAS - FILTRO / RELATORIO / MUSICOS */
+/* CELULAR CONTINUA 1 QUADRADO */
+@media (max-width:700px){
+.grid{grid-template-columns:1fr!important}
+}
+@media print{
+body{background:#fff}.top,.drawer,.overlay,.barra-mes{display:none!important}.grid{grid-template-columns:1fr 1fr!important}.card{box-shadow:none;border:1px solid #000;break-inside:avoid}
+}
 .tela{position:fixed;inset:0;background:#f2f2f2;z-index:60;display:none;flex-direction:column;overflow-y:auto}
 .tela.show{display:flex}
 .tela-top{background:#111;color:#fff;padding:12px;display:flex;align-items:center;gap:10px;position:sticky;top:0}
@@ -99,16 +107,15 @@ select.turno.alja{background:#00e676}
 <div class="rodape">ESTAGEFLOW</div>
 </div>
 
-<!-- TELA INICIAL LIMPA - SO SELETOR + GRADE -->
 <div class="barra-mes">
 <select id="selMesGrade" onchange="trocarMes()"></select>
+<button class="btn-coluna" id="btnColuna" onclick="alternarColunas()">▦ 2 Colunas</button>
 <button class="btn-criar" onclick="criarMesSelecionado()">+ Criar Mês</button>
 </div>
 <div style="padding:0 8px;font-size:12px;color:#888" id="infoMes"></div>
 <div class="resultado" id="resGeral" style="margin:8px"></div>
 <div class="grid" id="grid"></div>
 
-<!-- TELA FILTRO ANDRE - AGORA SEPARADA -->
 <div class="tela" id="telaFiltro">
 <div class="tela-top"><button class="btn-voltar" onclick="fecharTela('telaFiltro')">← VOLTAR</button><b>🔽 Filtro ANDRE</b></div>
 <div class="tela-box">
@@ -118,8 +125,6 @@ select.turno.alja{background:#00e676}
 <div class="resultado" id="resFiltro"></div>
 </div>
 </div>
-
-<!-- TELA RELATORIO -->
 <div class="tela" id="telaRel">
 <div class="tela-top"><button class="btn-voltar" onclick="fecharTela('telaRel')">← VOLTAR</button><b>📊 Relatorio Por Mes</b></div>
 <div class="tela-box">
@@ -128,8 +133,6 @@ select.turno.alja{background:#00e676}
 <button class="btn-verde" onclick="gerarRelatorio()">Ver Relatorio</button><div class="resultado" id="resRel"></div>
 </div>
 </div>
-
-<!-- TELA PLANEJAMENTO -->
 <div class="tela" id="telaPlan">
 <div class="tela-top"><button class="btn-voltar" onclick="fecharTela('telaPlan')">← VOLTAR</button><b>🧑‍🎤 Planejamento Por Musico</b></div>
 <div class="tela-box">
@@ -137,8 +140,6 @@ select.turno.alja{background:#00e676}
 <button class="btn-verde" onclick="gerarPlanMusico()">Ver Planejamento</button><div class="resultado" id="resPlan"></div>
 </div>
 </div>
-
-<!-- TELA MUSICOS -->
 <div class="tela" id="telaMusicos">
 <div class="tela-top"><button class="btn-voltar" onclick="fecharTela('telaMusicos')">← VOLTAR</button><b>🎵 Músicos</b><span id="totalMusicos"></span></div>
 <div class="tela-box"><h3>➕ Cadastrar Músico Novo</h3><label>Nome</label><input id="novoNome" placeholder="Ex: JOAO"><label>Cache</label><input id="novoCache" type="number" value="350"><button class="btn-verde" onclick="adicionarMusicoTela()">Adicionar Músico</button></div>
@@ -152,7 +153,7 @@ select.turno.alja{background:#00e676}
 var MUSICOS=["ISRAEL","YGOR","LUCIANO","ANDRE","ANDERSON VAT 60 SOLO","ROBSON SOLO","RICK SOLO","PAOLI","DOUGLAS","EDILL","VAT 60","MARTIN"];
 var CACHES={}; for(var i=0;i<MUSICOS.length;i++){CACHES[MUSICOS[i]]=350;}
 var MES_ATUAL="2026-11";
-// NOV 2026 - JA EXISTENTE
+var DUAS_COLUNAS=true;
 var DIAS=[
 ["2026-11-23","23/11 - SEG - NOV/2026 SEGUNDA",[["P1:","ISRAEL","JA"],["P2:","YGOR","AL"],["P3:","LUCIANO","JA"],["P4:","ANDRE","AL"],["P5:","ANDERSON VAT 60 SOLO","JA"],["P6:","ROBSON SOLO","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
 ["2026-11-24","24/11 - TER - NOV/2026 TERCA",[["P1:","RICK SOLO","JA"],["P2:","PAOLI","AL"],["P3:","DOUGLAS","JA"],["P4:","EDILL","AL"],["P5:","ISRAEL","JA"],["P6:","YGOR","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
@@ -163,146 +164,83 @@ var DIAS=[
 ["2026-11-29","29/11 - DOM - NOV/2026 DOMINGO",[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
 ["2026-11-30","30/11 - SEG - NOV/2026 SEGUNDA",[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]]
 ];
-// DEZEMBRO 2026 - GERADO AUTOMATICO, P1-P12 VAZIOS
 function nomeDiaSemana(ano,mes,dia){var s=["DOM","SEG","TER","QUA","QUI","SEX","SAB"];var d=new Date(ano,mes-1,dia);return s[d.getDay()];}
 function nomeMes(m){var n=["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];return n[m-1];}
-function criarDiasDoMes(ano,mes,preencher){
-var ultimo=new Date(ano,mes,0).getDate();
-var novos=[];
+function criarDiasDoMes(ano,mes){
+var ultimo=new Date(ano,mes,0).getDate();var novos=[];
 for(var dia=1;dia<=ultimo;dia++){
 var data=ano+'-'+(mes<10?'0'+mes:mes)+'-'+(dia<10?'0'+dia:dia);
-var existe=false;
-for(var k=0;k<DIAS.length;k++){if(DIAS[k][0]===data){existe=true;break;}}
-if(existe) continue; // NUNCA APAGA - SE JA EXISTE, PULA
-var rows=[];
-for(var p=1;p<=12;p++){
-var turno=(p===2||p===12)?"AL":"JA";
-rows.push(["P"+p+":","ESCOLHA",turno]);
-}
+var existe=false;for(var k=0;k<DIAS.length;k++){if(DIAS[k][0]===data){existe=true;break;}}
+if(existe) continue;
+var rows=[];for(var p=1;p<=12;p++){var turno=(p===2||p===12)?"AL":"JA";rows.push(["P"+p+":","ESCOLHA",turno]);}
 var titulo=(dia<10?'0'+dia:dia)+'/'+(mes<10?'0'+mes:mes)+' - '+nomeDiaSemana(ano,mes,dia)+' - '+nomeMes(mes)+'/'+ano+' '+nomeDiaSemana(ano,mes,dia);
 novos.push([data,titulo,rows]);
 }
 return novos;
 }
-// Cria DEZ 2026 na primeira vez
-var dez=criarDiasDoMes(2026,12,false);
-for(var z=0;z<dez.length;z++){DIAS.push(dez[z]);}
-// CARREGA SALVO - NUNCA APAGA
+var dez=criarDiasDoMes(2026,12);for(var z=0;z<dez.length;z++){DIAS.push(dez[z]);}
 try{
 var salvoAntes=localStorage.getItem('estageflow');
-if(salvoAntes){
-var d=JSON.parse(salvoAntes);
-if(d.DIAS){
-// Mescla: mantem o salvo, e acrescenta o que falta sem apagar
-for(var mi=0;mi<d.DIAS.length;mi++){
-var ja=false;
-for(var mj=0;mj<DIAS.length;mj++){if(DIAS[mj][0]===d.DIAS[mi][0]){DIAS[mj]=d.DIAS[mi];ja=true;break;}}
-if(!ja) DIAS.push(d.DIAS[mi]);
-}
-}
-if(d.CACHES) CACHES=d.CACHES;
-if(d.MUSICOS) MUSICOS=d.MUSICOS;
-if(d.MES_ATUAL) MES_ATUAL=d.MES_ATUAL;
+if(salvoAntes){var d=JSON.parse(salvoAntes);
+if(d.DIAS){for(var mi=0;mi<d.DIAS.length;mi++){var ja=false;for(var mj=0;mj<DIAS.length;mj++){if(DIAS[mj][0]===d.DIAS[mi][0]){DIAS[mj]=d.DIAS[mi];ja=true;break;}}if(!ja)DIAS.push(d.DIAS[mi]);}}
+if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;if(d.MES_ATUAL)MES_ATUAL=d.MES_ATUAL;if(typeof d.DUAS_COLUNAS!=='undefined')DUAS_COLUNAS=d.DUAS_COLUNAS;
 }
 }catch(e){}
 DIAS.sort(function(a,b){return a[0]<b[0]?-1:1;});
-function autoSalvar(){
-try{
-localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES,MES_ATUAL:MES_ATUAL}));
-var s=document.getElementById('salvo');s.style.display='block';setTimeout(function(){s.style.display='none';},1200);
-}catch(e){}
+function autoSalvar(){try{localStorage.setItem('estageflow',JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES,MES_ATUAL:MES_ATUAL,DUAS_COLUNAS:DUAS_COLUNAS}));var s=document.getElementById('salvo');s.style.display='block';setTimeout(function(){s.style.display='none';},1200);}catch(e){}}
+function alternarColunas(){
+DUAS_COLUNAS=!DUAS_COLUNAS;
+autoSalvar();
+aplicarColunas();
+}
+function aplicarColunas(){
+var g=document.getElementById('grid');
+var b=document.getElementById('btnColuna');
+if(DUAS_COLUNAS){g.classList.remove('uma-coluna');b.innerText='▦ 2 Colunas';}
+else{g.classList.add('uma-coluna');b.innerText='▭ 1 Coluna';}
 }
 function montarSeletorMeses(){
-var sel=document.getElementById('selMesGrade');
-var selRel=document.getElementById('selMesRel');
-var html='';
-for(var ano=2026;ano<=2030;ano++){
-for(var mes=1;mes<=12;mes++){
-if(ano===2026&&mes<11) continue;
-var v=ano+'-'+(mes<10?'0'+mes:mes);
-var label=nomeMes(mes)+'/'+ano;
-var tem=0; for(var i=0;i<DIAS.length;i++){if(DIAS[i][0].indexOf(v)===0) tem++;}
-var extra=tem>0?' ('+tem+' dias)':' - vazio';
-html+='<option value="'+v+'"'+(v===MES_ATUAL?' selected':'')+'>'+label+extra+'</option>';
-}
-}
-sel.innerHTML=html;
-if(selRel) selRel.innerHTML=html.replace('selected','');
+var sel=document.getElementById('selMesGrade');var selRel=document.getElementById('selMesRel');var html='';
+for(var ano=2026;ano<=2030;ano++){for(var mes=1;mes<=12;mes++){if(ano===2026&&mes<11)continue;var v=ano+'-'+(mes<10?'0'+mes:mes);var label=nomeMes(mes)+'/'+ano;var tem=0;for(var i=0;i<DIAS.length;i++){if(DIAS[i][0].indexOf(v)===0)tem++;}var extra=tem>0?' ('+tem+' dias)':' - vazio';html+='<option value="'+v+'"'+(v===MES_ATUAL?' selected':'')+'>'+label+extra+'</option>';}}
+sel.innerHTML=html;if(selRel)selRel.innerHTML=html;
 }
 function trocarMes(){MES_ATUAL=document.getElementById('selMesGrade').value;autoSalvar();render();window.scrollTo({top:0,behavior:'smooth'});}
-function criarMesSelecionado(){
-var v=document.getElementById('selMesGrade').value;
-var partes=v.split('-');var ano=Number(partes[0]);var mes=Number(partes[1]);
-var antes=DIAS.length;
-var novos=criarDiasDoMes(ano,mes,false);
-for(var i=0;i<novos.length;i++){DIAS.push(novos[i]);}
-DIAS.sort(function(a,b){return a[0]<b[0]?-1:1;});
-MES_ATUAL=v;
-autoSalvar();montarSeletorMeses();render();
-if(novos.length===0){alert('Esse mês já estava criado. Nada foi apagado.');}
-else{alert(nomeMes(mes)+'/'+ano+' criado com '+novos.length+' dias! Nada do que já existia foi apagado.');}
-}
+function criarMesSelecionado(){var v=document.getElementById('selMesGrade').value;var partes=v.split('-');var ano=Number(partes[0]);var mes=Number(partes[1]);var novos=criarDiasDoMes(ano,mes);for(var i=0;i<novos.length;i++){DIAS.push(novos[i]);}DIAS.sort(function(a,b){return a[0]<b[0]?-1:1;});MES_ATUAL=v;autoSalvar();montarSeletorMeses();render();if(novos.length===0){alert('Esse mês já estava criado. Nada foi apagado.');}else{alert(nomeMes(mes)+'/'+ano+' criado com '+novos.length+' dias!');}}
 function fecharTela(id){document.getElementById(id).classList.remove('show');render();}
 function abrirTela(id){document.getElementById('abre-menu').checked=false;document.getElementById(id).classList.add('show');}
-function renderListaMusicos(){
-var html='';for(var i=0;i<MUSICOS.length;i++){var n=MUSICOS[i];var c=CACHES[n]||350;html+='<div class="musico-linha"><span class="nome">'+n+'</span><span style="font-size:12px;color:#888">R$</span><input class="cache" type="number" id="cache-'+i+'" value="'+c+'"><button class="btn-mini salvar" onclick="salvarCacheTela('+i+')">SALVAR</button><button class="btn-mini excluir" onclick="excluirMusico('+i+')">X</button></div>';}
-document.getElementById('listaMusicos').innerHTML=html;
-document.getElementById('totalMusicos').innerText=MUSICOS.length+' músicos';
-var sel=document.getElementById('selRenomear');sel.innerHTML='<option value="">-- ESCOLHA --</option>';
-for(var j=0;j<MUSICOS.length;j++){var o=document.createElement('option');o.text=MUSICOS[j];o.value=MUSICOS[j];sel.appendChild(o);}
-var ids=['selFiltro','selRel','selPlan'];
-for(var k=0;k<ids.length;k++){var e=document.getElementById(ids[k]);if(!e)continue;var atual=e.value;e.innerHTML='<option value="">-- ESCOLHA O MUSICO --</option>';for(var m=0;m<MUSICOS.length;m++){var oo=document.createElement('option');oo.text=MUSICOS[m];e.appendChild(oo);}e.value=atual;}
-}
+function renderListaMusicos(){var html='';for(var i=0;i<MUSICOS.length;i++){var n=MUSICOS[i];var c=CACHES[n]||350;html+='<div class="musico-linha"><span class="nome">'+n+'</span><span style="font-size:12px;color:#888">R$</span><input class="cache" type="number" id="cache-'+i+'" value="'+c+'"><button class="btn-mini salvar" onclick="salvarCacheTela('+i+')">SALVAR</button><button class="btn-mini excluir" onclick="excluirMusico('+i+')">X</button></div>';}document.getElementById('listaMusicos').innerHTML=html;document.getElementById('totalMusicos').innerText=MUSICOS.length+' músicos';var sel=document.getElementById('selRenomear');sel.innerHTML='<option value="">-- ESCOLHA --</option>';for(var j=0;j<MUSICOS.length;j++){var o=document.createElement('option');o.text=MUSICOS[j];o.value=MUSICOS[j];sel.appendChild(o);}var ids=['selFiltro','selRel','selPlan'];for(var k=0;k<ids.length;k++){var e=document.getElementById(ids[k]);if(!e)continue;var atual=e.value;e.innerHTML='<option value="">-- ESCOLHA O MUSICO --</option>';for(var m=0;m<MUSICOS.length;m++){var oo=document.createElement('option');oo.text=MUSICOS[m];e.appendChild(oo);}e.value=atual;}}
 function salvarCacheTela(i){var n=MUSICOS[i];var v=Number(document.getElementById('cache-'+i).value||350);CACHES[n]=v;autoSalvar();alert(n+' agora é R$ '+v);}
 function adicionarMusicoTela(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)!==-1){alert(n+' já existe!');return;}MUSICOS.push(n);CACHES[n]=v;document.getElementById('novoNome').value='';document.getElementById('novoCache').value='350';autoSalvar();renderListaMusicos();alert(n+' cadastrado R$ '+v);}
 function excluirMusico(i){var n=MUSICOS[i];if(!confirm('Excluir '+n+' ?'))return;MUSICOS.splice(i,1);delete CACHES[n];autoSalvar();renderListaMusicos();}
 function renomearMusico(){var antigo=document.getElementById('selRenomear').value;var novo=document.getElementById('novoNomeRenomear').value.trim().toUpperCase();if(!antigo){alert('Escolha o músico!');return;}if(!novo){alert('Digite o novo nome!');return;}if(MUSICOS.indexOf(novo)!==-1){alert('Já existe!');return;}var cacheAntigo=CACHES[antigo]||350;for(var i=0;i<MUSICOS.length;i++){if(MUSICOS[i]===antigo)MUSICOS[i]=novo;}CACHES[novo]=cacheAntigo;delete CACHES[antigo];for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){if(DIAS[di][2][ri][1]===antigo)DIAS[di][2][ri][1]=novo;}}document.getElementById('novoNomeRenomear').value='';autoSalvar();renderListaMusicos();alert(antigo+' agora é '+novo);}
 function fechaMenu(){document.getElementById('abre-menu').checked=false;}
-function clicou(q){
-fechaMenu();
-if(q==='fechar'){return;}
-if(q==='grade'){document.getElementById('resGeral').style.display='none';render();window.scrollTo({top:0,behavior:'smooth'});return;}
-if(q==='filtro'){renderListaMusicos();abrirTela('telaFiltro');return;}
-if(q==='rel'){abrirTela('telaRel');return;}
-if(q==='plan'){abrirTela('telaPlan');return;}
-if(q==='musicos'){renderListaMusicos();abrirTela('telaMusicos');return;}
-if(q==='total'){fazTotal();return;}
-if(q==='simples'){fazSimples();return;}
-if(q==='plangeral'){fazPlanGeral();return;}
-if(q==='casas'){fazCasas();return;}
-if(q==='folha30'){fazFolha30();return;}
-if(q==='folha7'){fazFolha7();return;}
-if(q==='salvar'){salvarFixo();return;}
-if(q==='exp'){exportarBackup();return;}
-if(q==='imp'){importarBackup();return;}
-}
+function clicou(q){fechaMenu();if(q==='fechar'){return;}if(q==='grade'){document.getElementById('resGeral').style.display='none';render();window.scrollTo({top:0,behavior:'smooth'});return;}if(q==='filtro'){renderListaMusicos();abrirTela('telaFiltro');return;}if(q==='rel'){abrirTela('telaRel');return;}if(q==='plan'){abrirTela('telaPlan');return;}if(q==='musicos'){renderListaMusicos();abrirTela('telaMusicos');return;}if(q==='total'){fazTotal();return;}if(q==='simples'){fazSimples();return;}if(q==='plangeral'){fazPlanGeral();return;}if(q==='casas'){fazCasas();return;}if(q==='folha30'){fazFolha30();return;}if(q==='folha7'){fazFolha7();return;}if(q==='salvar'){salvarFixo();return;}if(q==='exp'){exportarBackup();return;}if(q==='imp'){importarBackup();return;}}
 function turnoNome(t){if(t==='AL')return 'ALMOCO';if(t==='JA')return 'JANTA';return 'ALMOCO + JANTA';}
 function fmtBR(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function filtrarMusico(){var nome=document.getElementById('selFiltro').value;if(!nome){alert('Escolha o musico!');return;}var ini=document.getElementById('dataIni').value;var fim=document.getElementById('dataFim').value;var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(ini&&d[0]<ini)continue;if(fim&&d[0]>fim)continue;for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+d[1].split(' - ')[0]+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resFiltro');el.style.display='block';var total=lista.length*(CACHES[nome]||350);el.innerText=nome+' vai tocar '+lista.length+' datas\nPeriodo: '+fmtBR(ini)+' ate '+fmtBR(fim)+'\nCache: R$ '+(CACHES[nome]||350)+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+(lista.join('\n')||'Nenhuma data');}
 function limparFiltro(){document.getElementById('selFiltro').value='';document.getElementById('resFiltro').style.display='none';}
 function gerarRelatorio(){var mes=document.getElementById('selMesRel').value;var nome=document.getElementById('selRel').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];if(d[0].indexOf(mes)!==0)continue;for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+r[0]+' - '+turnoNome(r[2]));}}}var total=lista.length*(CACHES[nome]||350);var el=document.getElementById('resRel');el.style.display='block';el.innerText='RELATORIO - '+nome+'\nMes: '+mes+'\nDias: '+lista.length+'\nTotal: R$ '+total.toLocaleString('pt-BR')+'\n\n'+lista.join('\n');}
 function fazSimples(){var c={};for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){c[r[1]]=(c[r[1]]||0)+1;}}}var t='RELATORIO SIMPLES TODOS POR MUSICO\n\n';var keys=Object.keys(c).sort(function(a,b){return c[b]-c[a];});for(var k=0;k<keys.length;k++){var nome=keys[k];t+=nome+': '+c[nome]+' dias = R$ '+(c[nome]*(CACHES[nome]||350)).toLocaleString('pt-BR')+'\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
-function fazTotal(){var t=0;for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){if(DIAS[di][2][ri][1]!=='ESCOLHA')t++;}}var el=document.getElementById('resGeral');el.style.display='block';el.innerText='RELATORIO TOTAL TODOS OS ANOS\nTotal geral: R$ 75350\nShows marcados: '+t+'\nDias cadastrados: '+DIAS.length;window.scrollTo({top:0,behavior:'smooth'});}
+function fazTotal(){var t=0;for(var di=0;di<DIAS.length;di++){for(var ri=0;ri<DIAS[di][2].length;ri++){if(DIAS[di][2][ri][1]!=='ESCOLHA')t++;}}var el=document.getElementById('resGeral');el.style.display='block';el.innerText='RELATORIO TOTAL TODOS OS ANOS\nShows marcados: '+t+'\nDias cadastrados: '+DIAS.length;window.scrollTo({top:0,behavior:'smooth'});}
 function gerarPlanMusico(){var nome=document.getElementById('selPlan').value;if(!nome){alert('Escolha o musico!');return;}var lista=[];for(var di=0;di<DIAS.length;di++){var d=DIAS[di];for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];if(r[1]===nome){lista.push(fmtBR(d[0])+' - '+r[0]+' - '+turnoNome(r[2]));}}}var el=document.getElementById('resPlan');el.style.display='block';el.innerText='PLANEJAMENTO - '+nome+'\n\n'+(lista.join('\n')||'Nenhum dia');}
 function fazPlanGeral(){var t='PLANEJAMENTO GERAL - '+MES_ATUAL+'\n\n';for(var di=0;di<DIAS.length;di++){if(DIAS[di][0].indexOf(MES_ATUAL)!==0)continue;t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
 function fazCasas(){var el=document.getElementById('resGeral');el.style.display='block';el.innerText='CASAS P1-P12\nP1 a P12 ja estao na grade.';window.scrollTo({top:0,behavior:'smooth'});}
-function fazFolha30(){var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS - '+MES_ATUAL+'\nGrade pronta para imprimir.';window.scrollTo({top:0,behavior:'smooth'});}
+function fazFolha30(){var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS - '+MES_ATUAL;window.scrollTo({top:0,behavior:'smooth'});}
 function fazFolha7(){var t='1 FOLHA 7 DIAS - '+MES_ATUAL+'\n\n';var cont=0;for(var di=0;di<DIAS.length&&cont<7;di++){if(DIAS[di][0].indexOf(MES_ATUAL)!==0)continue;cont++;t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
 function salvarFixo(){autoSalvar();alert('Salvo! Nunca apaga.');}
-function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES,MES_ATUAL:MES_ATUAL})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES,MES_ATUAL:MES_ATUAL,DUAS_COLUNAS:DUAS_COLUNAS})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
 function importarBackup(){document.getElementById('fileImp').click();}
-function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);if(d.DIAS){for(var i=0;i<d.DIAS.length;i++){var ja=false;for(var j=0;j<DIAS.length;j++){if(DIAS[j][0]===d.DIAS[i][0]){DIAS[j]=d.DIAS[i];ja=true;break;}}if(!ja)DIAS.push(d.DIAS[i]);}}if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;DIAS.sort(function(a,b){return a[0]<b[0]?-1:1;});autoSalvar();montarSeletorMeses();render();alert('Backup importado! Nada foi apagado, só somado.');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
+function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);if(d.DIAS){for(var i=0;i<d.DIAS.length;i++){var ja=false;for(var j=0;j<DIAS.length;j++){if(DIAS[j][0]===d.DIAS[i][0]){DIAS[j]=d.DIAS[i];ja=true;break;}}if(!ja)DIAS.push(d.DIAS[i]);}}if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;DIAS.sort(function(a,b){return a[0]<b[0]?-1:1;});autoSalvar();montarSeletorMeses();render();alert('Backup importado! Nada apagado.');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
 function clsT(t){if(t==='AL')return 'al';if(t==='AL/JA')return 'alja';return 'ja';}
 function render(){
 montarSeletorMeses();
+aplicarColunas();
 var diasDoMes=DIAS.filter(function(d){return d[0].indexOf(MES_ATUAL)===0;});
-document.getElementById('infoMes').innerText='Mostrando '+diasDoMes.length+' dias de '+MES_ATUAL+' - Total cadastrado: '+DIAS.length+' dias (até 2030)';
+document.getElementById('infoMes').innerText='Mostrando '+diasDoMes.length+' dias de '+MES_ATUAL+' - Total: '+DIAS.length+' dias (até 2030)';
 var html='';
-if(diasDoMes.length===0){html='<div class="painel" style="text-align:center"><h3>Esse mês ainda está vazio</h3><p style="color:#888;margin:8px 0">Aperte <b>+ Criar Mês</b> lá em cima pra criar '+MES_ATUAL+' sem apagar nada.</p><button class="btn-verde" onclick="criarMesSelecionado()">+ Criar '+MES_ATUAL+' Agora</button></div>';}
+if(diasDoMes.length===0){html='<div class="painel" style="text-align:center"><h3>Esse mês ainda está vazio</h3><p style="color:#888;margin:8px 0">Aperte <b>+ Criar Mês</b> lá em cima.</p><button class="btn-verde" onclick="criarMesSelecionado()">+ Criar '+MES_ATUAL+' Agora</button></div>';}
 for(var di=0;di<diasDoMes.length;di++){
-var d=diasDoMes[di];
-var idxReal=DIAS.indexOf(d);
-var rows='';
+var d=diasDoMes[di];var idxReal=DIAS.indexOf(d);var rows='';
 for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" data-di="'+idxReal+'" data-ri="'+ri+'" data-tipo="musico">'+opts+'</select><select class="turno '+clsT(r[2])+'" data-di="'+idxReal+'" data-ri="'+ri+'" data-tipo="turno">'+topts+'</select><button class="plus" data-di="'+idxReal+'" data-ri="'+ri+'" data-acao="add">+</button><button class="del" data-di="'+idxReal+'" data-ri="'+ri+'" data-acao="del">x</button></div>';}
 html+='<div class="card"><div class="titulo">'+d[1]+'</div>'+rows+'</div>';
 }
