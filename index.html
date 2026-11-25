@@ -13,7 +13,7 @@ body{background:#e9e9e9;font-size:14px}
 .badge-f b{font-size:14px;display:block}
 .badge-f span{font-size:9px;font-weight:800}
 .badge-v{background:#00c853;color:#fff;border-radius:8px;padding:6px 7px;font-size:13px;font-weight:800}
-#salvo{position:fixed;top:50px;right:8px;background:#00c853;color:#fff;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:800;z-index:50;display:none}
+#salvo{position:fixed;top:50px;right:8px;background:#00c853;color:#fff;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:800;z-index:90;display:none}
 #abre-menu{display:none}
 .btn-menu{margin-left:auto;background:#222;color:#fff;border:1px solid #444;width:44px;height:44px;border-radius:8px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:30;cursor:pointer}
@@ -51,6 +51,22 @@ select.turno.al{background:#f1c40f}
 select.turno.alja{background:#00e676}
 .plus{background:#111;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0}
 .del{background:#ff2d2d;color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0}
+/* TELA SO DE MUSICOS - TELA CHEIA */
+#telaMusicos{position:fixed;inset:0;background:#f2f2f2;z-index:60;display:none;flex-direction:column;overflow-y:auto}
+#telaMusicos.show{display:flex}
+.tela-top{background:#111;color:#fff;padding:12px;display:flex;align-items:center;gap:10px;position:sticky;top:0}
+.tela-top b{font-size:18px;flex:1}
+.btn-voltar{background:#fff;color:#111;border:0;padding:8px 14px;border-radius:20px;font-weight:800;font-size:14px;cursor:pointer}
+.tela-box{background:#fff;margin:10px;border-radius:14px;padding:14px}
+.tela-box h3{font-size:16px;margin-bottom:10px}
+.tela-box label{font-size:11px;font-weight:800;color:#888;display:block;margin:10px 0 4px}
+.tela-box input{width:100%;height:42px;border:1px solid #ddd;border-radius:10px;padding:0 10px;font-size:15px;font-weight:700}
+.musico-linha{display:flex;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #eee}
+.musico-linha .nome{flex:1;font-weight:800;font-size:15px;min-width:0;word-break:break-word}
+.musico-linha input.cache{width:80px;height:38px;text-align:center;font-size:15px}
+.btn-mini{border:0;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-mini.salvar{background:#00c853;color:#fff}
+.btn-mini.excluir{background:#ff2d2d;color:#fff}
 </style>
 </head>
 <body>
@@ -67,7 +83,7 @@ select.turno.alja{background:#00e676}
 <button class="item" onclick="clicou('filtro')"><span class="ic">🔽</span>Filtro ANDRE</button>
 <button class="item" onclick="clicou('plan')"><span class="ic">🧑‍🎤</span>Planejamento Por Musico</button>
 <button class="item" onclick="clicou('plangeral')"><span class="ic">📋</span>Planejamento GERAL</button>
-<button class="item" onclick="clicou('editar')"><span class="ic">🎵</span>Musicos Editar Cache</button>
+<button class="item" onclick="clicou('musicos')"><span class="ic">🎵</span>Musicos Editar Cache</button>
 <button class="item" onclick="clicou('casas')"><span class="ic">🏠</span>Casas P1-P12</button>
 <button class="item" onclick="clicou('folha30')"><span class="ic">📅</span>1 FOLHA 30 Dias</button>
 <button class="item" onclick="clicou('folha7')"><span class="ic">📅</span>1 FOLHA 7 Dias</button>
@@ -76,6 +92,36 @@ select.turno.alja{background:#00e676}
 <button class="item" onclick="clicou('imp')"><span class="ic">⬆️</span>Importar Backup</button>
 <button class="item" onclick="clicou('fechar')"><span class="ic">🚪</span>FECHAR</button>
 <div class="rodape">ESTAGEFLOW</div>
+</div>
+
+<!-- TELA SO PRA MUSICOS -->
+<div id="telaMusicos">
+<div class="tela-top"><button class="btn-voltar" onclick="fecharMusicos()">← VOLTAR</button><b>🎵 Músicos</b><span id="totalMusicos"></span></div>
+
+<div class="tela-box">
+<h3>➕ Cadastrar Músico Novo</h3>
+<label>Nome do músico</label>
+<input id="novoNome" placeholder="Ex: JOAO">
+<label>Cache</label>
+<input id="novoCache" type="number" placeholder="Ex: 400" value="350">
+<button class="btn-verde" onclick="adicionarMusicoTela()">Adicionar Músico</button>
+</div>
+
+<div class="tela-box">
+<h3>✏️ Editar Músicos - Mude o cache e aperte SALVAR</h3>
+<div id="listaMusicos"></div>
+</div>
+
+<div class="tela-box">
+<h3>✏️ Renomear Músico</h3>
+<label>Escolha o músico</label>
+<select class="grande" id="selRenomear"></select>
+<label>Novo nome</label>
+<input id="novoNomeRenomear" placeholder="Ex: JOAO SILVA">
+<button class="btn-preto" onclick="renomearMusico()">Renomear</button>
+</div>
+
+<div style="padding:0 10px 20px"><button class="btn-verde" style="height:48px;font-size:16px" onclick="fecharMusicos()">✓ PRONTO - VOLTAR PRA GRADE</button></div>
 </div>
 
 <div class="painel" id="box-filtro">
@@ -99,14 +145,6 @@ select.turno.alja{background:#00e676}
 <label>Escolha o musico</label><select class="grande" id="selPlan"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
 <button class="btn-verde" onclick="gerarPlanMusico()">Ver Planejamento</button><div class="resultado" id="resPlan"></div>
 </div>
-<div class="painel" id="box-editar" style="display:none">
-<h3>🎵 Musicos Editar Cache</h3>
-<label>Escolha o musico</label><select class="grande" id="selEditar" onchange="carregarCache()"><option value="">-- ESCOLHA O MUSICO --</option><option>ISRAEL</option><option>YGOR</option><option>LUCIANO</option><option>ANDRE</option><option>ANDERSON VAT 60 SOLO</option><option>ROBSON SOLO</option><option>RICK SOLO</option><option>PAOLI</option><option>DOUGLAS</option><option>EDILL</option><option>VAT 60</option><option>MARTIN</option></select>
-<label>Cache</label><input class="grande" id="inputCache" type="number" value="350">
-<button class="btn-verde" onclick="salvarCache()">Salvar Cache</button>
-<label>Adicionar musico novo</label><input class="grande" id="novoNome" placeholder="Ex: JOAO"><input class="grande" id="novoCache" type="number" placeholder="Cache ex: 400" style="margin-top:6px">
-<button class="btn-preto" onclick="adicionarMusico()">Adicionar Musico</button><div class="resultado" id="resEditar"></div>
-</div>
 <div class="resultado" id="resGeral" style="margin:8px"></div>
 <div class="grid" id="grid"></div>
 <input type="file" id="fileImp" style="display:none" onchange="lerBackup(this)">
@@ -124,7 +162,6 @@ var DIAS=[
 ["2026-11-29","29/11 - DOM - NOV/2026 DOMINGO",[["P1:","LUCIANO","AL/JA"],["P2:","YGOR","AL/JA"],["P3:","ANDRE","AL/JA"],["P4:","VAT 60","AL/JA"],["P5:","EDILL","AL/JA"],["P6:","ISRAEL","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]],
 ["2026-11-30","30/11 - SEG - NOV/2026 SEGUNDA",[["P1:","PAOLI","JA"],["P2:","DOUGLAS","JA"],["P3:","ANDERSON VAT 60 SOLO","JA"],["P4:","ANDRE","JA"],["P5:","MARTIN","JA"],["P6:","ESCOLHA","AL"],["P7:","ESCOLHA","JA"],["P8:","ESCOLHA","JA"],["P9:","ESCOLHA","JA"],["P10:","ESCOLHA","JA"],["P11:","ESCOLHA","JA"],["P12:","ESCOLHA","AL"]]]
 ];
-// CARREGA O QUE FOI SALVO ANTES - AGORA SIM LE DE VOLTA
 try{
 var salvoAntes=localStorage.getItem('estageflow');
 if(salvoAntes){
@@ -142,16 +179,100 @@ s.style.display='block';
 setTimeout(function(){s.style.display='none';},1200);
 }catch(e){}
 }
+// TELA DE MUSICOS
+function abrirMusicos(){
+document.getElementById('abre-menu').checked=false;
+renderListaMusicos();
+document.getElementById('telaMusicos').classList.add('show');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+function fecharMusicos(){
+document.getElementById('telaMusicos').classList.remove('show');
+render();
+}
+function renderListaMusicos(){
+var html='';
+for(var i=0;i<MUSICOS.length;i++){
+var n=MUSICOS[i];
+var c=CACHES[n]||350;
+html+='<div class="musico-linha"><span class="nome">'+n+'</span><span style="font-size:12px;color:#888">R$</span><input class="cache" type="number" id="cache-'+i+'" value="'+c+'"><button class="btn-mini salvar" onclick="salvarCacheTela('+i+')">SALVAR</button><button class="btn-mini excluir" onclick="excluirMusico('+i+')">X</button></div>';
+}
+document.getElementById('listaMusicos').innerHTML=html;
+document.getElementById('totalMusicos').innerText=MUSICOS.length+' músicos';
+var sel=document.getElementById('selRenomear');
+sel.innerHTML='<option value="">-- ESCOLHA --</option>';
+for(var j=0;j<MUSICOS.length;j++){var o=document.createElement('option');o.text=MUSICOS[j];o.value=MUSICOS[j];sel.appendChild(o);}
+// atualiza os selects da grade tambem
+var ids=['selFiltro','selRel','selPlan'];
+for(var k=0;k<ids.length;k++){
+var e=document.getElementById(ids[k]);
+if(!e) continue;
+var atual=e.value;
+e.innerHTML='<option value="">-- ESCOLHA O MUSICO --</option>';
+for(var m=0;m<MUSICOS.length;m++){var oo=document.createElement('option');oo.text=MUSICOS[m];e.appendChild(oo);}
+e.value=atual;
+}
+}
+function salvarCacheTela(i){
+var n=MUSICOS[i];
+var v=Number(document.getElementById('cache-'+i).value||350);
+CACHES[n]=v;
+autoSalvar();
+alert(n+' agora é R$ '+v);
+}
+function adicionarMusicoTela(){
+var n=document.getElementById('novoNome').value.trim().toUpperCase();
+var v=Number(document.getElementById('novoCache').value||350);
+if(!n){alert('Digite o nome do músico!');return;}
+if(MUSICOS.indexOf(n)!==-1){alert(n+' já existe!');return;}
+MUSICOS.push(n);
+CACHES[n]=v;
+document.getElementById('novoNome').value='';
+document.getElementById('novoCache').value='350';
+autoSalvar();
+renderListaMusicos();
+alert(n+' cadastrado com cache R$ '+v);
+}
+function excluirMusico(i){
+var n=MUSICOS[i];
+if(!confirm('Excluir '+n+' ? Ele vai sair da lista, mas os shows já marcados com ele ficam como estão.')) return;
+MUSICOS.splice(i,1);
+delete CACHES[n];
+autoSalvar();
+renderListaMusicos();
+}
+function renomearMusico(){
+var antigo=document.getElementById('selRenomear').value;
+var novo=document.getElementById('novoNomeRenomear').value.trim().toUpperCase();
+if(!antigo){alert('Escolha o músico!');return;}
+if(!novo){alert('Digite o novo nome!');return;}
+if(MUSICOS.indexOf(novo)!==-1){alert('Já existe um músico com esse nome!');return;}
+var cacheAntigo=CACHES[antigo]||350;
+// troca na lista
+for(var i=0;i<MUSICOS.length;i++){if(MUSICOS[i]===antigo) MUSICOS[i]=novo;}
+CACHES[novo]=cacheAntigo;
+delete CACHES[antigo];
+// troca na grade tambem
+for(var di=0;di<DIAS.length;di++){
+for(var ri=0;ri<DIAS[di][2].length;ri++){
+if(DIAS[di][2][ri][1]===antigo) DIAS[di][2][ri][1]=novo;
+}
+}
+document.getElementById('novoNomeRenomear').value='';
+autoSalvar();
+renderListaMusicos();
+alert(antigo+' agora é '+novo);
+}
 function fechaMenu(){document.getElementById('abre-menu').checked=false;}
-function esconde(){document.getElementById('box-filtro').style.display='none';document.getElementById('box-rel').style.display='none';document.getElementById('box-plan').style.display='none';document.getElementById('box-editar').style.display='none';document.getElementById('resGeral').style.display='none';}
+function esconde(){document.getElementById('box-filtro').style.display='none';document.getElementById('box-rel').style.display='none';document.getElementById('box-plan').style.display='none';document.getElementById('resGeral').style.display='none';}
 function clicou(q){
 fechaMenu();
 if(q==='fechar'){return;}
+if(q==='musicos'){abrirMusicos();return;}
 if(q==='grade'){esconde();document.getElementById('box-filtro').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
 if(q==='rel'){esconde();document.getElementById('box-rel').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
 if(q==='filtro'){esconde();document.getElementById('box-filtro').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
 if(q==='plan'){esconde();document.getElementById('box-plan').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
-if(q==='editar'){esconde();document.getElementById('box-editar').style.display='block';window.scrollTo({top:0,behavior:'smooth'});return;}
 if(q==='total'){fazTotal();return;}
 if(q==='simples'){fazSimples();return;}
 if(q==='plangeral'){fazPlanGeral();return;}
@@ -174,13 +295,10 @@ function fazPlanGeral(){esconde();var t='PLANEJAMENTO GERAL\n\n';for(var di=0;di
 function fazCasas(){esconde();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='CASAS P1-P12\nP1 a P12 ja estao na grade.';window.scrollTo({top:0,behavior:'smooth'});}
 function fazFolha30(){esconde();var el=document.getElementById('resGeral');el.style.display='block';el.innerText='1 FOLHA 30 DIAS\nGrade pronta para imprimir.';window.scrollTo({top:0,behavior:'smooth'});}
 function fazFolha7(){esconde();var t='1 FOLHA 7 DIAS\n\n';for(var di=0;di<Math.min(7,DIAS.length);di++){t+=DIAS[di][1]+'\n';for(var ri=0;ri<DIAS[di][2].length;ri++){var r=DIAS[di][2][ri];if(r[1]!=='ESCOLHA'){t+=r[0]+' '+r[1]+' - '+turnoNome(r[2])+'\n';}}t+='\n';}var el=document.getElementById('resGeral');el.style.display='block';el.innerText=t;window.scrollTo({top:0,behavior:'smooth'});}
-function carregarCache(){var n=document.getElementById('selEditar').value;if(n){document.getElementById('inputCache').value=CACHES[n]||350;}}
-function salvarCache(){var n=document.getElementById('selEditar').value;var v=Number(document.getElementById('inputCache').value);if(!n){alert('Escolha o musico!');return;}CACHES[n]=v;autoSalvar();var el=document.getElementById('resEditar');el.style.display='block';el.innerText='Salvo! '+n+' agora e R$ '+v;}
-function adicionarMusico(){var n=document.getElementById('novoNome').value.trim().toUpperCase();var v=Number(document.getElementById('novoCache').value||350);if(!n){alert('Digite o nome!');return;}if(MUSICOS.indexOf(n)===-1){MUSICOS.push(n);CACHES[n]=v;}document.getElementById('novoNome').value='';document.getElementById('novoCache').value='';autoSalvar();var el=document.getElementById('resEditar');el.style.display='block';el.innerText=n+' adicionado R$ '+v;}
 function salvarFixo(){autoSalvar();alert('Salvo! Fixo NAO ZERA.');}
 function exportarBackup(){var blob=new Blob([JSON.stringify({MUSICOS:MUSICOS,DIAS:DIAS,CACHES:CACHES})],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='estageflow-backup.json';a.click();}
 function importarBackup(){document.getElementById('fileImp').click();}
-function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;autoSalvar();render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
+function lerBackup(inp){var f=inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){try{var d=JSON.parse(e.target.result);DIAS=d.DIAS||DIAS;if(d.CACHES)CACHES=d.CACHES;if(d.MUSICOS)MUSICOS=d.MUSICOS;autoSalvar();render();alert('Backup importado!');}catch(err){alert('Arquivo invalido');}};rd.readAsText(f);}
 function clsT(t){if(t==='AL')return 'al';if(t==='AL/JA')return 'alja';return 'ja';}
 function render(){var html='';for(var di=0;di<DIAS.length;di++){var d=DIAS[di];var rows='';for(var ri=0;ri<d[2].length;ri++){var r=d[2][ri];var opts='<option>ESCOLHA</option>';for(var mi=0;mi<MUSICOS.length;mi++){var m=MUSICOS[mi];opts+='<option'+(m===r[1]?' selected':'')+'>'+m+'</option>';}var topts='';var turnos=['JA','AL','AL/JA'];for(var ti=0;ti<turnos.length;ti++){var t=turnos[ti];topts+='<option'+(t===r[2]?' selected':'')+'>'+t+'</option>';}var nc='nome';if(r[1]==='ESCOLHA')nc='nome branco';else if(ri===5&&r[2]==='AL')nc='nome amarelo';rows+='<div class="linha"><span class="p">'+r[0]+'</span><select class="'+nc+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="musico">'+opts+'</select><select class="turno '+clsT(r[2])+'" data-di="'+di+'" data-ri="'+ri+'" data-tipo="turno">'+topts+'</select><button class="plus" data-di="'+di+'" data-ri="'+ri+'" data-acao="add">+</button><button class="del" data-di="'+di+'" data-ri="'+ri+'" data-acao="del">x</button></div>';}html+='<div class="card"><div class="titulo">'+d[1]+'</div>'+rows+'</div>';}document.getElementById('grid').innerHTML=html;}
 document.getElementById('grid').addEventListener('change',function(e){var el=e.target;var di=Number(el.getAttribute('data-di'));var ri=Number(el.getAttribute('data-ri'));if(el.getAttribute('data-tipo')==='musico'){DIAS[di][2][ri][1]=el.value;el.className=el.value==='ESCOLHA'?'nome branco':(ri===5&&DIAS[di][2][ri][2]==='AL'?'nome amarelo':'nome');autoSalvar();}if(el.getAttribute('data-tipo')==='turno'){DIAS[di][2][ri][2]=el.value;el.className='turno '+clsT(el.value);autoSalvar();}});
